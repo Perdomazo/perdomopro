@@ -1,0 +1,135 @@
+---
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const sectionId = locale === 'en' ? 'process' : 'proceso';
+
+const stages = [
+  {
+    step: '01',
+    nameKey: 'process.s1.name' as const,
+    focusKey: 'process.s1.focus' as const,
+    descKey: 'process.s1.desc' as const,
+  },
+  {
+    step: '02',
+    nameKey: 'process.s2.name' as const,
+    focusKey: 'process.s2.focus' as const,
+    descKey: 'process.s2.desc' as const,
+  },
+  {
+    step: '03',
+    nameKey: 'process.s3.name' as const,
+    focusKey: 'process.s3.focus' as const,
+    descKey: 'process.s3.desc' as const,
+  },
+  {
+    step: '04',
+    nameKey: 'process.s4.name' as const,
+    focusKey: 'process.s4.focus' as const,
+    descKey: 'process.s4.desc' as const,
+  },
+  {
+    step: '05',
+    nameKey: 'process.s5.name' as const,
+    focusKey: 'process.s5.focus' as const,
+    descKey: 'process.s5.desc' as const,
+  },
+];
+---
+
+<section
+  id={sectionId}
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
+  aria-labelledby="process-heading"
+  data-section="process"
+>
+  <!-- Section Header Strip -->
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle" data-section-header>
+    <div class="flex items-center gap-3">
+      <span class="text-fg-muted">{t('process.sectionIndex')}</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">{t('process.label')}</span>
+    </div>
+    <div class="text-xs font-mono-tech text-fg-muted">
+      <span>{locale === 'es-MX' ? 'METODOLOGÍA & FLUJO PRAGMÁTICO' : 'PRAGMATIC WORKFLOW & CADENCE'}</span>
+    </div>
+  </header>
+
+  <!-- Section Title & Intro -->
+  <div class="max-w-3xl mb-16 sm:mb-20 space-y-4" data-section-title>
+    <h2
+      id="process-heading"
+      class="text-3xl sm:text-4xl md:text-5xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
+    >
+      {t('process.title')}
+    </h2>
+    <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+      {t('process.subtitle')}
+    </p>
+  </div>
+
+  <!-- Editorial Pipeline: Stepped Progression with Scroll Progress Line -->
+  <div class="relative pt-6 border-t border-border-subtle" data-process-track>
+    <!-- Scroll-Linked Progression Line (Memorable Interaction) -->
+    <div
+      class="absolute top-[-1px] left-0 h-[2px] w-full bg-fg-primary origin-left scale-x-0 pointer-events-none transition-transform"
+      data-process-progress
+      aria-hidden="true"
+    ></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-4 lg:gap-6 items-start">
+      {stages.map((stage, idx) => (
+        <article class="relative flex flex-col justify-between space-y-4 group" data-process-stage>
+          <!-- Step Number & Directional Connector -->
+          <div class="flex items-center justify-between border-b border-border-subtle/70 pb-3">
+            <span class="text-2xl sm:text-3xl font-light font-mono-tech text-fg-primary">
+              {stage.step}
+            </span>
+            <div class="flex items-center gap-1.5 text-xs font-mono-tech text-fg-muted">
+              <span class="uppercase tracking-widest text-[10px]">
+                {idx === 0
+                  ? (locale === 'es-MX' ? 'INICIO' : 'START')
+                  : idx === stages.length - 1
+                  ? (locale === 'es-MX' ? 'CICLO' : 'CYCLE')
+                  : (locale === 'es-MX' ? 'PASO' : 'STEP')}
+              </span>
+              {idx < stages.length - 1 && (
+                <span class="hidden md:inline text-border-muted group-hover:text-fg-primary transition-colors" aria-hidden="true">
+                  →
+                </span>
+              )}
+            </div>
+          </div>
+
+          <!-- Stage Title & Focus Tag -->
+          <div class="space-y-1">
+            <h3 class="text-xl font-normal tracking-tight text-fg-primary">
+              {t(stage.nameKey)}
+            </h3>
+            <p class="text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
+              {t(stage.focusKey)}
+            </p>
+          </div>
+
+          <!-- Stage Description -->
+          <p class="text-sm text-fg-secondary font-normal leading-relaxed text-pretty pt-1">
+            {t(stage.descKey)}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <!-- Bottom Footnote -->
+  <footer class="mt-16 pt-6 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono-tech text-fg-muted" data-section-footer>
+    <p>{t('process.footnote')}</p>
+    <span class="text-fg-primary uppercase font-medium">DISCIPLINE OVER SPEED</span>
+  </footer>
+</section>

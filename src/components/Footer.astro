@@ -1,0 +1,81 @@
+---
+import { siteConfig } from '../config/site';
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const currentYear = new Date().getFullYear();
+const homeHref = locale === 'en' ? '/en/' : '/';
+---
+
+<footer
+  class="relative w-full border-t border-border-subtle bg-canvas pt-16 pb-12 sm:pb-16 text-fg-secondary"
+  aria-label={t('a11y.footerNavigation')}
+>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12">
+    <!-- Top Row: Brand & Purpose Statement -->
+    <div class="flex flex-col md:flex-row items-start md:items-baseline justify-between gap-6 pb-10 border-b border-border-subtle/70">
+      <div class="space-y-2">
+        <a
+          href={homeHref}
+          class="group inline-flex items-center gap-2.5 text-fg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+          aria-label={`${siteConfig.brand} — ${t('nav.home')}`}
+        >
+          <span
+            class="w-2.5 h-2.5 bg-fg-primary rounded-none transition-transform duration-200 group-hover:scale-110"
+            aria-hidden="true"
+          ></span>
+          <span class="font-sans text-lg font-medium tracking-tight text-fg-primary">
+            Perdomo<span class="text-fg-secondary font-normal">Pro</span>
+          </span>
+        </a>
+        <p class="text-xs font-mono-tech text-fg-muted">
+          {t('footer.brandTagline')}
+        </p>
+      </div>
+
+      <!-- Quick Channels -->
+      <nav class="flex flex-wrap items-center gap-6 text-xs font-mono-tech" aria-label={t('footer.linksLabel')}>
+        <a
+          href={siteConfig.links.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors"
+        >
+          GitHub ↗
+        </a>
+        <a
+          href={siteConfig.links.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors"
+        >
+          LinkedIn ↗
+        </a>
+        <a
+          href={`mailto:${siteConfig.links.email}`}
+          class="text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors"
+        >
+          Email ↗
+        </a>
+      </nav>
+    </div>
+
+    <!-- Bottom Metadata & Technical Colophon -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono-tech text-fg-muted">
+      <div>
+        <p>© {currentYear} {siteConfig.author.name} — {siteConfig.brand}. {t('footer.rights')}</p>
+        <p class="text-fg-secondary">{siteConfig.author.location.formatted}</p>
+      </div>
+
+      <div class="text-left sm:text-right">
+        <p>{t('footer.colophon')}</p>
+      </div>
+    </div>
+  </div>
+</footer>

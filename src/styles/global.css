@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  /* Editorial monochrome palette with warm off-white canvas */
+  --color-canvas: #FAFAF8;
+  --color-canvas-subtle: #F4F4F0;
+  --color-canvas-elevated: #FFFFFF;
+
+  --color-fg-primary: #111111;
+  --color-fg-secondary: #5F5F5F;
+  --color-fg-muted: #8E8E8C;
+  --color-fg-subtle: #B5B5B3;
+
+  --color-border-subtle: #E7E7E5;
+  --color-border-muted: #D3D3CF;
+  --color-border-strong: #111111;
+
+  /* Subtle technical indicators */
+  --color-status-active: #059669;
+  --color-status-building: #D97706;
+
+  /* Contemporary typography stack */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Spacing and layout tokens */
+  --max-w-editorial: 72rem;
+  --max-w-reading: 48rem;
+}
+
+:root {
+  --canvas: #FAFAF8;
+  --canvas-subtle: #F4F4F0;
+  --canvas-elevated: #FFFFFF;
+  --fg-primary: #111111;
+  --fg-secondary: #5F5F5F;
+  --fg-muted: #8E8E8C;
+  --border-subtle: #E7E7E5;
+  --border-muted: #D3D3CF;
+  --border-strong: #111111;
+}
+
+/* Base HTML Document Styles */
+html {
+  background-color: var(--canvas);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--canvas);
+  color: var(--fg-primary);
+  line-height: 1.6;
+}
+
+/* Editorial Selection */
+::selection {
+  background-color: var(--fg-primary);
+  color: var(--canvas);
+}
+
+/* Sticky Header Anchor Offset */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Accessible Focus Ring */
+:focus-visible {
+  outline: 2px solid var(--fg-primary);
+  outline-offset: 2px;
+}
+
+/* Monospace Utility Foundation */
+.font-mono-tech {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' on, 'zero' on;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-process-progress] {
+    transform: scaleX(1) !important;
+    opacity: 0.35 !important;
+  }
+}
+
+/* Lenis Smooth Scroll Foundation */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

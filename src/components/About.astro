@@ -1,0 +1,91 @@
+---
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const sectionId = locale === 'en' ? 'about' : 'sobre-mi';
+---
+
+<section
+  id={sectionId}
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
+  aria-labelledby="about-heading"
+>
+  <!-- Section Header Strip -->
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
+    <div class="flex items-center gap-3">
+      <span class="text-fg-muted">{t('about.sectionIndex')}</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">{t('about.label')}</span>
+    </div>
+    <div class="text-xs font-mono-tech text-fg-muted">
+      <span>{locale === 'es-MX' ? 'PERFIL & FUNDAMENTOS' : 'PROFILE & FOUNDATIONS'}</span>
+    </div>
+  </header>
+
+  <!-- Editorial 12-Column Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <!-- Left Column: Contextual Specs & Micro-metadata -->
+    <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24">
+      <div class="space-y-4">
+        <p class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">
+          {locale === 'es-MX' ? 'PARADIGMA TÉCNICO' : 'TECHNICAL PARADIGM'}
+        </p>
+        <p class="text-2xl sm:text-3xl font-light tracking-tight text-fg-primary leading-snug">
+          {locale === 'es-MX' ? 'De cómo operan los sistemas a cómo se construye el software.' : 'From how systems operate to how software is crafted.'}
+        </p>
+      </div>
+
+      <!-- Structured Metadata Breakdown -->
+      <dl class="border-t border-border-subtle pt-6 space-y-4 text-xs font-mono-tech">
+        <div class="flex flex-col gap-1 pb-3 border-b border-border-subtle/50">
+          <dt class="text-fg-muted uppercase tracking-wider">{t('about.meta.perspectiveTitle')}</dt>
+          <dd class="text-fg-primary font-medium">{t('about.meta.perspectiveValue')}</dd>
+        </div>
+
+        <div class="flex flex-col gap-1 pb-3 border-b border-border-subtle/50">
+          <dt class="text-fg-muted uppercase tracking-wider">{t('about.meta.baseTitle')}</dt>
+          <dd class="text-fg-primary font-medium">{t('about.meta.baseValue')}</dd>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <dt class="text-fg-muted uppercase tracking-wider">{t('about.meta.focusTitle')}</dt>
+          <dd class="text-fg-primary font-medium">{t('about.meta.focusValue')}</dd>
+        </div>
+      </dl>
+    </aside>
+
+    <!-- Right Column: Editorial Narrative -->
+    <div class="lg:col-span-8 space-y-8 sm:space-y-10">
+      <!-- Large Editorial Lead Heading -->
+      <h2
+        id="about-heading"
+        class="text-2xl sm:text-3xl md:text-4xl font-light tracking-[-0.025em] leading-[1.25] text-fg-primary"
+      >
+        {t('about.lead')}
+      </h2>
+
+      <!-- Primary Text Body -->
+      <div class="space-y-6 text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+        <p>
+          {t('about.paragraph1')}
+        </p>
+        <p>
+          {t('about.paragraph2')}
+        </p>
+      </div>
+
+      <!-- Editorial Anchor Callout -->
+      <blockquote class="border-l-2 border-fg-primary pl-6 py-2 my-8">
+        <p class="text-base sm:text-lg font-light text-fg-primary italic leading-snug">
+          "{t('about.callout')}"
+        </p>
+      </blockquote>
+    </div>
+  </div>
+</section>

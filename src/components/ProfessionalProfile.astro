@@ -1,0 +1,129 @@
+---
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const sectionId = locale === 'en' ? 'trajectory' : 'recorrido';
+
+const milestones = [
+  {
+    step: '01',
+    phaseKey: 'profile.m1.phase' as const,
+    titleKey: 'profile.m1.title' as const,
+    orgKey: 'profile.m1.org' as const,
+    badgeKey: 'profile.m1.badge' as const,
+    descKey: 'profile.m1.desc' as const,
+    active: false,
+  },
+  {
+    step: '02',
+    phaseKey: 'profile.m2.phase' as const,
+    titleKey: 'profile.m2.title' as const,
+    orgKey: 'profile.m2.org' as const,
+    badgeKey: 'profile.m2.badge' as const,
+    descKey: 'profile.m2.desc' as const,
+    active: true,
+  },
+  {
+    step: '03',
+    phaseKey: 'profile.m3.phase' as const,
+    titleKey: 'profile.m3.title' as const,
+    orgKey: 'profile.m3.org' as const,
+    badgeKey: 'profile.m3.badge' as const,
+    descKey: 'profile.m3.desc' as const,
+    active: false,
+  },
+  {
+    step: '04',
+    phaseKey: 'profile.m4.phase' as const,
+    titleKey: 'profile.m4.title' as const,
+    orgKey: 'profile.m4.org' as const,
+    badgeKey: 'profile.m4.badge' as const,
+    descKey: 'profile.m4.desc' as const,
+    active: false,
+  },
+];
+---
+
+<section
+  id={sectionId}
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
+  aria-labelledby="profile-heading"
+>
+  <!-- Section Header Strip -->
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
+    <div class="flex items-center gap-3">
+      <span class="text-fg-muted">{t('profile.sectionIndex')}</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">{locale === 'es-MX' ? 'PROGRESIÓN TÉCNICA' : 'TECHNICAL PROGRESSION'}</span>
+    </div>
+    <div class="text-xs font-mono-tech text-fg-muted">
+      <span>{locale === 'es-MX' ? 'TRAYECTORIA EN DESARROLLO' : 'EVOLVING TRAJECTORY'}</span>
+    </div>
+  </header>
+
+  <!-- Section Title Block -->
+  <div class="max-w-3xl mb-16 sm:mb-20 space-y-4">
+    <h2
+      id="profile-heading"
+      class="text-3xl sm:text-4xl md:text-5xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
+    >
+      {t('profile.title')}
+    </h2>
+    <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+      {t('profile.subtitle')}
+    </p>
+  </div>
+
+  <!-- Editorial Timeline / Trajectory Flow -->
+  <div class="space-y-0 border-t border-border-subtle divide-y divide-border-subtle">
+    {milestones.map((m) => (
+      <article class="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start group">
+        <!-- Step & Phase Identifier -->
+        <div class="md:col-span-3 space-y-2">
+          <div class="flex items-center gap-2 text-xs font-mono-tech text-fg-muted">
+            <span class="text-sm font-medium text-fg-primary">{m.step}</span>
+            <span class="text-border-muted" aria-hidden="true">—</span>
+            <span class="uppercase tracking-wider">{t(m.phaseKey)}</span>
+          </div>
+          <div class="inline-flex items-center gap-2">
+            <span
+              class={`w-2 h-2 rounded-full ${m.active ? 'bg-status-active animate-pulse' : 'bg-border-muted'}`}
+              aria-hidden="true"
+            ></span>
+            <span class="text-xs font-mono-tech px-2 py-0.5 border border-border-subtle text-fg-primary bg-canvas-subtle">
+              {t(m.badgeKey)}
+            </span>
+          </div>
+        </div>
+
+        <!-- Main Title & Context -->
+        <div class="md:col-span-4 space-y-1">
+          <h3 class="text-xl sm:text-2xl font-normal tracking-tight text-fg-primary">
+            {t(m.titleKey)}
+          </h3>
+          <p class="text-xs font-mono-tech text-fg-secondary">
+            {t(m.orgKey)}
+          </p>
+        </div>
+
+        <!-- Factual Description -->
+        <div class="md:col-span-5">
+          <p class="text-sm sm:text-base text-fg-secondary font-normal leading-relaxed text-pretty">
+            {t(m.descKey)}
+          </p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <!-- Transparent Honesty Footnote -->
+  <footer class="pt-8 border-t border-border-subtle text-xs font-mono-tech text-fg-muted">
+    <p>{t('profile.note')}</p>
+  </footer>
+</section>

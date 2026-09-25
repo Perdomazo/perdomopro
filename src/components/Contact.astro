@@ -1,0 +1,124 @@
+---
+import { siteConfig } from '../config/site';
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const sectionId = locale === 'en' ? 'contact' : 'contacto';
+const consultingAnchor = locale === 'en' ? 'consulting' : 'consultoria';
+---
+
+<section
+  id={sectionId}
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 sm:py-32 border-t border-border-subtle"
+  aria-labelledby="contact-heading"
+>
+  <!-- Future-facing navigation anchor for consulting inquiries -->
+  <span id={consultingAnchor} class="sr-only" aria-hidden="true"></span>
+
+  <!-- Section Header Strip -->
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-16 border-b border-border-subtle">
+    <div class="flex items-center gap-3">
+      <span class="text-fg-muted">{t('contact.sectionIndex')}</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">{t('contact.label')}</span>
+    </div>
+    <div class="flex items-center gap-2 text-xs font-mono-tech text-fg-muted">
+      <span class="inline-block w-2 h-2 rounded-full bg-status-active" aria-hidden="true"></span>
+      <span class="text-fg-primary">{t('contact.availabilityStatus')}</span>
+    </div>
+  </header>
+
+  <!-- Editorial 12-Column Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <!-- Left Column: Primary Invitation & Direct CTA -->
+    <div class="lg:col-span-8 space-y-8 sm:space-y-10">
+      <div class="space-y-6">
+        <h2
+          id="contact-heading"
+          class="text-3xl sm:text-5xl md:text-6xl font-light tracking-[-0.035em] leading-[1.08] text-fg-primary max-w-3xl text-balance"
+        >
+          {t('contact.title')}
+        </h2>
+
+        <p class="text-base sm:text-xl text-fg-secondary font-normal leading-relaxed text-pretty max-w-2xl">
+          {t('contact.subtitle')}
+        </p>
+      </div>
+
+      <!-- Primary Action & Direct Mail -->
+      <div class="flex flex-wrap items-center gap-6 pt-4">
+        <a
+          href={`mailto:${siteConfig.links.email}`}
+          class="group inline-flex items-center gap-3 bg-fg-primary text-canvas px-8 py-4 text-xs sm:text-sm font-mono-tech tracking-wider uppercase hover:bg-fg-secondary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+        >
+          <span>{t('contact.cta')}</span>
+          <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
+        </a>
+
+        <div class="text-xs font-mono-tech text-fg-muted">
+          <span>{t('contact.directEmail')}:</span>
+          <a
+            href={`mailto:${siteConfig.links.email}`}
+            class="block text-sm font-medium text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors"
+          >
+            {siteConfig.links.email}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Secondary Channels & Base Coordinates -->
+    <aside class="lg:col-span-4 space-y-8 pt-4 lg:pt-2">
+      <!-- Direct Professional Links -->
+      <div class="border-t border-border-subtle pt-6 space-y-3">
+        <h3 class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">
+          {t('contact.profilesLabel')}
+        </h3>
+
+        <ul class="space-y-2 list-none p-0 m-0 text-sm font-mono-tech">
+          <li>
+            <a
+              href={siteConfig.links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-between py-1.5 border-b border-border-subtle/50 text-fg-primary hover:text-fg-secondary transition-colors group"
+            >
+              <span>LinkedIn</span>
+              <span class="text-fg-muted group-hover:text-fg-primary transition-colors" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-between py-1.5 border-b border-border-subtle/50 text-fg-primary hover:text-fg-secondary transition-colors group"
+            >
+              <span>GitHub</span>
+              <span class="text-fg-muted group-hover:text-fg-primary transition-colors" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Location & Readiness Metadata -->
+      <div class="border-t border-border-subtle pt-6 space-y-2 text-xs font-mono-tech text-fg-muted">
+        <h3 class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">
+          {t('contact.baseLabel')}
+        </h3>
+        <p class="text-fg-primary font-medium">
+          {siteConfig.author.location.formatted} (UTC-6)
+        </p>
+        <p class="text-fg-secondary pt-1">
+          {t('contact.availability')}
+        </p>
+      </div>
+    </aside>
+  </div>
+</section>

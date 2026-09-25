@@ -1,0 +1,128 @@
+---
+import { siteConfig } from '../config/site';
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const projectsHref = locale === 'en' ? '/en/#projects' : '#proyectos';
+const aboutHref = locale === 'en' ? '/en/#about' : '#sobre-mi';
+---
+
+<section
+  id="hero"
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-16 sm:pb-20 min-h-[calc(100vh-5rem)] flex flex-col justify-between"
+  aria-labelledby="hero-heading"
+>
+  <!-- Top Editorial Technical Metadata Strip -->
+  <header
+    class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 border-b border-border-subtle"
+    data-hero-meta="top"
+  >
+    <div class="flex items-center gap-3">
+      <span class="text-fg-muted">{t('hero.sectionIndex')}</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">{siteConfig.brand}</span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-status-active" aria-hidden="true"></span>
+        <span class="text-fg-primary font-medium">{t('hero.statusIndicator')}</span>
+      </div>
+      <span class="text-border-muted hidden sm:inline" aria-hidden="true">•</span>
+      <span class="hidden sm:inline text-fg-muted">{t('hero.location')}</span>
+    </div>
+  </header>
+
+  <!-- Central Editorial Grid (Asymmetric) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start my-auto py-10 lg:py-16">
+    <!-- Primary Content Column -->
+    <div class="lg:col-span-7 xl:col-span-8 space-y-6 sm:space-y-8">
+      <!-- Technical Focus Pill -->
+      <div class="flex items-center gap-2 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary" data-hero-meta="category">
+        <span class="w-1.5 h-1.5 bg-fg-primary" aria-hidden="true"></span>
+        <span>{t('hero.technicalPillars')}</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1
+        id="hero-heading"
+        class="text-3xl sm:text-5xl md:text-6xl lg:text-[4.15rem] font-light tracking-[-0.035em] leading-[1.08] text-fg-primary max-w-3xl text-balance"
+        data-hero-headline
+      >
+        <span>{t('hero.headlinePrefix')}</span>{' '}
+        <span class="font-normal text-fg-primary underline decoration-border-muted underline-offset-8 decoration-1">
+          {t('hero.headlineHighlight')}
+        </span>
+      </h1>
+
+      <!-- Editorial CTAs -->
+      <div class="flex flex-wrap items-center gap-4 pt-2 sm:pt-4" data-hero-cta>
+        <a
+          href={projectsHref}
+          class="group inline-flex items-center gap-3 bg-fg-primary text-canvas px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase hover:bg-fg-secondary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+        >
+          <span>{t('hero.cta.projects')}</span>
+          <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
+        </a>
+
+        <a
+          href={aboutHref}
+          class="group inline-flex items-center gap-3 border border-border-subtle hover:border-fg-primary text-fg-primary px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+        >
+          <span>{t('hero.cta.about')}</span>
+          <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Secondary Editorial & Metadata Column -->
+    <div class="lg:col-span-5 xl:col-span-4 space-y-8 lg:pt-3">
+      <!-- Concise Positioning Description -->
+      <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty" data-hero-desc>
+        {t('hero.description')}
+      </p>
+
+      <!-- Technical Specifier Breakdown -->
+      <dl class="border-t border-border-subtle pt-6 space-y-4 text-xs font-mono-tech" data-hero-meta="spec-list">
+        <div class="flex justify-between items-baseline gap-4 py-1.5 border-b border-border-subtle/60">
+          <dt class="text-fg-muted uppercase tracking-wider">{t('hero.meta.roleTitle')}</dt>
+          <dd class="text-fg-primary font-medium text-right">{t('hero.meta.roleValue')}</dd>
+        </div>
+
+        <div class="flex justify-between items-baseline gap-4 py-1.5 border-b border-border-subtle/60">
+          <dt class="text-fg-muted uppercase tracking-wider">{t('hero.meta.educationTitle')}</dt>
+          <dd class="text-fg-primary font-medium text-right">{t('hero.meta.educationValue')}</dd>
+        </div>
+
+        <div class="flex justify-between items-baseline gap-4 py-1.5 border-b border-border-subtle/60">
+          <dt class="text-fg-muted uppercase tracking-wider">{t('hero.meta.locationTitle')}</dt>
+          <dd class="text-fg-primary font-medium text-right">{t('hero.meta.locationValue')}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Bottom Editorial Metadata & Visual Anchor -->
+  <footer
+    class="border-t border-border-subtle pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono-tech text-fg-muted"
+    data-hero-meta="bottom"
+  >
+    <div class="flex items-center gap-2">
+      <span class="text-fg-primary uppercase font-medium">{siteConfig.author.name}</span>
+      <span class="text-border-muted">•</span>
+      <span>{siteConfig.author.education}</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span class="text-fg-secondary uppercase tracking-widest text-[11px]">{locale === 'es-MX' ? 'EXPLORAR' : 'EXPLORE'}</span>
+      <span class="text-fg-muted" aria-hidden="true">↓</span>
+    </div>
+  </footer>
+</section>

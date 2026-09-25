@@ -1,0 +1,270 @@
+---
+import { siteConfig } from '../config/site';
+import { type Locale } from '../i18n/config';
+import { getAlternateLocale, getLocalizedPath, useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const targetLocale = getAlternateLocale(locale);
+
+// Current URL pathname for language switching
+const currentPath = Astro.url.pathname;
+const switchUrl = getLocalizedPath(currentPath, targetLocale);
+
+const homeHref = locale === 'en' ? '/en/' : '/';
+
+const navItems = [
+  { key: 'nav.home' as const, href: homeHref },
+  { key: 'nav.about' as const, href: locale === 'en' ? '/en/#about' : '/#sobre-mi' },
+  { key: 'nav.projects' as const, href: locale === 'en' ? '/en/#projects' : '/#proyectos' },
+  { key: 'nav.consulting' as const, href: locale === 'en' ? '/en/#consulting' : '/#consultoria' },
+  { key: 'nav.contact' as const, href: locale === 'en' ? '/en/#contact' : '/#contacto' },
+];
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-40 w-full transition-all duration-200 border-b border-transparent bg-canvas"
+>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
+    <!-- Brand / Wordmark -->
+    <a
+      href={homeHref}
+      class="group inline-flex items-center gap-2.5 text-fg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+      aria-label={`${siteConfig.brand} — ${t('nav.home')}`}
+      data-hero-brand
+    >
+      <span
+        class="w-2.5 h-2.5 bg-fg-primary rounded-none transition-transform duration-200 group-hover:scale-110"
+        aria-hidden="true"
+      ></span>
+      <span class="font-sans text-base sm:text-lg font-medium tracking-tight text-fg-primary">
+        Perdomo<span class="text-fg-secondary font-normal">Pro</span>
+      </span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8" aria-label={t('a11y.mainNavigation')}>
+      <ul class="flex items-center gap-7 text-xs sm:text-sm font-sans tracking-normal list-none m-0 p-0">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="text-fg-secondary hover:text-fg-primary transition-colors duration-150 py-1 border-b border-transparent hover:border-fg-primary"
+            >
+              {t(item.key)}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Subtle Vertical Divider -->
+      <span class="h-4 w-px bg-border-subtle" aria-hidden="true"></span>
+
+      <!-- Editorial Language Switcher -->
+      <div
+        class="flex items-center gap-1.5 text-xs font-mono-tech tracking-wider"
+        aria-label={t('a11y.switchLanguage')}
+      >
+        {locale === 'es-MX' ? (
+          <>
+            <span class="text-fg-primary font-medium underline underline-offset-4" aria-current="true">
+              ES
+            </span>
+            <span class="text-border-muted" aria-hidden="true">/</span>
+            <a
+              href={switchUrl}
+              class="text-fg-muted hover:text-fg-primary transition-colors duration-150"
+              aria-label="Switch to English"
+            >
+              EN
+            </a>
+          </>
+        ) : (
+          <>
+            <a
+              href={switchUrl}
+              class="text-fg-muted hover:text-fg-primary transition-colors duration-150"
+              aria-label="Cambiar a Español"
+            >
+              ES
+            </a>
+            <span class="text-border-muted" aria-hidden="true">/</span>
+            <span class="text-fg-primary font-medium underline underline-offset-4" aria-current="true">
+              EN
+            </span>
+          </>
+        )}
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Button & Quick Switcher -->
+    <div class="flex items-center gap-4 md:hidden">
+      <!-- Mobile Quick Language Switcher -->
+      <div class="flex items-center gap-1 text-xs font-mono-tech tracking-wider text-fg-muted">
+        {locale === 'es-MX' ? (
+          <a
+            href={switchUrl}
+            class="px-2 py-0.5 border border-border-subtle hover:border-fg-primary text-fg-primary transition-colors"
+            aria-label="Switch to English"
+          >
+            EN
+          </a>
+        ) : (
+          <a
+            href={switchUrl}
+            class="px-2 py-0.5 border border-border-subtle hover:border-fg-primary text-fg-primary transition-colors"
+            aria-label="Cambiar a Español"
+          >
+            ES
+          </a>
+        )}
+      </div>
+
+      <button
+        id="mobile-nav-toggle"
+        type="button"
+        class="inline-flex items-center justify-center p-2 text-fg-primary hover:text-fg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary transition-colors"
+        aria-label={t('a11y.openMenu')}
+        aria-expanded="false"
+        aria-controls="mobile-nav-menu"
+      >
+        <span class="sr-only">{t('a11y.openMenu')}</span>
+        <!-- Minimal geometric hamburger icon -->
+        <svg
+          class="w-5 h-5 transition-transform duration-200"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <path id="line-top" d="M3 6h14" stroke-linecap="round"></path>
+          <path id="line-bottom" d="M3 14h14" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Panel -->
+  <div
+    id="mobile-nav-menu"
+    class="hidden md:hidden border-b border-border-subtle bg-canvas px-6 pt-4 pb-8 space-y-6"
+    aria-hidden="true"
+    data-lenis-prevent
+  >
+    <nav aria-label={t('a11y.mainNavigation')}>
+      <ul class="space-y-4 list-none m-0 p-0 text-base font-sans">
+        {navItems.map((item, index) => (
+          <li>
+            <a
+              href={item.href}
+              class="mobile-nav-link flex items-center justify-between text-fg-primary hover:text-fg-secondary py-2 border-b border-border-subtle/50 transition-colors"
+            >
+              <span class="font-normal">{t(item.key)}</span>
+              <span class="text-xs font-mono-tech text-fg-muted">0{index + 1}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Mobile Panel Footer Meta & Lang -->
+    <div class="pt-4 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono-tech text-fg-muted">
+      <span>{siteConfig.author.location.formatted}</span>
+      <div class="flex items-center gap-2">
+        <span class="text-fg-secondary">{t('nav.language')}:</span>
+        {locale === 'es-MX' ? (
+          <>
+            <span class="text-fg-primary font-medium underline underline-offset-2">Español</span>
+            <span class="text-border-muted">/</span>
+            <a href={switchUrl} class="text-fg-muted hover:text-fg-primary">English</a>
+          </>
+        ) : (
+          <>
+            <a href={switchUrl} class="text-fg-muted hover:text-fg-primary">Español</a>
+            <span class="text-border-muted">/</span>
+            <span class="text-fg-primary font-medium underline underline-offset-2">English</span>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function setupNavbar() {
+    const header = document.getElementById('site-header');
+    const toggleBtn = document.getElementById('mobile-nav-toggle');
+    const menu = document.getElementById('mobile-nav-menu');
+    const topPath = document.getElementById('line-top');
+    const bottomPath = document.getElementById('line-bottom');
+    const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+    // Scroll state behavior
+    const handleScroll = () => {
+      if (!header) return;
+      if (window.scrollY > 15) {
+        header.classList.add('bg-canvas/95', 'backdrop-blur-md', 'border-border-subtle', 'shadow-xs');
+        header.classList.remove('border-transparent');
+      } else {
+        header.classList.remove('bg-canvas/95', 'backdrop-blur-md', 'border-border-subtle', 'shadow-xs');
+        header.classList.add('border-transparent');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // Mobile menu toggle
+    if (toggleBtn && menu) {
+      let isOpen = false;
+
+      const setMenuState = (open: boolean) => {
+        isOpen = open;
+        toggleBtn.setAttribute('aria-expanded', String(isOpen));
+        menu.setAttribute('aria-hidden', String(!isOpen));
+
+        if (isOpen) {
+          menu.classList.remove('hidden');
+          if (topPath && bottomPath) {
+            topPath.setAttribute('d', 'M5 5l10 10');
+            bottomPath.setAttribute('d', 'M5 15L15 5');
+          }
+        } else {
+          menu.classList.add('hidden');
+          if (topPath && bottomPath) {
+            topPath.setAttribute('d', 'M3 6h14');
+            bottomPath.setAttribute('d', 'M3 14h14');
+          }
+        }
+      };
+
+      toggleBtn.addEventListener('click', () => {
+        setMenuState(!isOpen);
+      });
+
+      // Close on link click
+      navLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          setMenuState(false);
+        });
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen) {
+          setMenuState(false);
+          toggleBtn.focus();
+        }
+      });
+    }
+  }
+
+  setupNavbar();
+  document.addEventListener('astro:page-load', setupNavbar);
+</script>

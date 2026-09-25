@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  locale="es-MX"
+  title="404 — Página no encontrada / Page Not Found"
+  description="El recurso solicitado no existe o ha sido reubicado."
+  noindex={true}
+>
+  <Navbar locale="es-MX" />
+
+  <section
+    id="error-404"
+    class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 sm:py-36 min-h-[calc(100vh-14rem)] flex flex-col justify-center items-start"
+    aria-labelledby="error-heading"
+  >
+    <!-- Technical Error Status Identifier -->
+    <header class="flex items-center gap-3 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 border-b border-border-subtle w-full max-w-xl">
+      <span class="text-fg-muted">STATUS CODE</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">404 NOT FOUND</span>
+    </header>
+
+    <div class="space-y-6 max-w-2xl py-8">
+      <h1
+        id="error-heading"
+        class="text-4xl sm:text-5xl md:text-6xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
+      >
+        Página no encontrada.
+      </h1>
+
+      <div class="space-y-3 text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+        <p>
+          El recurso al que intentas acceder no existe, ha sido reubicado o la dirección es incorrecta.
+        </p>
+        <p class="text-sm font-mono-tech text-fg-muted">
+          The requested resource was not found on this server.
+        </p>
+      </div>
+
+      <div class="pt-4 flex flex-wrap items-center gap-4">
+        <a
+          href="/"
+          class="group inline-flex items-center gap-3 bg-fg-primary text-canvas px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase hover:bg-fg-secondary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+        >
+          <span>Regresar al inicio (ES)</span>
+          <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
+        </a>
+
+        <a
+          href="/en/"
+          class="group inline-flex items-center gap-3 border border-border-subtle hover:border-fg-primary text-fg-primary px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+        >
+          <span>Return home (EN)</span>
+          <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer locale="es-MX" />
+</BaseLayout>

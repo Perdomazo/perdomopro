@@ -1,0 +1,124 @@
+---
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const areas = [
+  {
+    num: '01',
+    titleKey: 'areas.area1.title' as const,
+    subtitleKey: 'areas.area1.subtitle' as const,
+    descKey: 'areas.area1.desc' as const,
+    techKey: 'areas.area1.tech' as const,
+    emphasis: 'code',
+  },
+  {
+    num: '02',
+    titleKey: 'areas.area2.title' as const,
+    subtitleKey: 'areas.area2.subtitle' as const,
+    descKey: 'areas.area2.desc' as const,
+    techKey: 'areas.area2.tech' as const,
+    emphasis: 'cloud',
+  },
+  {
+    num: '03',
+    titleKey: 'areas.area3.title' as const,
+    subtitleKey: 'areas.area3.subtitle' as const,
+    descKey: 'areas.area3.desc' as const,
+    techKey: 'areas.area3.tech' as const,
+    emphasis: 'pipeline',
+  },
+  {
+    num: '04',
+    titleKey: 'areas.area4.title' as const,
+    subtitleKey: 'areas.area4.subtitle' as const,
+    descKey: 'areas.area4.desc' as const,
+    techKey: 'areas.area4.tech' as const,
+    emphasis: 'ai',
+  },
+];
+---
+
+<section
+  id="areas"
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
+  aria-labelledby="areas-heading"
+>
+  <!-- Section Header Strip -->
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
+    <div class="flex items-center gap-3">
+      <span class="text-fg-muted">{t('areas.sectionIndex')}</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">{locale === 'es-MX' ? 'DISCIPLINAS TÉCNICAS' : 'TECHNICAL DISCIPLINES'}</span>
+    </div>
+    <div class="text-xs font-mono-tech px-2.5 py-1 border border-border-subtle bg-canvas-subtle text-fg-primary">
+      <span>{t('areas.ecosystemBadge')}</span>
+    </div>
+  </header>
+
+  <!-- Section Title & Intro -->
+  <div class="max-w-3xl mb-16 sm:mb-20 space-y-4">
+    <h2
+      id="areas-heading"
+      class="text-3xl sm:text-4xl md:text-5xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
+    >
+      {t('areas.title')}
+    </h2>
+    <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+      {t('areas.subtitle')}
+    </p>
+  </div>
+
+  <!-- Editorial Ecosystem Grid: Non-uniform alternating structure -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-border-subtle border border-border-subtle">
+    {areas.map((area, index) => (
+      <article
+        class={`p-8 sm:p-12 lg:p-14 bg-canvas flex flex-col justify-between transition-colors duration-200 hover:bg-canvas-subtle/70 group ${
+          index % 2 === 1 ? 'md:border-l border-border-subtle' : ''
+        }`}
+      >
+        <!-- Top: Number & Tech Stack Tagline -->
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <span class="text-3xl sm:text-4xl font-light font-mono-tech tracking-tight text-fg-primary">
+              {area.num}
+            </span>
+            <span class="w-1.5 h-1.5 bg-fg-primary rounded-none transition-transform group-hover:scale-125" aria-hidden="true"></span>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="text-2xl sm:text-3xl font-light tracking-tight text-fg-primary">
+              {t(area.titleKey)}
+            </h3>
+            <p class="text-sm font-medium text-fg-primary/80">
+              {t(area.subtitleKey)}
+            </p>
+          </div>
+
+          <p class="text-sm sm:text-base text-fg-secondary font-normal leading-relaxed text-pretty">
+            {t(area.descKey)}
+          </p>
+        </div>
+
+        <!-- Bottom: Micro-technical tags -->
+        <div class="pt-8 mt-8 border-t border-border-subtle/60">
+          <p class="text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
+            {t(area.techKey)}
+          </p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <!-- Editorial Visual Connection Note -->
+  <footer class="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono-tech text-fg-muted pt-4 border-t border-border-subtle">
+    <span>CONVERGENCIA DE SISTEMAS // SYSTEM CONVERGENCE</span>
+    <span class="text-fg-secondary">SOFTWARE • CLOUD • AUTOMATION • APPLIED AI</span>
+  </footer>
+</section>

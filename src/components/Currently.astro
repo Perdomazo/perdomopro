@@ -1,0 +1,84 @@
+---
+import { currentlyTopics } from '../data/currently';
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section
+  id="currently"
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
+  aria-labelledby="currently-heading"
+>
+  <!-- Section Header Strip -->
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
+    <div class="flex items-center gap-3">
+      <span class="text-fg-muted">{t('currently.sectionIndex')}</span>
+      <span class="text-border-muted" aria-hidden="true">/</span>
+      <span class="text-fg-primary font-medium">{t('currently.label')}</span>
+    </div>
+    <div class="flex items-center gap-2 text-xs font-mono-tech text-fg-muted">
+      <span class="inline-block w-2 h-2 rounded-full bg-status-active" aria-hidden="true"></span>
+      <span class="text-fg-primary">{t('currently.statusLabel')}</span>
+    </div>
+  </header>
+
+  <!-- Section Title & Intro -->
+  <div class="max-w-3xl mb-16 sm:mb-20 space-y-4">
+    <h2
+      id="currently-heading"
+      class="text-3xl sm:text-4xl md:text-5xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
+    >
+      {t('currently.title')}
+    </h2>
+    <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+      {t('currently.subtitle')}
+    </p>
+  </div>
+
+  <!-- Editorial Typographic Index / Grid of Topics -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 border-t border-border-subtle pt-10">
+    {currentlyTopics.map((topic) => {
+      const content = topic.content[locale];
+
+      return (
+        <article class="p-6 sm:p-8 bg-canvas-subtle/50 border border-border-subtle space-y-4 flex flex-col justify-between group hover:border-fg-primary transition-colors">
+          <!-- Top: Category & Index -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-mono-tech text-fg-muted">
+              <span class="uppercase tracking-wider text-[11px]">{topic.category}</span>
+              <span>{topic.number}</span>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-light tracking-tight text-fg-primary">
+              {content.title}
+            </h3>
+
+            <p class="text-xs sm:text-sm font-medium text-fg-primary/80">
+              {content.subtitle}
+            </p>
+          </div>
+
+          <!-- Notes / Exploration Context -->
+          <div class="pt-4 border-t border-border-subtle/60">
+            <p class="text-xs sm:text-sm text-fg-secondary font-normal leading-relaxed">
+              {content.notes}
+            </p>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <!-- Footnote -->
+  <footer class="mt-16 pt-6 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono-tech text-fg-muted">
+    <p>{t('currently.footnote')}</p>
+    <span class="text-fg-primary uppercase font-medium">HORIZON OF STUDY</span>
+  </footer>
+</section>

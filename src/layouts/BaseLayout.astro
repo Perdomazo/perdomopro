@@ -1,0 +1,140 @@
+---
+import '../styles/global.css';
+import { type Locale, DEFAULT_LOCALE, LOCALES } from '../i18n/config';
+import { getAlternateUrls, getHtmlLang, getLocaleFromUrl, useTranslations } from '../i18n/utils';
+import { siteConfig } from '../config/site';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  locale?: Locale;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const urlLocale = getLocaleFromUrl(Astro.url);
+const {
+  locale = urlLocale ?? DEFAULT_LOCALE,
+  title,
+  description,
+  ogImage = '/og-image.png',
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const t = useTranslations(locale);
+const lang = getHtmlLang(locale);
+const localeMeta = LOCALES[locale] ?? LOCALES[DEFAULT_LOCALE];
+
+const formattedTitle = title ? `${title} | ${siteConfig.brand}` : t('site.title');
+const formattedDescription = description || t('site.description');
+
+const { canonicalUrl, alternateUrls } = getAlternateUrls(Astro.url, siteConfig.url);
+const ogImageUrl = new URL(ogImage, siteConfig.url).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${siteConfig.url}/#website`,
+      url: `${siteConfig.url}/`,
+      name: siteConfig.brand,
+      description: formattedDescription,
+      inLanguage: ['es-MX', 'en'],
+    },
+    {
+      '@type': 'Person',
+      '@id': `${siteConfig.url}/#person`,
+      name: siteConfig.author.name,
+      url: `${siteConfig.url}/`,
+      jobTitle: siteConfig.author.title,
+      description:
+        locale === 'es-MX'
+          ? 'Estudiante de Ingeniería en Computación con enfoque en software, infraestructura, entornos cloud (Azure, AWS), automatización e IA.'
+          : 'Computer Engineering student focused on software, systems infrastructure, cloud environments (Azure, AWS), automation, and AI.',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: siteConfig.author.location.city,
+        addressRegion: siteConfig.author.location.state,
+        addressCountry: 'MX',
+      },
+      sameAs: [siteConfig.links.github, siteConfig.links.linkedin],
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={localeMeta.dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content={siteConfig.themeColor} />
+
+    <!-- Document Identity -->
+    <title>{formattedTitle}</title>
+    <meta name="description" content={formattedDescription} />
+    <meta name="keywords" content={t('site.keywords')} />
+    <meta name="author" content={siteConfig.author.name} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Alternate Language URLs (hreflang) -->
+    {alternateUrls.map((alt) => (
+      <link rel="alternate" hreflang={alt.hrefLang} href={alt.href} />
+    ))}
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:site_name" content={siteConfig.brand} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={formattedTitle} />
+    <meta property="og:description" content={formattedDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={localeMeta.ogLocale} />
+    <meta property="og:locale:alternate" content={locale === 'es-MX' ? 'en_US' : 'es_MX'} />
+
+    <!-- Twitter / X Metadata -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={formattedTitle} />
+    <meta name="twitter:description" content={formattedDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="bg-canvas text-fg-primary min-h-screen flex flex-col font-sans selection:bg-fg-primary selection:text-canvas">
+    <!-- Accessible Skip Link -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-fg-primary focus:text-canvas focus:text-sm focus:font-mono-tech focus:outline-none"
+    >
+      {t('a11y.skipToContent')}
+    </a>
+
+    <!-- Page Content Slot -->
+    <main id="main-content" class="flex-1 flex flex-col">
+      <slot />
+    </main>
+    <!-- Motion & Scroll Interaction System -->
+    <script>
+      import { initMotion } from '../scripts/motion';
+
+      // Initialize on DOM ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => initMotion());
+      } else {
+        initMotion();
+      }
+
+      // Re-initialize cleanly on view transitions if active
+      document.addEventListener('astro:page-load', () => initMotion());
+    </script>
+  </body>
+</html>
