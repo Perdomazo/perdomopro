@@ -1,15 +1,14 @@
 import type { Locale } from '../i18n/config';
 
-export type ProjectClassification = 'professional' | 'academic' | 'personal' | 'laboratory';
+export type ProjectClassification = 'personal' | 'academic' | 'laboratory' | 'personal-site' | 'software-project';
 
 export interface LocalizedProjectInfo {
   title: string;
-  tagline: string;
   category: string;
-  description: string;
-  context: string;
-  statusLabel: string;
   typeBadge: string;
+  problem: string;
+  built: string;
+  demonstrates: string;
 }
 
 export interface ProjectData {
@@ -17,134 +16,134 @@ export interface ProjectData {
   number: string;
   classification: ProjectClassification;
   technologies: readonly string[];
-  diagramFlow: readonly string[];
   href?: string;
+  liveHref?: string;
   content: Record<Locale, LocalizedProjectInfo>;
 }
 
 export const projectsData: readonly ProjectData[] = [
   {
-    id: 'azure-web-modernization',
+    id: 'score-record',
     number: '01',
-    classification: 'professional',
-    technologies: ['Azure', 'Azure Static Web Apps', 'IIS', 'AWS', 'GitHub Actions', 'DNS'],
-    diagramFlow: ['IIS / AWS', 'GitHub Actions CI/CD', 'Azure SWA', 'DNS Traffic'],
-    content: {
-      'es-MX': {
-        title: 'Azure / Web Modernization',
-        tagline: 'Modernización y transición hacia infraestructura cloud',
-        category: 'Cloud / Infraestructura / Web',
-        description:
-          'Migración y modernización de aplicaciones web desde entornos basados en IIS y AWS hacia servicios gestionados en Microsoft Azure.',
-        context:
-          'Exposición técnica práctica en soporte e infraestructura orientada a transición cloud, automatización con GitHub Actions y gestión de DNS.',
-        statusLabel: 'Exposición profesional en infraestructura',
-        typeBadge: 'Experiencia práctica',
-      },
-      en: {
-        title: 'Azure / Web Modernization',
-        tagline: 'Web infrastructure migration & cloud modernization',
-        category: 'Cloud / Infrastructure / Web',
-        description:
-          'Migration and modernization of web applications from legacy IIS and AWS-based servers toward managed Microsoft Azure cloud services.',
-        context:
-          'Practical hands-on exposure in technical infrastructure: DNS zone management, GitHub Actions automated CI/CD deployments, and web service re-configuration.',
-        statusLabel: 'Professional infrastructure exposure',
-        typeBadge: 'Practical experience',
-      },
-    },
-  },
-  {
-    id: 'iot-industrial-monitoring',
-    number: '02',
-    classification: 'academic',
-    technologies: ['IoT', 'Raspberry Pi', 'Sensors', 'Edge Computing', 'AI', 'Cloud'],
-    diagramFlow: ['Sensores Emisiones', 'Raspberry Pi Edge', 'Buffer Local', 'Cloud Telemetry'],
-    content: {
-      'es-MX': {
-        title: 'IoT Industrial Monitoring',
-        tagline: 'Arquitectura conceptual de telemetría y computación en el borde',
-        category: 'IoT / Edge / AI',
-        description:
-          'Proyecto académico de arquitectura IoT orientado al monitoreo de emisiones en procesos industriales mediante sensores y computación perimetral.',
-        context:
-          'Diseño conceptual y formativo en la Universidad de Guadalajara. Aborda la captura de señales físicas, filtrado local en Raspberry Pi y preparación de telemetría para análisis en la nube.',
-        statusLabel: 'Proyecto académico conceptual',
-        typeBadge: 'Académico / Conceptual',
-      },
-      en: {
-        title: 'IoT Industrial Monitoring',
-        tagline: 'Conceptual industrial telemetry & edge architecture',
-        category: 'IoT / Edge / AI',
-        description:
-          'Academic IoT architecture project focused on monitoring industrial process emissions through sensor arrays and edge computing nodes.',
-        context:
-          'Conceptual university engineering project at Universidad de Guadalajara. Explores signal acquisition, local filtering on Raspberry Pi, and telemetry staging for cloud analytics.',
-        statusLabel: 'Conceptual academic project',
-        typeBadge: 'Academic / Conceptual',
-      },
-    },
-  },
-  {
-    id: 'gastup',
-    number: '03',
     classification: 'personal',
-    technologies: ['React Native', 'SQLite', 'Mobile', 'Local-first'],
-    diagramFlow: ['UI React Native', 'Transacciones SQLite', 'Motor Local-first', 'Análisis Offline'],
+    technologies: ['Python', 'SQLite', 'Elo', 'Dixon–Coles'],
+    href: 'https://github.com/Perdomazo/ScoreRecord',
     content: {
       'es-MX': {
-        title: 'GastUp↑',
-        tagline: 'Gestión financiera personal con persistencia local',
-        category: 'Mobile / Software',
-        description:
-          'Aplicación móvil personal en desarrollo conceptual para el control y análisis financiero individual con arquitectura offline-first.',
-        context:
-          'Arquitectura bajo el principio local-first con persistencia directa en SQLite. Privacidad de datos por diseño, cero dependencia de servidores remotos para operaciones esenciales y respuesta inmediata.',
-        statusLabel: 'En desarrollo conceptual',
+        title: 'ScoreRecord',
+        category: 'SOFTWARE / DATOS / PRONÓSTICOS DEPORTIVOS',
         typeBadge: 'Proyecto personal',
+        problem: 'Analizar pronósticos de fútbol requiere organizar datos, modelos y evaluaciones de forma trazable.',
+        built: 'Desarrollé un sistema en Python que reúne datos históricos, genera pronósticos y guarda la información necesaria para revisar cada ejecución. Su interfaz es solo de pronóstico; no es una aplicación de apuestas.',
+        demonstrates: 'Ingesta y validación de datos, modelos Elo y Dixon–Coles, y registro de experimentos.',
       },
       en: {
-        title: 'GastUp↑',
-        tagline: 'Local-first personal finance mobile application',
-        category: 'Mobile / Software',
-        description:
-          'Personal mobile application in conceptual development for immediate expense tracking, categorization, and financial analysis.',
-        context:
-          'Engineered around local-first architecture with direct SQLite persistence. Complete data privacy by design, zero mandatory cloud connectivity for daily logs, and sub-millisecond response.',
-        statusLabel: 'Conceptual development',
+        title: 'ScoreRecord',
+        category: 'SOFTWARE / DATA / SPORTS FORECASTING',
         typeBadge: 'Personal project',
+        problem: 'Analyzing football forecasts requires traceable data, models, and evaluation runs.',
+        built: 'I built a Python system that gathers historical data, generates forecasts, and stores information for reviewing each run. Its interface is forecast-only; it is not a betting app.',
+        demonstrates: 'Data ingestion and validation, Elo and Dixon–Coles models, and experiment tracking.',
+      },
+    },
+  },
+  {
+    id: 'gadgetstock',
+    number: '02',
+    classification: 'software-project',
+    technologies: ['Java 21', 'Spring Boot', 'JPA / Hibernate', 'MySQL', 'Swagger'],
+    href: 'https://github.com/Perdomazo/GadgetStock',
+    content: {
+      'es-MX': {
+        title: 'GadgetStock',
+        category: 'BACKEND / API REST / INVENTARIO',
+        typeBadge: 'Proyecto de software',
+        problem: 'Un sistema de inventario necesita una forma consistente de consultar y administrar productos.',
+        built: 'Diseñé y desarrollé una API REST en Java 21 para gestionar inventario, separando controladores, servicios y acceso a datos.',
+        demonstrates: 'Diseño de API y arquitectura por capas con Spring Boot, JPA/Hibernate, MySQL y Swagger.',
+      },
+      en: {
+        title: 'GadgetStock',
+        category: 'BACKEND / REST API / INVENTORY',
+        typeBadge: 'Software project',
+        problem: 'An inventory system needs a consistent way to query and manage products.',
+        built: 'I designed and developed a Java 21 REST API for inventory management, separating controllers, services, and data access.',
+        demonstrates: 'API design and layered architecture with Spring Boot, JPA/Hibernate, MySQL, and Swagger.',
+      },
+    },
+  },
+  {
+    id: 'etf-portfolio-analytics',
+    number: '03',
+    classification: 'software-project',
+    technologies: ['Python', 'Pandas', 'NumPy', 'NetworkX', 'Matplotlib', 'CustomTkinter'],
+    content: {
+      'es-MX': {
+        title: 'ETF Portfolio Analytics Tool',
+        category: 'PYTHON / ANÁLISIS / ALGORITMOS',
+        typeBadge: 'Proyecto pequeño',
+        problem: 'Comparar algoritmos requiere observar tanto su resultado como su tiempo de ejecución.',
+        built: 'Construí una aplicación de escritorio pequeña para analizar portafolios con datos del S&P 500 y comparar enfoques Divide and Conquer y Dynamic Programming.',
+        demonstrates: 'Análisis de datos, visualización con Matplotlib y comparación empírica de algoritmos.',
+      },
+      en: {
+        title: 'ETF Portfolio Analytics Tool',
+        category: 'PYTHON / ANALYTICS / ALGORITHMS',
+        typeBadge: 'Small project',
+        problem: 'Comparing algorithms means looking at both their results and their execution time.',
+        built: 'I built a small desktop application to analyze portfolios using S&P 500 data and compare Divide and Conquer with Dynamic Programming approaches.',
+        demonstrates: 'Data analysis, Matplotlib visualization, and empirical algorithm comparison.',
+      },
+    },
+  },
+  {
+    id: 'adrian-quant-lab',
+    number: '04',
+    classification: 'laboratory',
+    technologies: ['Python', 'Freqtrade', 'Docker'],
+    href: 'https://github.com/Perdomazo/Adrian-Quant-Lab-',
+    content: {
+      'es-MX': {
+        title: 'Adrian Quant Lab',
+        category: 'PYTHON / INVESTIGACIÓN / MERCADOS',
+        typeBadge: 'Laboratorio de aprendizaje',
+        problem: 'Explorar un sistema de trading algorítmico exige entender cómo se organizan los datos, las pruebas y la operación.',
+        built: 'Inicié un laboratorio de aprendizaje basado en Freqtrade. El alcance creció más de lo que podía completar y el proyecto quedó incompleto.',
+        demonstrates: 'Una exploración técnica en curso, no un producto terminado ni una estrategia con resultados validados.',
+      },
+      en: {
+        title: 'Adrian Quant Lab',
+        category: 'PYTHON / RESEARCH / MARKETS',
+        typeBadge: 'Learning lab',
+        problem: 'Exploring algorithmic trading systems means understanding how data, tests, and operations fit together.',
+        built: 'I started a learning lab based on Freqtrade. Its scope grew beyond what I could complete, so the project remains unfinished.',
+        demonstrates: 'An ongoing technical exploration, not a finished product or a strategy with validated results.',
       },
     },
   },
   {
     id: 'perdomopro',
-    number: '04',
-    classification: 'laboratory',
-    technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Azure', 'GitHub Actions'],
-    diagramFlow: ['Astro 5 Islands', 'Tailwind 4 Tokens', 'GitHub Actions', 'Azure SWA'],
-    href: 'https://perdomopro.com',
+    number: '05',
+    classification: 'personal-site',
+    technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GitHub Actions', 'Azure Static Web Apps'],
+    href: 'https://github.com/Perdomazo/perdomopro',
+    liveHref: 'https://perdomopro.com/',
     content: {
       'es-MX': {
         title: 'PerdomoPro',
-        tagline: 'Laboratorio de ingeniería web y presencia digital',
-        category: 'Web / Frontend / Cloud',
-        description:
-          'Construcción de mi propia plataforma digital como laboratorio activo para experimentar con arquitectura estática, rendimiento web, diseño editorial y despliegue automatizado.',
-        context:
-          'Generado con HTML estático sobre Astro 5 y alojado en Azure Static Web Apps con CI/CD automatizado. Sistema de tokens visuales sobrio, diseño mobile-first y arquitectura i18n desde la raíz.',
-        statusLabel: 'Laboratorio activo en evolución',
-        typeBadge: 'Plataforma en vivo',
+        category: 'SITIO PERSONAL / SOFTWARE / CLOUD',
+        typeBadge: 'Sitio activo',
+        problem: 'Quería una presencia profesional que pudiera presentar mi trabajo y evolucionar junto con mis proyectos.',
+        built: 'Diseñé y desarrollé esta página como sitio estático y gestiono su publicación en Azure Static Web Apps mediante GitHub Actions.',
+        demonstrates: 'Construcción con Astro y TypeScript, estructura bilingüe y despliegue automatizado en Azure.',
       },
       en: {
         title: 'PerdomoPro',
-        tagline: 'Web engineering laboratory & digital identity',
-        category: 'Web / Frontend / Cloud',
-        description:
-          'Building my personal digital platform as an active laboratory to experiment with static architecture, web performance, editorial design, and automated continuous delivery.',
-        context:
-          'Generated as static HTML on Astro 5 and hosted on Azure Static Web Apps via automated CI/CD. Monochromatic design tokens, mobile-first responsiveness, and native root i18n architecture.',
-        statusLabel: 'Active evolving laboratory',
-        typeBadge: 'Live platform',
+        category: 'PERSONAL SITE / SOFTWARE / CLOUD',
+        typeBadge: 'Live site',
+        problem: 'I wanted a professional presence to present my work and evolve alongside my projects.',
+        built: 'I designed and built this static website and manage its deployment to Azure Static Web Apps through GitHub Actions.',
+        demonstrates: 'Astro and TypeScript development, bilingual structure, and automated Azure deployment.',
       },
     },
   },

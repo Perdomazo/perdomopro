@@ -52,14 +52,8 @@ const jsonLd = {
       jobTitle: siteConfig.author.title,
       description:
         locale === 'es-MX'
-          ? 'Estudiante de Ingeniería en Computación con enfoque en software, infraestructura, entornos cloud (Azure, AWS), automatización e IA.'
-          : 'Computer Engineering student focused on software, systems infrastructure, cloud environments (Azure, AWS), automation, and AI.',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: siteConfig.author.location.city,
-        addressRegion: siteConfig.author.location.state,
-        addressCountry: 'MX',
-      },
+          ? 'Estudiante de Ingeniería en Computación y becario de Soporte TI en KnowIT. Interés en desarrollo de software, infraestructura y cloud.'
+          : 'Computer Engineering student and IT Support Intern at KnowIT, interested in software development, infrastructure, and cloud.',
       sameAs: [siteConfig.links.github, siteConfig.links.linkedin],
     },
   ],

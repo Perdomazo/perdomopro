@@ -17,20 +17,16 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
   class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
   aria-labelledby="projects-heading"
 >
-  <!-- Section Header Strip -->
   <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
     <div class="flex items-center gap-3">
       <span class="text-fg-muted">{t('projects.sectionIndex')}</span>
       <span class="text-border-muted" aria-hidden="true">/</span>
-      <span class="text-fg-primary font-medium">{locale === 'es-MX' ? 'REGISTRO DE INICIATIVAS' : 'WORK LOG'}</span>
+      <span class="text-fg-primary font-medium">{t('projects.label')}</span>
     </div>
-    <div class="text-xs font-mono-tech text-fg-muted">
-      <span>{locale === 'es-MX' ? 'CLASIFICACIÓN FACTUAL & TRANSPARENTE' : 'FACTUAL & TRANSPARENT LOG'}</span>
-    </div>
+    <span class="text-xs font-mono-tech text-fg-muted">{t('projects.meta')}</span>
   </header>
 
-  <!-- Section Title & Narrative Intro -->
-  <div class="max-w-3xl mb-16 sm:mb-20 space-y-4">
+  <div class="max-w-3xl mb-12 sm:mb-16 space-y-4">
     <h2
       id="projects-heading"
       class="text-3xl sm:text-4xl md:text-5xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
@@ -42,126 +38,91 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
     </p>
   </div>
 
-  <!-- Editorial Projects Stack -->
-  <div class="space-y-16 sm:space-y-24">
+  <div class="space-y-12 sm:space-y-16">
     {projectsData.map((project, idx) => {
       const content = project.content[locale];
       const isEven = idx % 2 === 1;
 
       return (
         <article
-          class="border-t border-border-subtle pt-10 sm:pt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start group"
+          class="border-t border-border-subtle pt-8 sm:pt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start"
           aria-labelledby={`project-title-${project.id}`}
         >
-          <!-- Left Column: Number, Type & Visual Architecture Schematic -->
-          <div class={`lg:col-span-5 space-y-6 ${isEven ? 'lg:order-2' : ''}`}>
-            <!-- Project Header Identifier -->
-            <div class="flex items-center justify-between border-b border-border-subtle/70 pb-4">
-              <span class="text-4xl sm:text-5xl font-light font-mono-tech text-fg-primary">
+          <div class={`lg:col-span-4 space-y-5 ${isEven ? 'lg:order-2' : ''}`}>
+            <div class="flex items-center justify-between gap-4">
+              <span class="text-4xl sm:text-5xl font-light font-mono-tech text-fg-primary" aria-hidden="true">
                 {project.number}
               </span>
               <span class="text-xs font-mono-tech px-2.5 py-1 border border-border-subtle text-fg-primary bg-canvas-subtle">
                 {content.typeBadge}
               </span>
             </div>
-
-            <!-- Conceptual Architecture Pipeline Diagram -->
-            <div class="p-6 bg-canvas-subtle border border-border-subtle space-y-4">
-              <div class="flex items-center justify-between text-xs font-mono-tech text-fg-muted">
-                <span class="uppercase tracking-wider">{t('projects.flowLabel')}</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-fg-primary" aria-hidden="true"></span>
-              </div>
-
-              <!-- Pipeline Flow Visualization -->
-              <ol class="space-y-2 font-mono-tech text-xs list-none p-0 m-0">
-                {project.diagramFlow.map((step, sIdx) => (
-                  <li class="flex items-center gap-3">
-                    <span class="text-fg-muted text-[10px]">0{sIdx + 1}</span>
-                    <span class="h-px w-3 bg-border-muted" aria-hidden="true"></span>
-                    <span class="text-fg-primary font-medium">{step}</span>
-                  </li>
-                ))}
-              </ol>
+            <p class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">{content.category}</p>
+            <h3
+              id={`project-title-${project.id}`}
+              class="text-2xl sm:text-3xl font-light tracking-tight text-fg-primary"
+            >
+              {content.title}
+            </h3>
+            <div class="flex flex-wrap gap-2 pt-1">
+              {project.technologies.map((tech) => (
+                <span class="inline-block px-2.5 py-1 text-xs font-mono-tech border border-border-subtle bg-canvas text-fg-primary">
+                  {tech}
+                </span>
+              ))}
             </div>
-
-            <!-- Honest Status Indicator -->
-            <div class="flex items-center gap-2 text-xs font-mono-tech text-fg-secondary">
-              <span class="inline-block w-2 h-2 rounded-full bg-status-active" aria-hidden="true"></span>
-              <span class="font-medium text-fg-primary">{content.statusLabel}</span>
-            </div>
+            <p class="text-xs font-mono-tech text-fg-secondary">{content.demonstrates}</p>
           </div>
 
-          <!-- Right Column: Title, Category, Narrative Context & Tech Stack -->
-          <div class={`lg:col-span-7 space-y-6 ${isEven ? 'lg:order-1' : ''}`}>
-            <div class="space-y-2">
-              <p class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">
-                {content.category}
-              </p>
-              <h3
-                id={`project-title-${project.id}`}
-                class="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-fg-primary"
-              >
-                {content.title}
-              </h3>
-              <p class="text-sm sm:text-base font-normal text-fg-primary/80">
-                {content.tagline}
-              </p>
-            </div>
-
-            <!-- Description -->
-            <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
-              {content.description}
-            </p>
-
-            <!-- Technical Context Breakdown -->
-            <div class="border-t border-border-subtle/70 pt-4 space-y-2">
-              <h4 class="text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
-                {t('projects.contextLabel')}
+          <div class={`lg:col-span-8 space-y-6 ${isEven ? 'lg:order-1' : ''}`}>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6">
+              <h4 class="md:col-span-3 text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
+                {t('projects.problemLabel')}
               </h4>
-              <p class="text-sm text-fg-secondary font-normal leading-relaxed">
-                {content.context}
+              <p class="md:col-span-9 text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+                {content.problem}
+              </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 border-t border-border-subtle pt-5">
+              <h4 class="md:col-span-3 text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
+                {t('projects.builtLabel')}
+              </h4>
+              <p class="md:col-span-9 text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+                {content.built}
               </p>
             </div>
 
-            <!-- Technologies Applied -->
-            <div class="space-y-3 pt-2">
-              <h4 class="text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
-                {t('projects.techLabel')}
-              </h4>
-              <ul class="flex flex-wrap gap-2 list-none p-0 m-0">
-                {project.technologies.map((tech) => (
-                  <li>
-                    <span class="inline-block px-2.5 py-1 text-xs font-mono-tech border border-border-subtle bg-canvas text-fg-primary">
-                      {tech}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- External Link if available -->
-            {project.href && (
-              <div class="pt-4">
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
+              {project.href && (
                 <a
                   href={project.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-xs font-mono-tech tracking-wider uppercase text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors"
+                  class="inline-flex items-center gap-2 text-xs font-mono-tech tracking-wider uppercase text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
                 >
-                  <span>{t('projects.visitPlatform')}</span>
+                  <span>{t('projects.repoLink')}</span>
                   <span aria-hidden="true">↗</span>
                 </a>
-              </div>
-            )}
+              )}
+              {project.liveHref && (
+                <a
+                  href={project.liveHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-xs font-mono-tech tracking-wider uppercase text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+                >
+                  <span>{t('projects.liveLink')}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </div>
           </div>
         </article>
       );
     })}
   </div>
 
-  <!-- Transparent Honesty Note -->
-  <footer class="mt-20 pt-8 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono-tech text-fg-muted">
-    <span>{locale === 'es-MX' ? '* Proyectos etiquetados con absoluta transparencia formativa y técnica.' : '* Projects labeled with rigorous educational and technical transparency.'}</span>
-    <span class="text-fg-primary font-medium">PERDOMOPRO // SELECTED WORK</span>
+  <footer class="mt-16 pt-6 border-t border-border-subtle text-xs font-mono-tech text-fg-secondary">
+    <p>{t('projects.note')}</p>
   </footer>
 </section>

@@ -19,9 +19,8 @@ const homeHref = locale === 'en' ? '/en/' : '/';
 
 const navItems = [
   { key: 'nav.home' as const, href: homeHref },
-  { key: 'nav.about' as const, href: locale === 'en' ? '/en/#about' : '/#sobre-mi' },
   { key: 'nav.projects' as const, href: locale === 'en' ? '/en/#projects' : '/#proyectos' },
-  { key: 'nav.consulting' as const, href: locale === 'en' ? '/en/#consulting' : '/#consultoria' },
+  { key: 'nav.about' as const, href: locale === 'en' ? '/en/#about' : '/#sobre-mi' },
   { key: 'nav.contact' as const, href: locale === 'en' ? '/en/#contact' : '/#contacto' },
 ];
 ---
@@ -173,9 +172,8 @@ const navItems = [
       </ul>
     </nav>
 
-    <!-- Mobile Panel Footer Meta & Lang -->
+    <!-- Mobile Panel Language Switcher -->
     <div class="pt-4 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono-tech text-fg-muted">
-      <span>{siteConfig.author.location.formatted}</span>
       <div class="flex items-center gap-2">
         <span class="text-fg-secondary">{t('nav.language')}:</span>
         {locale === 'es-MX' ? (
