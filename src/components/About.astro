@@ -13,11 +13,12 @@ const sectionId = locale === 'en' ? 'about' : 'sobre-mi';
 
 <section
   id={sectionId}
+  data-scroll-module
   class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
   aria-labelledby="about-heading"
 >
   <!-- Section Header Strip -->
-  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary p-4 sm:p-5 mb-12 sm:mb-16 border border-border-subtle bg-canvas-subtle shadow-sm">
     <div class="flex items-center gap-3">
       <span class="text-fg-muted">{t('about.sectionIndex')}</span>
       <span class="text-border-muted" aria-hidden="true">/</span>

@@ -153,6 +153,24 @@ export function initMotion(): void {
       const yOffset = isDesktop ? 14 : 8;
       const duration = isDesktop ? 0.65 : 0.5;
 
+      // Fade the preceding module as the next one enters; scrub reverses on back-scroll.
+      const modules = gsap.utils.toArray<HTMLElement>('[data-scroll-module]');
+      modules.forEach((module, index) => {
+        const nextModule = modules[index + 1];
+        if (!nextModule) return;
+
+        gsap.to(module, {
+          opacity: 0.42,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: nextModule,
+            start: 'top bottom',
+            end: 'top 55%',
+            scrub: 0.35,
+          },
+        });
+      });
+
       // --------------------------------------------------
       // A. HERO ENTRANCE SEQUENCE
       // --------------------------------------------------
