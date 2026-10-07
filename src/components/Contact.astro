@@ -11,6 +11,7 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const sectionId = locale === 'en' ? 'contact' : 'contacto';
 const projectsHref = locale === 'en' ? '/en/#projects' : '#proyectos';
+const consultingHref = locale === 'en' ? '/en/consulting/' : '/consultoria/';
 ---
 
 <section
@@ -62,6 +63,14 @@ const projectsHref = locale === 'en' ? '/en/#projects' : '#proyectos';
         >
           <span>{t('contact.projectsLink')}</span>
           <span aria-hidden="true">↗</span>
+        </a>
+
+        <a
+          href={consultingHref}
+          class="group inline-flex items-center gap-3 border border-fg-primary px-5 py-3.5 text-xs sm:text-sm font-mono-tech tracking-wider uppercase text-fg-primary transition-colors duration-150 hover:bg-fg-primary hover:text-canvas focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+        >
+          <span>{t('contact.consultingLink')}</span>
+          <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">↗</span>
         </a>
 
         <div class="w-full text-xs font-mono-tech text-fg-muted sm:w-auto">

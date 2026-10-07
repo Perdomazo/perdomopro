@@ -18,6 +18,7 @@ export const ui = {
     'nav.about': 'Sobre mí',
     'nav.projects': 'Proyectos',
     'nav.contact': 'Contacto',
+    'nav.consulting': 'Ir a consultoría',
     'nav.language': 'Idioma',
 
     // Language switcher labels
@@ -176,6 +177,7 @@ export const ui = {
     'contact.problemSummary': 'Pedidos, citas, clientes o inventario gestionados manualmente; tareas repetitivas; información repartida entre hojas, mensajes y aplicaciones.',
     'contact.cta': 'Hablemos de tu operación',
     'contact.projectsLink': 'Ver proyectos',
+    'contact.consultingLink': 'Conoce la consultoría',
     'contact.nextStepTitle': '¿Por dónde empezamos?',
     'contact.nextStepSummary': 'Cuéntame qué proceso te quita tiempo. Revisamos el problema y definimos una solución acorde a tu operación.',
     'contact.directEmail': 'Escríbeme directamente a',
@@ -214,6 +216,7 @@ export const ui = {
     'nav.about': 'About',
     'nav.projects': 'Projects',
     'nav.contact': 'Contact',
+    'nav.consulting': 'Consulting',
     'nav.language': 'Language',
 
     // Language switcher labels
@@ -372,6 +375,7 @@ export const ui = {
     'contact.problemSummary': 'Orders, appointments, customers, or inventory managed manually; repetitive tasks; information spread across spreadsheets, messages, and apps.',
     'contact.cta': 'Discuss your operation',
     'contact.projectsLink': 'View projects',
+    'contact.consultingLink': 'Explore consulting',
     'contact.nextStepTitle': 'Where do we start?',
     'contact.nextStepSummary': 'Tell me which process takes up your time. We will review the problem and define a solution that fits your operation.',
     'contact.directEmail': 'Write directly to',
