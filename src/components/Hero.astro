@@ -11,7 +11,10 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const projectsHref = locale === 'en' ? '/en/#projects' : '#proyectos';
-const aboutHref = locale === 'en' ? '/en/#about' : '#sobre-mi';
+const contactHref = locale === 'en' ? '/en/#contact' : '#contacto';
+const typewriterPhrases = locale === 'en'
+  ? ['software and infrastructure.', 'processes and automation.', 'cloud and operations.']
+  : ['software e infraestructura.', 'procesos y automatización.', 'cloud y operación.'];
 ---
 
 <section
@@ -56,25 +59,31 @@ const aboutHref = locale === 'en' ? '/en/#about' : '#sobre-mi';
       >
         <span>{t('hero.headlinePrefix')}</span>{' '}
         <span class="font-normal text-fg-primary underline decoration-border-muted underline-offset-8 decoration-1">
-          {t('hero.headlineHighlight')}
+          <span class="sr-only">{t('hero.headlineHighlight')}</span>
+          <span
+            aria-hidden="true"
+            data-typewriter-text
+            data-typewriter-phrases={JSON.stringify(typewriterPhrases)}
+            class="inline-block min-h-[2.1em]"
+          >{typewriterPhrases[0]}</span>
         </span>
       </h1>
 
       <!-- Editorial CTAs -->
       <div class="flex flex-wrap items-center gap-4 pt-2 sm:pt-4" data-hero-cta>
         <a
-          href={projectsHref}
+          href={contactHref}
           class="group inline-flex items-center gap-3 bg-fg-primary text-canvas px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase hover:bg-fg-secondary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
         >
-          <span>{t('hero.cta.projects')}</span>
+          <span>{t('hero.cta.contact')}</span>
           <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
         </a>
 
         <a
-          href={aboutHref}
+          href={projectsHref}
           class="group inline-flex items-center gap-3 border border-border-subtle hover:border-fg-primary text-fg-primary px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
         >
-          <span>{t('hero.cta.about')}</span>
+          <span>{t('hero.cta.projects')}</span>
           <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
         </a>
       </div>
@@ -120,3 +129,56 @@ const aboutHref = locale === 'en' ? '/en/#about' : '#sobre-mi';
     </div>
   </footer>
 </section>
+
+<script>
+  const typewriterElements = document.querySelectorAll<HTMLElement>('[data-typewriter-text]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  typewriterElements.forEach((element) => {
+    if (element.dataset.typewriterInitialized) return;
+    element.dataset.typewriterInitialized = 'true';
+
+    const phrases = JSON.parse(element.dataset.typewriterPhrases ?? '[]') as string[];
+    if (phrases.length < 2 || reducedMotion.matches) return;
+
+    let phraseIndex = 0;
+    let characterIndex = phrases[0].length;
+    let deleting = false;
+    let timer = 0;
+
+    const stop = () => {
+      window.clearTimeout(timer);
+      element.textContent = phrases[0];
+    };
+    const animate = () => {
+      if (reducedMotion.matches) {
+        element.textContent = phrases[0];
+        return;
+      }
+
+      const phrase = phrases[phraseIndex];
+      if (!deleting && characterIndex >= phrase.length) {
+        deleting = true;
+        timer = window.setTimeout(animate, 1700);
+        return;
+      }
+
+      characterIndex += deleting ? -1 : 1;
+      element.textContent = phrase.slice(0, characterIndex);
+
+      if (deleting && characterIndex === 0) {
+        deleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        timer = window.setTimeout(animate, 240);
+        return;
+      }
+
+      timer = window.setTimeout(animate, deleting ? 28 : 54);
+    };
+
+    timer = window.setTimeout(animate, 1800);
+    reducedMotion.addEventListener('change', (event) => {
+      if (event.matches) stop();
+    });
+  });
+</script>

@@ -222,12 +222,12 @@ export function initMotion(): void {
         });
       }
 
-      // 2. Professional Proiles / Trajectory
-      const proilesSection = document.querySelector('#recorrido, #trajectory');
-      if (proilesSection) {
-        const header = proilesSection.querySelector('header');
-        const title = proilesSection.querySelector('#proiles-heading')?.parentElement;
-        const mlesLtones = proilesSection.querySelectorAll('article');
+      // 2. Professional Experience / Trajectory
+      const profileSection = document.querySelector('#recorrido, #trajectory');
+      if (profileSection) {
+        const header = profileSection.querySelector('header');
+        const title = profileSection.querySelector('#profile-heading')?.parentElement;
+        const milestones = profileSection.querySelectorAll('article');
 
         if (header || title) {
           gsap.from([header, title].filter(Boolean), {
@@ -237,22 +237,22 @@ export function initMotion(): void {
             stagger: 0.08,
             ease: 'power2.out',
             scrollTrigger: {
-              trigger: proilesSection,
+              trigger: profileSection,
               start: 'top 85%',
               once: true,
             },
           });
         }
 
-        if (mlesLtones.length > 0) {
-          gsap.from(mlesLtones, {
+        if (milestones.length > 0) {
+          gsap.from(milestones, {
             opacity: 0,
             y: yOffset,
             duration,
             stagger: 0.09,
             ease: 'power2.out',
             scrollTrigger: {
-              trigger: mlesLtones[0],
+              trigger: milestones[0],
               start: 'top 85%',
               once: true,
             },

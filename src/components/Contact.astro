@@ -10,6 +10,7 @@ export interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const sectionId = locale === 'en' ? 'contact' : 'contacto';
+const projectsHref = locale === 'en' ? '/en/#projects' : '#proyectos';
 ---
 
 <section
@@ -18,7 +19,7 @@ const sectionId = locale === 'en' ? 'contact' : 'contacto';
   aria-labelledby="contact-heading"
 >
   <!-- Section Header Strip -->
-  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-16 border-b border-border-subtle">
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary p-4 sm:p-5 mb-12 sm:mb-16 border border-border-subtle bg-canvas-subtle shadow-sm">
     <div class="flex items-center gap-3">
       <span class="text-fg-muted">{t('contact.sectionIndex')}</span>
       <span class="text-border-muted" aria-hidden="true">/</span>
@@ -45,7 +46,7 @@ const sectionId = locale === 'en' ? 'contact' : 'contacto';
       </div>
 
       <!-- Primary Action & Direct Mail -->
-      <div class="flex flex-wrap items-center gap-6 pt-4">
+      <div class="flex flex-wrap items-center gap-5 pt-4">
         <a
           href={`mailto:${siteConfig.links.email}`}
           class="group inline-flex items-center gap-3 bg-fg-primary text-canvas px-8 py-4 text-xs sm:text-sm font-mono-tech tracking-wider uppercase hover:bg-fg-secondary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
@@ -54,7 +55,15 @@ const sectionId = locale === 'en' ? 'contact' : 'contacto';
           <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
         </a>
 
-        <div class="text-xs font-mono-tech text-fg-muted">
+        <a
+          href={projectsHref}
+          class="inline-flex items-center gap-2 text-xs font-mono-tech tracking-wider uppercase text-fg-primary underline underline-offset-4 hover:text-fg-secondary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+        >
+          <span>{t('contact.projectsLink')}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+
+        <div class="w-full text-xs font-mono-tech text-fg-muted sm:w-auto">
           <span>{t('contact.directEmail')}:</span>
           <a
             href={`mailto:${siteConfig.links.email}`}
@@ -100,12 +109,19 @@ const sectionId = locale === 'en' ? 'contact' : 'contacto';
         </ul>
       </div>
 
-      <div class="border-t border-border-subtle pt-6 space-y-3">
+      <div class="border border-border-subtle bg-canvas-subtle p-5 sm:p-6 shadow-sm space-y-3">
         <h3 class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">
           {t('contact.problemLabel')}
         </h3>
         <p class="text-sm text-fg-secondary leading-relaxed text-pretty">
           {t('contact.problemSummary')}
+        </p>
+      </div>
+
+      <div class="border-l-2 border-fg-primary pl-5 py-1 space-y-2">
+        <h3 class="text-sm font-medium text-fg-primary">{t('contact.nextStepTitle')}</h3>
+        <p class="text-sm text-fg-secondary leading-relaxed text-pretty">
+          {t('contact.nextStepSummary')}
         </p>
       </div>
     </aside>

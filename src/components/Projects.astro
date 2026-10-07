@@ -17,7 +17,7 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
   class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
   aria-labelledby="projects-heading"
 >
-  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
+  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary p-4 sm:p-5 mb-12 sm:mb-16 border border-border-subtle bg-canvas-subtle shadow-sm">
     <div class="flex items-center gap-3">
       <span class="text-fg-muted">{t('projects.sectionIndex')}</span>
       <span class="text-border-muted" aria-hidden="true">/</span>
@@ -38,17 +38,16 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
     </p>
   </div>
 
-  <div class="space-y-12 sm:space-y-16">
-    {projectsData.map((project, idx) => {
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+    {projectsData.map((project) => {
       const content = project.content[locale];
-      const isEven = idx % 2 === 1;
-
       return (
         <article
-          class="border-t border-border-subtle pt-8 sm:pt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start"
+          data-project-card
+          class="group flex h-full flex-col gap-6 border border-border-subtle bg-canvas-elevated p-6 sm:p-8 shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-border-muted hover:shadow-md focus-within:border-fg-primary"
           aria-labelledby={`project-title-${project.id}`}
         >
-          <div class={`lg:col-span-4 space-y-5 ${isEven ? 'lg:order-2' : ''}`}>
+          <div class="space-y-5">
             <div class="flex items-center justify-between gap-4">
               <span class="text-4xl sm:text-5xl font-light font-mono-tech text-fg-primary" aria-hidden="true">
                 {project.number}
@@ -71,28 +70,28 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
                 </span>
               ))}
             </div>
-            <p class="text-xs font-mono-tech text-fg-secondary">{content.demonstrates}</p>
+            <p class="border-l-2 border-border-muted pl-3 text-xs font-mono-tech leading-relaxed text-fg-secondary">{content.demonstrates}</p>
           </div>
 
-          <div class={`lg:col-span-8 space-y-6 ${isEven ? 'lg:order-1' : ''}`}>
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6">
-              <h4 class="md:col-span-3 text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
+          <div class="flex flex-1 flex-col gap-5 border-t border-border-subtle pt-5">
+            <div class="space-y-2">
+              <h4 class="text-[11px] font-mono-tech text-fg-muted uppercase tracking-wider">
                 {t('projects.problemLabel')}
               </h4>
-              <p class="md:col-span-9 text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+              <p class="text-sm text-fg-secondary leading-relaxed text-pretty">
                 {content.problem}
               </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 border-t border-border-subtle pt-5">
-              <h4 class="md:col-span-3 text-xs font-mono-tech text-fg-muted uppercase tracking-wider">
+            <div class="space-y-2">
+              <h4 class="text-[11px] font-mono-tech text-fg-muted uppercase tracking-wider">
                 {t('projects.builtLabel')}
               </h4>
-              <p class="md:col-span-9 text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+              <p class="text-sm text-fg-secondary leading-relaxed text-pretty">
                 {content.built}
               </p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
+            <div class="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
               {project.href && (
                 <a
                   href={project.href}

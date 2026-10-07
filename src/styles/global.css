@@ -78,6 +78,21 @@ section[id] {
   outline-offset: 2px;
 }
 
+@keyframes typewriter-caret {
+  50% { opacity: 0; }
+}
+
+[data-typewriter-text]::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 0.85em;
+  margin-left: 0.1em;
+  background: currentColor;
+  vertical-align: -0.04em;
+  animation: typewriter-caret 1s steps(1, end) infinite;
+}
+
 /* Monospace Utility Foundation */
 .font-mono-tech {
   font-family: var(--font-mono);
@@ -98,6 +113,10 @@ section[id] {
   [data-process-progress] {
     transform: scaleX(1) !important;
     opacity: 0.35 !important;
+  }
+
+  [data-typewriter-text]::after {
+    animation: none;
   }
 }
 
