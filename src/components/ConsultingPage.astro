@@ -180,8 +180,20 @@ const copy = en ? {
   subject: 'Consulta de servicios tecnológicos',
 };
 
-const projectIds = ['perdomopro', 'gadgetstock', 'score-record'];
+const projectIds = ['perdomopro', 'score-record'];
 const examples = projectIds.map((id) => projectsData.find((project) => project.id === id)!).filter(Boolean);
+const projectVisuals = {
+  perdomopro: {
+    src: '/images/projects/perdomopro-home.jpg',
+    alt: en ? 'Screenshot of the PerdomoPro personal website' : 'Captura del sitio personal PerdomoPro',
+  },
+  'score-record': {
+    overview: '/images/projects/scorerecord-overview.jpg',
+    overviewAlt: en ? 'ScoreRecord project overview screen' : 'Pantalla de presentación del proyecto ScoreRecord',
+    dashboard: '/images/projects/scorerecord-dashboard.jpg',
+    dashboardAlt: en ? 'ScoreRecord football forecast dashboard' : 'Panel de pronósticos deportivos de ScoreRecord',
+  },
+} as const;
 ---
 
 <div class="consulting-page" data-consulting-page>
@@ -247,17 +259,37 @@ const examples = projectIds.map((id) => projectsData.find((project) => project.i
 
   <section id="proyectos" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-2 sm:pt-3 pb-16 sm:pb-24" data-scroll-module>
     <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>04 // {en ? 'PROJECTS' : 'PROYECTOS'}</span><span>{copy.examplesLabel}</span></header>
-    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16">
-      <div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.examplesTitle}</h2><p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.examplesLead}</p></div>
-      <div class="lg:col-span-7 grid gap-4">
-        {examples.map((project, i) => { const content = project.content[locale]; return <article class="group border border-border-subtle bg-canvas p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-fg-muted hover:shadow-md" data-reveal-item>
-          <div class="flex flex-wrap justify-between gap-3 text-[10px] font-mono-tech tracking-widest text-fg-muted"><span>0{i + 1} // {content.title}</span><span>{project.liveHref ? (en ? 'OWN SITE · AZURE' : 'SITIO PROPIO · AZURE') : copy.exampleType}</span></div>
-          <h3 class="mt-6 text-2xl text-fg-primary">{content.title}</h3><p class="mt-3 text-sm leading-relaxed text-fg-secondary">{content.problem}</p>
-          <div class="mt-5 border-l-2 border-border-subtle pl-4"><p class="text-xs font-mono-tech text-fg-muted">{en ? 'WHAT I BUILT' : 'QUÉ CONSTRUÍ'}</p><p class="mt-2 text-sm leading-relaxed text-fg-secondary">{content.built}</p></div>
-          <div class="mt-5 flex flex-wrap gap-2">{project.technologies.slice(0, 5).map((tech) => <span class="border border-border-subtle px-2 py-1 text-[10px] font-mono-tech text-fg-muted">{tech}</span>)}</div>
-          {(project.href || project.liveHref) && <div class="mt-6 flex flex-wrap gap-5">{project.href && <a href={project.href} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary">GitHub ↗</a>}{project.liveHref && <a href={project.liveHref} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary">{copy.exampleLink} ↗</a>}</div>}
-        </article>})}
-      </div>
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 pt-10 sm:pt-14 items-end" data-reveal-item>
+      <h2 class="lg:col-span-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.examplesTitle}</h2>
+      <p class="lg:col-span-5 lg:col-start-8 max-w-2xl leading-relaxed text-fg-secondary">{copy.examplesLead}</p>
+    </div>
+    <div class="mt-8 sm:mt-10 grid md:grid-cols-2 gap-5 sm:gap-6">
+      {examples.map((project, i) => {
+        const content = project.content[locale];
+        const visual = projectVisuals[project.id as keyof typeof projectVisuals];
+        return <article class="group flex h-full flex-col border border-border-subtle bg-canvas shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-fg-muted hover:shadow-md" data-reveal-item>
+          <div class="relative overflow-hidden border-b border-border-subtle bg-canvas-subtle">
+            {project.id === 'score-record' && 'overview' in visual ? (
+              <div class="relative aspect-[16/9]">
+                <img src={visual.overview} alt={visual.overviewAlt} loading="lazy" decoding="async" class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]" />
+                <figure class="absolute bottom-3 right-3 w-[42%] overflow-hidden border-2 border-canvas bg-canvas shadow-lg sm:bottom-5 sm:right-5">
+                  <img src={visual.dashboard} alt={visual.dashboardAlt} loading="lazy" decoding="async" class="aspect-[2/1] h-full w-full object-cover object-top" />
+                </figure>
+              </div>
+            ) : 'src' in visual ? (
+              <img src={visual.src} alt={visual.alt} loading="lazy" decoding="async" class="aspect-[16/9] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" />
+            ) : null}
+          </div>
+          <div class="flex flex-1 flex-col p-5 sm:p-7">
+            <div class="flex flex-wrap justify-between gap-3 text-[10px] font-mono-tech tracking-widest text-fg-muted"><span>0{i + 1} // {content.title}</span><span>{project.liveHref ? (en ? 'OWN SITE · AZURE' : 'SITIO PROPIO · AZURE') : copy.exampleType}</span></div>
+            <h3 class="mt-5 text-2xl text-fg-primary">{content.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-fg-secondary">{content.problem}</p>
+            <div class="mt-5 border-l-2 border-border-subtle pl-4"><p class="text-xs font-mono-tech text-fg-muted">{en ? 'WHAT I BUILT' : 'QUÉ CONSTRUÍ'}</p><p class="mt-2 text-sm leading-relaxed text-fg-secondary">{content.built}</p></div>
+            <div class="mt-5 flex flex-wrap gap-2">{project.technologies.slice(0, 5).map((tech) => <span class="border border-border-subtle px-2 py-1 text-[10px] font-mono-tech text-fg-muted">{tech}</span>)}</div>
+            {(project.href || project.liveHref) && <div class="mt-auto pt-6 flex flex-wrap gap-5">{project.href && <a href={project.href} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary">GitHub ↗</a>}{project.liveHref && <a href={project.liveHref} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary">{copy.exampleLink} ↗</a>}</div>}
+          </div>
+        </article>;
+      })}
     </div>
   </section>
 
