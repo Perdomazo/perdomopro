@@ -1,0 +1,338 @@
+---
+import { siteConfig } from '../config/site';
+import { projectsData } from '../data/projects';
+import type { Locale } from '../i18n/config';
+
+export interface Props { locale: Locale }
+const { locale } = Astro.props;
+const en = locale === 'en';
+const mail = siteConfig.links.email;
+
+const copy = en ? {
+  eyebrow: 'PERDOMOPRO · TECHNOLOGY FOR SMALL BUSINESSES',
+  heroTitle: 'I turn everyday business processes into digital solutions.',
+  heroIntro: 'I help small and medium-sized businesses identify operational friction and address it with practical software, automation, and cloud services.',
+  heroMeta: 'Adrián Perdomo · Independent technology consultant',
+  start: 'Tell me what is getting in the way',
+  explore: 'Explore solutions',
+  cue: 'FROM THE REAL OPERATION TO A WORKING SOLUTION',
+  flow: ['Business need', 'Useful solution', 'Supported operation'],
+  sectionLabel: 'COMMON OPERATIONAL FRICTION',
+  problemsTitle: 'When everyday work depends on too many manual steps.',
+  problemsLead: 'These are starting points for a conversation, not assumptions about your business. We first understand how the work is done today.',
+  problems: [
+    ['Orders and requests', 'Orders captured in messages or on paper, then entered again elsewhere.'],
+    ['Appointments and follow-up', 'Bookings managed by phone or a physical calendar, with no shared view.'],
+    ['Information in many places', 'Customer, product, or operation details split between spreadsheets, chats, and apps.'],
+    ['Repeated manual work', 'The same information copied more than once, with avoidable delays and errors.'],
+    ['Limited digital presence', 'A business depends on social media alone to explain or present its offer.'],
+    ['Low operational visibility', 'It is hard to see the state of orders, inventory, or recurring activity at a glance.'],
+  ],
+  solutionsLabel: 'WHAT I CAN HELP BUILD',
+  solutionsTitle: 'A right-sized solution for the way your business works.',
+  solutionsLead: 'The scope follows the problem. Sometimes a clear website or workflow is enough; other cases call for a custom system or cloud deployment.',
+  solutions: [
+    ['Websites and digital catalogs', 'Present services and products clearly, with a direct path for customers to get in touch.'],
+    ['Internal tools and systems', 'Register orders, appointments, customers, inventory, or operating activity in one place.'],
+    ['Automation and integrations', 'Reduce repeated capture and connect tools that already form part of the operation.'],
+    ['Cloud setup and deployment', 'Choose and configure hosting and cloud services according to actual use and constraints.'],
+    ['Support and ongoing improvement', 'Keep a delivered solution working and plan changes as the business needs evolve.'],
+  ],
+  processLabel: 'A CLEAR, COLLABORATIVE PROCESS',
+  processTitle: 'From understanding the problem to supporting the solution.',
+  processLead: 'Each stage is agreed according to scope. A small project may combine stages; a larger one may need more discovery and review.',
+  process: [
+    ['Detect', 'Listen to the friction and identify who is affected.'],
+    ['Evaluate', 'Review the current workflow, constraints, and desired outcome.'],
+    ['Prototype', 'Sketch or build a small demonstrator to make the proposal tangible.'],
+    ['Review together', 'Check that the approach fits the people who will use it.'],
+    ['Agree scope', 'Set deliverables, timing, cost, and responsibilities before implementation.'],
+    ['Implement', 'Build and refine the solution against the agreed requirements.'],
+    ['Deploy', 'Prepare the solution for use in its intended environment.'],
+    ['Operate and support', 'Provide support or maintenance under an agreed arrangement.'],
+    ['Evolve', 'Plan further changes when use and new needs justify them.'],
+  ],
+  examplesLabel: 'SELECTED WORK',
+  examplesTitle: 'Real projects that show how I approach technology.',
+  examplesLead: 'These are my own projects and site work, not client case studies. They show relevant ways of thinking and building; a conversation is needed to determine what fits your business.',
+  exampleType: 'PERSONAL PROJECT',
+  exampleLink: 'View project',
+  cloudLabel: 'TECHNOLOGY FOLLOWS THE NEED',
+  cloudTitle: 'Software, infrastructure, and deployment belong in the same conversation.',
+  cloudBody: 'I consider how a solution will be hosted, operated, and maintained alongside what it needs to do. I have practical experience with Azure and exposure to AWS; the platform and architecture should be selected for the project, its constraints, and its expected use.',
+  cloudPoints: ['Start from the operating requirement', 'Prefer a scope that can be maintained', 'Make infrastructure and service costs visible'],
+  fitLabel: 'A GOOD PLACE TO START',
+  fitTitle: 'Is this a fit for your business?',
+  fitLead: 'A first conversation helps establish whether the problem is clear enough to scope and whether a custom solution makes sense.',
+  fitPoints: ['A recurring task takes time or causes avoidable errors.', 'Information is split across tools and is difficult to review.', 'You are ready to describe who will use the solution and what should improve.', 'You want a practical first version, with room to evolve it.'],
+  investmentLabel: 'SCOPE AND INVESTMENT',
+  investmentTitle: 'A clear scope before a price.',
+  investmentLead: 'The cost depends on the problem, integrations, deployment, and support required. After an initial conversation, I can define a scope and estimate for review before work begins.',
+  investmentBlocks: [
+    ['Implementation', 'Scoped separately according to requirements and agreed deliverables.'],
+    ['Operation and support', 'Hosting, maintenance, and follow-up are discussed as separate recurring needs.'],
+  ],
+  supportNote: 'For reference only: basic support may start around MXN $250 per month. Very simple implementations may have an initial reference range of MXN $500–$1,000. These are not fixed prices or quotes; the actual scope and costs are confirmed first.',
+  faqLabel: 'FREQUENT QUESTIONS',
+  faqTitle: 'A few useful details before we talk.',
+  faq: [
+    ['Do you work with businesses of any size?', 'The focus is on small and medium-sized businesses that need help with a concrete process or digital solution. Fit depends on the scope and the available time.'],
+    ['Do I need to know what technology I want?', 'No. It is more useful to explain the current process, the people involved, and what is difficult. Technology choices follow that conversation.'],
+    ['Can you support the solution after delivery?', 'Support and ongoing changes can be discussed as part of the proposal. Their scope, response expectations, and cost should be agreed separately.'],
+    ['How do you estimate a project?', 'First we discuss the process and desired outcome. I then outline a proposed scope, deliverables, assumptions, and estimate for your review.'],
+    ['Are the projects on this page client examples?', 'No. They are personal projects and my own website work. They provide context for how I build, not claims about past client results.'],
+  ],
+  contactLabel: 'LET’S TALK ABOUT YOUR OPERATION',
+  contactTitle: 'What would you like to make easier?',
+  contactBody: 'Share a little about the process or problem. Your email app will open a draft addressed to me; nothing is sent until you choose to send it.',
+  name: 'Your name', business: 'Business (optional)', email: 'Email', phone: 'Phone (optional)',
+  problem: 'What process or problem would you like to improve?',
+  method: 'How would you prefer I contact you?', emailMethod: 'Email', phoneMethod: 'Phone',
+  submit: 'Prepare email', direct: 'Or write directly to',
+  privacy: 'The form creates a draft in your email app. It does not submit data to this website.',
+  footerNote: 'Practical technology, built around real business needs.',
+  formError: 'Please add your name, a valid email, and a short description of the problem.',
+  subject: 'Technology consultation inquiry',
+} : {
+  eyebrow: 'PERDOMOPRO · TECNOLOGÍA PARA PEQUEÑOS NEGOCIOS',
+  heroTitle: 'Convierto procesos cotidianos de tu negocio en soluciones digitales.',
+  heroIntro: 'Ayudo a PyMEs a identificar fricciones operativas y atenderlas con software práctico, automatización y servicios cloud.',
+  heroMeta: 'Adrián Perdomo · Consultor tecnológico independiente',
+  start: 'Cuéntame qué proceso quieres mejorar',
+  explore: 'Explorar soluciones',
+  cue: 'DE LA OPERACIÓN REAL A UNA SOLUCIÓN FUNCIONAL',
+  flow: ['Necesidad del negocio', 'Solución útil', 'Operación acompañada'],
+  sectionLabel: 'FRICCIONES COTIDIANAS',
+  problemsTitle: 'Cuando el trabajo diario depende de demasiados pasos manuales.',
+  problemsLead: 'Son posibles puntos de partida para una conversación, no suposiciones sobre tu negocio. Primero entendemos cómo se trabaja hoy.',
+  problems: [
+    ['Pedidos y solicitudes', 'Pedidos registrados en mensajes o papel y capturados de nuevo en otro lugar.'],
+    ['Citas y seguimiento', 'Reservaciones gestionadas por teléfono o agenda física, sin una vista compartida.'],
+    ['Información dispersa', 'Datos de clientes, productos u operación repartidos entre hojas de cálculo, chats y aplicaciones.'],
+    ['Trabajo manual repetido', 'La misma información se captura más de una vez, con demoras y errores evitables.'],
+    ['Presencia digital limitada', 'El negocio depende solo de redes sociales para explicar o presentar lo que ofrece.'],
+    ['Poca visibilidad operativa', 'Cuesta ver de un vistazo el estado de pedidos, inventario o actividades recurrentes.'],
+  ],
+  solutionsLabel: 'QUÉ PUEDO AYUDAR A CONSTRUIR',
+  solutionsTitle: 'Una solución a la medida de cómo funciona tu negocio.',
+  solutionsLead: 'El alcance depende del problema. A veces basta un sitio claro o un flujo de trabajo; otras veces conviene un sistema propio o un despliegue cloud.',
+  solutions: [
+    ['Sitios web y catálogos digitales', 'Presentar servicios y productos con claridad y facilitar que tus clientes te contacten.'],
+    ['Herramientas y sistemas internos', 'Registrar pedidos, citas, clientes, inventario u operaciones en un mismo lugar.'],
+    ['Automatización e integraciones', 'Reducir la captura repetida y conectar herramientas que ya forman parte de la operación.'],
+    ['Configuración y despliegue cloud', 'Elegir y configurar alojamiento y servicios cloud según el uso y las restricciones reales.'],
+    ['Soporte y mejora continua', 'Mantener una solución en funcionamiento y planear cambios conforme evoluciona el negocio.'],
+  ],
+  processLabel: 'UN PROCESO CLARO Y COLABORATIVO',
+  processTitle: 'De entender el problema a acompañar la solución.',
+  processLead: 'Acordamos cada etapa según el alcance. Un proyecto pequeño puede combinar etapas; uno más amplio puede necesitar más análisis y revisión.',
+  process: [
+    ['Detectar', 'Escuchar la fricción e identificar a quién afecta.'],
+    ['Evaluar', 'Revisar el flujo actual, las restricciones y el resultado deseado.'],
+    ['Prototipar', 'Esbozar o construir un demostrador pequeño para hacer tangible la propuesta.'],
+    ['Revisar juntos', 'Validar que el enfoque tenga sentido para quienes usarán la solución.'],
+    ['Acordar el alcance', 'Definir entregables, tiempos, costo y responsabilidades antes de implementar.'],
+    ['Implementar', 'Construir y ajustar la solución con base en los requisitos acordados.'],
+    ['Desplegar', 'Preparar la solución para usarla en el entorno previsto.'],
+    ['Operar y dar soporte', 'Acordar soporte o mantenimiento bajo condiciones definidas.'],
+    ['Evolucionar', 'Planear cambios cuando el uso y las nuevas necesidades lo justifiquen.'],
+  ],
+  examplesLabel: 'TRABAJO SELECCIONADO',
+  examplesTitle: 'Proyectos reales que muestran cómo abordo la tecnología.',
+  examplesLead: 'Son proyectos personales y trabajo sobre mi propio sitio, no casos de clientes. Muestran formas de construir y resolver; una conversación permite valorar qué encaja con tu negocio.',
+  exampleType: 'PROYECTO PERSONAL',
+  exampleLink: 'Ver proyecto',
+  cloudLabel: 'LA TECNOLOGÍA SIGUE A LA NECESIDAD',
+  cloudTitle: 'Software, infraestructura y despliegue se piensan en conjunto.',
+  cloudBody: 'Considero cómo se alojará, operará y mantendrá una solución además de lo que debe resolver. Tengo experiencia práctica con Azure y exposición a AWS; la plataforma y arquitectura se eligen según el proyecto, sus límites y su uso previsto.',
+  cloudPoints: ['Partir del requisito operativo', 'Elegir un alcance que pueda mantenerse', 'Hacer visibles los costos de infraestructura y servicio'],
+  fitLabel: 'UN BUEN PUNTO DE PARTIDA',
+  fitTitle: '¿Esto encaja con tu negocio?',
+  fitLead: 'Una primera conversación ayuda a definir si el problema permite delimitar un alcance y si una solución a medida tiene sentido.',
+  fitPoints: ['Una tarea recurrente consume tiempo o causa errores evitables.', 'La información está repartida entre herramientas y cuesta consultarla.', 'Puedes describir quién usaría la solución y qué debería mejorar.', 'Buscas una primera versión práctica que pueda evolucionar.'],
+  investmentLabel: 'ALCANCE E INVERSIÓN',
+  investmentTitle: 'Primero un alcance claro; después, un precio.',
+  investmentLead: 'El costo depende del problema, las integraciones, el despliegue y el soporte necesario. Después de conversar, puedo definir un alcance y una estimación para revisar antes de iniciar.',
+  investmentBlocks: [
+    ['Implementación', 'Se cotiza según los requisitos y entregables acordados.'],
+    ['Operación y soporte', 'Alojamiento, mantenimiento y acompañamiento se revisan como necesidades recurrentes separadas.'],
+  ],
+  supportNote: 'Solo como referencia: el soporte básico puede iniciar alrededor de $250 MXN al mes. Implementaciones muy sencillas pueden tener un rango inicial de referencia de $500–$1,000 MXN. No son precios fijos ni cotizaciones; primero se confirma el alcance y los costos reales.',
+  faqLabel: 'PREGUNTAS FRECUENTES',
+  faqTitle: 'Algunos detalles útiles antes de conversar.',
+  faq: [
+    ['¿Trabajas con negocios de cualquier tamaño?', 'El enfoque son pequeñas y medianas empresas que necesitan resolver un proceso concreto o desarrollar una solución digital. La compatibilidad depende del alcance y del tiempo disponible.'],
+    ['¿Necesito saber qué tecnología quiero?', 'No. Es más útil explicar el proceso actual, quién participa y qué resulta difícil. Las decisiones tecnológicas vienen después de entender eso.'],
+    ['¿Puedes dar soporte después de entregar?', 'Podemos incluir soporte y cambios posteriores en la propuesta. El alcance, expectativas de respuesta y costo se acuerdan por separado.'],
+    ['¿Cómo estimas un proyecto?', 'Primero conversamos sobre el proceso y el resultado esperado. Después presento un alcance propuesto, entregables, supuestos y estimación para revisar.'],
+    ['¿Los proyectos de esta página son trabajos para clientes?', 'No. Son proyectos personales y trabajo en mi propio sitio. Dan contexto sobre cómo construyo, no presentan resultados de clientes.'],
+  ],
+  contactLabel: 'HABLEMOS DE TU OPERACIÓN',
+  contactTitle: '¿Qué te gustaría hacer más sencillo?',
+  contactBody: 'Cuéntame un poco sobre el proceso o problema. Se abrirá un borrador en tu aplicación de correo; no se envía nada hasta que tú lo decidas.',
+  name: 'Tu nombre', business: 'Negocio (opcional)', email: 'Correo electrónico', phone: 'Teléfono (opcional)',
+  problem: '¿Qué proceso o problema te gustaría mejorar?',
+  method: '¿Cómo prefieres que te contacte?', emailMethod: 'Correo', phoneMethod: 'Teléfono',
+  submit: 'Preparar correo', direct: 'O escríbeme directamente a',
+  privacy: 'El formulario prepara un borrador en tu correo. No envía datos a este sitio web.',
+  footerNote: 'Tecnología práctica, construida alrededor de necesidades reales.',
+  formError: 'Agrega tu nombre, un correo válido y una breve descripción del problema.',
+  subject: 'Consulta de servicios tecnológicos',
+};
+
+const projectIds = ['perdomopro', 'gadgetstock', 'score-record'];
+const examples = projectIds.map((id) => projectsData.find((project) => project.id === id)!).filter(Boolean);
+---
+
+<div class="consulting-page" data-consulting-page>
+  <section id="inicio-consultoria" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-12 sm:pt-16 pb-20 sm:pb-28" data-scroll-module>
+    <div class="border-y border-border-subtle py-4 flex flex-wrap justify-between gap-3 text-[10px] sm:text-xs font-mono-tech tracking-[0.12em] text-fg-muted">
+      <span>{copy.eyebrow}</span><span>{copy.heroMeta}</span>
+    </div>
+    <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 pt-16 sm:pt-24 lg:pt-32 items-end">
+      <div class="lg:col-span-8" data-reveal-item>
+        <p class="mb-7 text-xs sm:text-sm font-mono-tech uppercase tracking-[0.13em] text-fg-secondary"><span class="mr-3 text-status-active" aria-hidden="true">■</span>{en ? 'SOFTWARE / AUTOMATION / CLOUD' : 'SOFTWARE / AUTOMATIZACIÓN / CLOUD'}</p>
+        <h1 class="max-w-5xl font-sans text-4xl sm:text-6xl lg:text-7xl xl:text-[5.6rem] leading-[0.98] tracking-[-0.055em] text-fg-primary">{copy.heroTitle}</h1>
+      </div>
+      <div class="lg:col-span-4 lg:pb-2" data-reveal-item>
+        <p class="text-lg sm:text-xl leading-relaxed text-fg-secondary">{copy.heroIntro}</p>
+        <div class="mt-8 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3">
+          <a href="#contacto" class="inline-flex justify-center items-center gap-3 bg-fg-primary px-5 py-3.5 text-sm text-canvas transition-colors hover:bg-fg-secondary">{copy.start}<span aria-hidden="true">↗</span></a>
+          <a href="#soluciones" class="inline-flex justify-center items-center gap-3 border border-border-subtle px-5 py-3.5 text-sm text-fg-primary transition-colors hover:border-fg-primary">{copy.explore}<span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-20 sm:mt-28 border border-border-subtle bg-canvas-subtle p-6 sm:p-10 shadow-sm" data-reveal-item>
+      <p class="mb-7 text-[10px] font-mono-tech tracking-[0.14em] text-fg-muted">{copy.cue}</p>
+      <div class="grid sm:grid-cols-3 gap-3 sm:gap-0 items-stretch">
+        {copy.flow.map((step, index) => <div class="flex items-center gap-3 sm:px-5 first:pl-0 last:pr-0" data-flow-step>
+          <span class="text-xs font-mono-tech text-fg-muted">0{index + 1}</span><span class="text-sm sm:text-base text-fg-primary">{step}</span>
+          {index < copy.flow.length - 1 && <span class="hidden sm:block ml-auto text-fg-muted" aria-hidden="true">→</span>}
+        </div>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="problemas" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>01 // {en ? 'PROBLEMS' : 'PROBLEMAS'}</span><span>{copy.sectionLabel}</span></header>
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16">
+      <div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.problemsTitle}</h2><p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.problemsLead}</p></div>
+      <div class="lg:col-span-7 grid sm:grid-cols-2 border-t border-l border-border-subtle">
+        {copy.problems.map(([title, desc], i) => <article class="min-h-40 border-r border-b border-border-subtle bg-canvas p-5 sm:p-6 transition-colors hover:bg-canvas-subtle" data-reveal-item>
+          <p class="text-[10px] font-mono-tech tracking-widest text-fg-muted">0{i + 1} / {en ? 'FRICTION' : 'FRICCIÓN'}</p><h3 class="mt-5 text-lg text-fg-primary">{title}</h3><p class="mt-2 text-sm leading-relaxed text-fg-secondary">{desc}</p>
+        </article>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="soluciones" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>02 // {en ? 'SOLUTIONS' : 'SOLUCIONES'}</span><span>{copy.solutionsLabel}</span></header>
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16">
+      <div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.solutionsTitle}</h2><p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.solutionsLead}</p></div>
+      <div class="lg:col-span-7 divide-y divide-border-subtle border-y border-border-subtle">
+        {copy.solutions.map(([title, desc], i) => <article class="grid sm:grid-cols-[3rem_1fr] gap-3 sm:gap-5 py-6 sm:py-7" data-reveal-item><span class="font-mono-tech text-xs text-fg-muted">0{i + 1}</span><div><h3 class="text-lg text-fg-primary">{title}</h3><p class="mt-2 max-w-2xl text-sm leading-relaxed text-fg-secondary">{desc}</p></div></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="proceso" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>03 // {en ? 'PROCESS' : 'PROCESO'}</span><span>{copy.processLabel}</span></header>
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16">
+      <div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.processTitle}</h2><p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.processLead}</p></div>
+      <ol class="lg:col-span-7 list-none m-0 p-0 border-t border-border-subtle">
+        {copy.process.map(([title, desc], i) => <li class="grid grid-cols-[3rem_1fr] gap-4 py-5 border-b border-border-subtle" data-reveal-item><span class="font-mono-tech text-xs text-fg-muted">{String(i + 1).padStart(2, '0')}</span><div class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-6"><h3 class="text-base text-fg-primary">{title}</h3><p class="max-w-md text-sm leading-relaxed text-fg-secondary">{desc}</p></div></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section id="proyectos" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>04 // {en ? 'PROJECTS' : 'PROYECTOS'}</span><span>{copy.examplesLabel}</span></header>
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16">
+      <div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.examplesTitle}</h2><p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.examplesLead}</p></div>
+      <div class="lg:col-span-7 grid gap-4">
+        {examples.map((project, i) => { const content = project.content[locale]; return <article class="group border border-border-subtle bg-canvas p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-fg-muted hover:shadow-md" data-reveal-item>
+          <div class="flex flex-wrap justify-between gap-3 text-[10px] font-mono-tech tracking-widest text-fg-muted"><span>0{i + 1} // {content.title}</span><span>{project.liveHref ? (en ? 'OWN SITE · AZURE' : 'SITIO PROPIO · AZURE') : copy.exampleType}</span></div>
+          <h3 class="mt-6 text-2xl text-fg-primary">{content.title}</h3><p class="mt-3 text-sm leading-relaxed text-fg-secondary">{content.problem}</p>
+          <div class="mt-5 border-l-2 border-border-subtle pl-4"><p class="text-xs font-mono-tech text-fg-muted">{en ? 'WHAT I BUILT' : 'QUÉ CONSTRUÍ'}</p><p class="mt-2 text-sm leading-relaxed text-fg-secondary">{content.built}</p></div>
+          <div class="mt-5 flex flex-wrap gap-2">{project.technologies.slice(0, 5).map((tech) => <span class="border border-border-subtle px-2 py-1 text-[10px] font-mono-tech text-fg-muted">{tech}</span>)}</div>
+          {(project.href || project.liveHref) && <div class="mt-6 flex flex-wrap gap-5">{project.href && <a href={project.href} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary">GitHub ↗</a>}{project.liveHref && <a href={project.liveHref} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary">{copy.exampleLink} ↗</a>}</div>}
+        </article>})}
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <div class="border border-border-subtle bg-canvas-subtle p-6 sm:p-10 lg:p-14 shadow-sm" data-reveal-item>
+      <div class="grid lg:grid-cols-12 gap-10 items-start"><div class="lg:col-span-5"><p class="text-xs font-mono-tech tracking-widest text-fg-muted">05 // {copy.cloudLabel}</p><h2 class="mt-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.cloudTitle}</h2></div><div class="lg:col-span-7"><p class="text-base sm:text-lg leading-relaxed text-fg-secondary">{copy.cloudBody}</p><ul class="mt-8 list-none p-0 m-0 divide-y divide-border-subtle border-y border-border-subtle">{copy.cloudPoints.map((point, i) => <li class="flex gap-4 py-4 text-sm text-fg-primary"><span class="font-mono-tech text-xs text-fg-muted">0{i + 1}</span>{point}</li>)}</ul></div></div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>06 // {en ? 'FIT' : 'COMPATIBILIDAD'}</span><span>{copy.fitLabel}</span></header>
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16"><div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.fitTitle}</h2><p class="mt-6 leading-relaxed text-fg-secondary">{copy.fitLead}</p></div><ul class="lg:col-span-7 list-none m-0 p-0 border-t border-border-subtle">{copy.fitPoints.map((point, i) => <li class="flex gap-4 py-5 border-b border-border-subtle text-sm sm:text-base leading-relaxed text-fg-secondary" data-reveal-item><span class="font-mono-tech text-xs text-fg-muted">0{i + 1}</span>{point}</li>)}</ul></div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>07 // {en ? 'INVESTMENT' : 'INVERSIÓN'}</span><span>{copy.investmentLabel}</span></header>
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16"><div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.investmentTitle}</h2><p class="mt-6 leading-relaxed text-fg-secondary">{copy.investmentLead}</p></div><div class="lg:col-span-7"><div class="grid sm:grid-cols-2 border border-border-subtle">{copy.investmentBlocks.map(([title, desc], i) => <article class="p-6 sm:p-7 border-b sm:border-b-0 sm:even:border-l border-border-subtle bg-canvas-subtle" data-reveal-item><p class="font-mono-tech text-xs text-fg-muted">0{i + 1}</p><h3 class="mt-5 text-lg text-fg-primary">{title}</h3><p class="mt-3 text-sm leading-relaxed text-fg-secondary">{desc}</p></article>)}</div><p class="mt-5 text-xs leading-relaxed text-fg-muted">{copy.supportNote}</p></div></div>
+  </section>
+
+  <section id="faq" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>08 // FAQ</span><span>{copy.faqLabel}</span></header>
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16"><div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.faqTitle}</h2></div><div class="lg:col-span-7 divide-y divide-border-subtle border-y border-border-subtle">{copy.faq.map(([question, answer]) => <details class="group py-5" data-reveal-item><summary class="cursor-pointer list-none flex justify-between gap-5 text-base text-fg-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg-primary"><span>{question}</span><span class="font-mono-tech text-fg-muted transition-transform group-open:rotate-45" aria-hidden="true">+</span></summary><p class="max-w-2xl pt-4 pr-8 text-sm leading-relaxed text-fg-secondary">{answer}</p></details>)}</div></div>
+  </section>
+
+  <section id="contacto" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+    <div class="border border-border-subtle bg-canvas-subtle p-6 sm:p-10 lg:p-14 shadow-sm"><div class="grid lg:grid-cols-12 gap-10 lg:gap-16"><div class="lg:col-span-5" data-reveal-item><p class="text-xs font-mono-tech tracking-widest text-fg-muted">09 // {copy.contactLabel}</p><h2 class="mt-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.contactTitle}</h2><p class="mt-6 leading-relaxed text-fg-secondary">{copy.contactBody}</p><p class="mt-8 text-xs font-mono-tech text-fg-muted">{copy.direct}</p><a class="mt-2 inline-block text-base text-fg-primary underline underline-offset-4" href={`mailto:${mail}`}>{mail}</a></div>
+      <form id="consulting-contact-form" class="lg:col-span-7 grid sm:grid-cols-2 gap-x-5 gap-y-5" data-contact-email={mail} data-email-subject={copy.subject} data-form-error={copy.formError} data-reveal-item>
+        <label class="block text-xs text-fg-secondary">{copy.name}<span class="text-status-active" aria-hidden="true"> *</span><input name="name" autocomplete="name" required class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
+        <label class="block text-xs text-fg-secondary">{copy.business}<input name="business" autocomplete="organization" class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
+        <label class="block text-xs text-fg-secondary">{copy.email}<span class="text-status-active" aria-hidden="true"> *</span><input type="email" name="email" autocomplete="email" required class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
+        <label class="block text-xs text-fg-secondary">{copy.phone}<input type="tel" name="phone" autocomplete="tel" class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
+        <label class="sm:col-span-2 block text-xs text-fg-secondary">{copy.problem}<span class="text-status-active" aria-hidden="true"> *</span><textarea name="problem" required rows="4" class="mt-2 block w-full resize-y border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary"></textarea></label>
+        <fieldset class="sm:col-span-2"><legend class="text-xs text-fg-secondary">{copy.method}</legend><div class="mt-3 flex flex-wrap gap-x-6 gap-y-3 text-sm text-fg-primary"><label class="inline-flex items-center gap-2"><input type="radio" name="preferred" value={copy.emailMethod} checked class="accent-fg-primary" />{copy.emailMethod}</label><label class="inline-flex items-center gap-2"><input type="radio" name="preferred" value={copy.phoneMethod} class="accent-fg-primary" />{copy.phoneMethod}</label></div></fieldset>
+        <div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center gap-4"><button type="submit" class="inline-flex justify-center items-center gap-3 bg-fg-primary px-5 py-3.5 text-sm text-canvas transition-colors hover:bg-fg-secondary">{copy.submit}<span aria-hidden="true">↗</span></button><p class="text-xs text-fg-muted">{copy.privacy}</p></div>
+        <p id="consulting-form-status" class="sm:col-span-2 min-h-5 text-xs text-fg-secondary" aria-live="polite"></p>
+      </form>
+    </div></div>
+  </section>
+
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pb-16 text-center"><p class="text-xs font-mono-tech tracking-wide text-fg-muted">{copy.footerNote}</p></div>
+</div>
+
+<script>
+  function setupConsultingForm() {
+    const form = document.querySelector<HTMLFormElement>('#consulting-contact-form');
+    const status = document.querySelector<HTMLElement>('#consulting-form-status');
+    if (!form || !status || form.dataset.ready === 'true') return;
+    form.dataset.ready = 'true';
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const values = new FormData(form);
+      const name = String(values.get('name') ?? '').trim();
+      const email = String(values.get('email') ?? '').trim();
+      const problem = String(values.get('problem') ?? '').trim();
+      if (!name || !email || !problem) {
+        status.textContent = form.dataset.formError ?? '';
+        return;
+      }
+      const lines = [
+        `Name: ${name}`,
+        `Business: ${String(values.get('business') ?? '').trim() || '—'}`,
+        `Email: ${email}`,
+        `Phone: ${String(values.get('phone') ?? '').trim() || '—'}`,
+        `Preferred contact: ${String(values.get('preferred') ?? '').trim() || '—'}`,
+        '',
+        'Process or problem:',
+        problem,
+      ];
+      const subject = encodeURIComponent(form.dataset.emailSubject ?? 'Consultation inquiry');
+      const body = encodeURIComponent(lines.join('\n'));
+      const recipient = form.dataset.contactEmail ?? '';
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    });
+  }
+  document.addEventListener('astro:page-load', setupConsultingForm);
+  setupConsultingForm();
+</script>

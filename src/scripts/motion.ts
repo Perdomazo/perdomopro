@@ -153,6 +153,26 @@ export function initMotion(): void {
       const yOffset = isDesktop ? 14 : 8;
       const duration = isDesktop ? 0.65 : 0.5;
 
+      // Consulting page content enters in small, readable groups. Each item
+      // keeps its final state in markup so the page remains usable without JS.
+      const consultingPage = document.querySelector('[data-consulting-page]');
+      if (consultingPage) {
+        const revealItems = consultingPage.querySelectorAll<HTMLElement>('[data-reveal-item]');
+        revealItems.forEach((item) => {
+          gsap.from(item, {
+            opacity: 0,
+            y: yOffset,
+            duration,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 90%',
+              once: true,
+            },
+          });
+        });
+      }
+
       // Fade the preceding module as the next one enters; scrub reverses on back-scroll.
       const modules = gsap.utils.toArray<HTMLElement>('[data-scroll-module]');
       modules.forEach((module, index) => {

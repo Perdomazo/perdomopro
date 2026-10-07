@@ -5,9 +5,10 @@ import { getAlternateLocale, getLocalizedPath, useTranslations } from '../i18n/u
 
 export interface Props {
   locale: Locale;
+  page?: 'home' | 'consulting';
 }
 
-const { locale } = Astro.props;
+const { locale, page = 'home' } = Astro.props;
 const t = useTranslations(locale);
 const targetLocale = getAlternateLocale(locale);
 
@@ -17,13 +18,32 @@ const switchUrl = getLocalizedPath(currentPath, targetLocale);
 
 const homeHref = locale === 'en' ? '/en/' : '/';
 
-const navItems = [
-  { key: 'nav.home' as const, href: homeHref },
-  { key: 'nav.experience' as const, href: locale === 'en' ? '/en/#trajectory' : '/#recorrido' },
-  { key: 'nav.contact' as const, href: locale === 'en' ? '/en/#contact' : '/#contacto' },
-  { key: 'nav.projects' as const, href: locale === 'en' ? '/en/#projects' : '/#proyectos' },
-  { key: 'nav.about' as const, href: locale === 'en' ? '/en/#about' : '/#sobre-mi' },
-];
+const navItems = page === 'consulting'
+  ? (locale === 'en'
+    ? [
+        { label: 'Home', href: homeHref },
+        { label: 'Problems', href: '#problemas' },
+        { label: 'Solutions', href: '#soluciones' },
+        { label: 'Process', href: '#proceso' },
+        { label: 'Projects', href: '#proyectos' },
+        { label: 'FAQ', href: '#faq' },
+      ]
+    : [
+        { label: 'Inicio', href: homeHref },
+        { label: 'Problemas', href: '#problemas' },
+        { label: 'Soluciones', href: '#soluciones' },
+        { label: 'Proceso', href: '#proceso' },
+        { label: 'Proyectos', href: '#proyectos' },
+        { label: 'Preguntas', href: '#faq' },
+      ])
+  : [
+      { key: 'nav.home' as const, href: homeHref },
+      { key: 'nav.experience' as const, href: locale === 'en' ? '/en/#trajectory' : '/#recorrido' },
+      { key: 'nav.contact' as const, href: locale === 'en' ? '/en/#contact' : '/#contacto' },
+      { key: 'nav.projects' as const, href: locale === 'en' ? '/en/#projects' : '/#proyectos' },
+      { key: 'nav.about' as const, href: locale === 'en' ? '/en/#about' : '/#sobre-mi' },
+    ];
+const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.label : t(item.key);
 ---
 
 <header
@@ -56,7 +76,7 @@ const navItems = [
               href={item.href}
               class="text-fg-secondary hover:text-fg-primary transition-colors duration-150 py-1 border-b border-transparent hover:border-fg-primary"
             >
-              {t(item.key)}
+              {navLabel(item)}
             </a>
           </li>
         ))}
@@ -101,6 +121,12 @@ const navItems = [
         )}
       </div>
     </nav>
+
+    {page === 'consulting' && (
+      <a href="#contacto" class="hidden md:inline-flex items-center gap-2 border border-fg-primary px-4 py-2 text-xs font-mono-tech text-fg-primary transition-colors hover:bg-fg-primary hover:text-canvas">
+        {locale === 'en' ? 'Discuss a project' : 'Platiquemos'} <span aria-hidden="true">↗</span>
+      </a>
+    )}
 
     <!-- Mobile Menu Button & Quick Switcher -->
     <div class="flex items-center gap-4 md:hidden">
@@ -165,13 +191,19 @@ const navItems = [
               href={item.href}
               class="mobile-nav-link flex items-center justify-between text-fg-primary hover:text-fg-secondary py-2 border-b border-border-subtle/50 transition-colors"
             >
-              <span class="font-normal">{t(item.key)}</span>
+              <span class="font-normal">{navLabel(item)}</span>
               <span class="text-xs font-mono-tech text-fg-muted">0{index + 1}</span>
             </a>
           </li>
         ))}
       </ul>
     </nav>
+
+    {page === 'consulting' && (
+      <a href="#contacto" class="inline-flex items-center gap-2 border border-fg-primary px-4 py-2 text-xs font-mono-tech text-fg-primary transition-colors hover:bg-fg-primary hover:text-canvas">
+        {locale === 'en' ? 'Discuss a project' : 'Platiquemos'} <span aria-hidden="true">↗</span>
+      </a>
+    )}
 
     <!-- Mobile Panel Language Switcher -->
     <div class="pt-4 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono-tech text-fg-muted">
@@ -192,6 +224,7 @@ const navItems = [
         )}
       </div>
     </div>
+
   </div>
 </header>
 
