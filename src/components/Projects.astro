@@ -45,19 +45,36 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
       return (
         <article
           data-project-card
-          class="group flex h-full flex-col gap-6 border border-border-subtle bg-canvas-elevated p-6 sm:p-8 shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-border-muted hover:shadow-md focus-within:border-fg-primary"
+          class="group flex h-full flex-col border border-border-subtle bg-canvas-elevated shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-border-muted hover:shadow-md focus-within:border-fg-primary overflow-hidden"
           aria-labelledby={`project-title-${project.id}`}
         >
-          <div class="space-y-5">
-            <div class="flex items-center justify-between gap-4">
-              <span class="text-4xl sm:text-5xl font-light font-mono-tech text-fg-primary" aria-hidden="true">
-                {project.number}
-              </span>
-              <span class="text-xs font-mono-tech px-2.5 py-1 border border-border-subtle text-fg-primary bg-canvas-subtle">
-                {content.typeBadge}
-              </span>
+          {/* Terminal Mockup Area */}
+          <div class="h-40 bg-[#0F0F14] border-b border-border-strong p-5 font-mono-tech text-[11px] sm:text-xs text-fg-subtle overflow-hidden relative" aria-hidden="true">
+            <div class="absolute top-3 left-4 flex gap-1.5">
+              <div class="w-2.5 h-2.5 rounded-full bg-fg-secondary"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-fg-secondary"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-fg-secondary"></div>
             </div>
-            <p class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">{content.category}</p>
+            <div class="mt-6 opacity-90 tracking-wider">
+              <span class="text-accent-primary">~/perdomopro/{project.id}</span> $ cat info.json<br/>
+              <span class="text-fg-muted">{"{"}</span><br/>
+              &nbsp;&nbsp;<span class="text-fg-subtle">"status"</span>: <span class="text-status-active">"{project.classification}"</span>,<br/>
+              &nbsp;&nbsp;<span class="text-fg-subtle">"stack"</span>: <span class="text-fg-muted">[{project.technologies.slice(0, 3).map(t => `"${t}"`).join(', ')}]</span><br/>
+              <span class="text-fg-muted">{"}"}</span>
+            </div>
+          </div>
+
+          <div class="p-6 sm:p-8 flex flex-col flex-1 gap-6">
+            <div class="space-y-5">
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-4xl sm:text-5xl font-light font-mono-tech text-fg-primary" aria-hidden="true">
+                  {project.number}
+                </span>
+                <span class="text-xs font-mono-tech px-2.5 py-1 border border-border-subtle text-fg-primary bg-canvas-subtle">
+                  {content.typeBadge}
+                </span>
+              </div>
+              <p class="text-xs font-mono-tech uppercase tracking-wider text-fg-muted">{content.category}</p>
             <h3
               id={`project-title-${project.id}`}
               class="text-2xl sm:text-3xl font-light tracking-tight text-fg-primary"
@@ -115,7 +132,7 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
                   <span aria-hidden="true">↗</span>
                 </a>
               )}
-            </div>
+          </div>
           </div>
         </article>
       );
