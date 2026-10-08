@@ -16,5 +16,8 @@
   "mimeTypes": {
     ".svg": "image/svg+xml",
     ".json": "application/json"
+  }, 
+  "platform": {
+    "apiRuntime": "node:20"
   }
 }

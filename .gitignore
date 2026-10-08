@@ -38,3 +38,7 @@ coverage/
 # Miscellaneous temporary files
 *.tmp
 *.temp
+
+#local tests
+api/local.settings.json
+api/node_modules/
