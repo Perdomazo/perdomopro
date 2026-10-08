@@ -45,10 +45,15 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
       return (
         <article
           data-project-card
-          class="group flex h-full flex-col border border-border-subtle bg-canvas-elevated shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-border-muted hover:shadow-md focus-within:border-fg-primary overflow-hidden"
+          class="group relative flex h-full flex-col border border-border-subtle bg-canvas-elevated shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-accent-primary/30 hover:shadow-xl hover:shadow-accent-primary/5 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent-primary overflow-hidden"
           aria-labelledby={`project-title-${project.id}`}
         >
-          {/* Terminal Mockup Area */}
+          <div class="absolute inset-x-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true"></div>
+          {project.preview ? (
+            <div class="aspect-[16/8] overflow-hidden border-b border-border-subtle bg-canvas-subtle">
+              <img src={project.preview.src} alt={project.preview.alt[locale]} loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" />
+            </div>
+          ) : (
           <div class="h-40 bg-[#0F0F14] border-b border-border-strong p-5 font-mono-tech text-[11px] sm:text-xs text-fg-subtle overflow-hidden relative" aria-hidden="true">
             <div class="absolute top-3 left-4 flex gap-1.5">
               <div class="w-2.5 h-2.5 rounded-full bg-fg-secondary"></div>
@@ -63,6 +68,7 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
               <span class="text-fg-muted">{"}"}</span>
             </div>
           </div>
+          )}
 
           <div class="p-6 sm:p-8 flex flex-col flex-1 gap-6">
             <div class="space-y-5">
@@ -118,6 +124,7 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
                   class="inline-flex items-center gap-2 text-xs font-mono-tech tracking-wider uppercase text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
                 >
                   <span>{t('projects.repoLink')}</span>
+                  <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
                   <span aria-hidden="true">↗</span>
                 </a>
               )}
@@ -129,6 +136,7 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
                   class="inline-flex items-center gap-2 text-xs font-mono-tech tracking-wider uppercase text-fg-primary hover:text-fg-secondary underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
                 >
                   <span>{t('projects.liveLink')}</span>
+                  <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
                   <span aria-hidden="true">↗</span>
                 </a>
               )}

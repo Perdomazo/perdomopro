@@ -115,7 +115,7 @@ export const ui = {
     'projects.builtLabel': 'QUÉ CONSTRUÍ',
     'projects.repoLink': 'Ver repositorio',
     'projects.liveLink': 'Ver sitio',
-    'projects.note': 'Los proyectos de aprendizaje están identificados como tales; Adrian Quant Lab permanece incompleto.',
+    'projects.note': 'Los prototipos de aprendizaje, incluido Adrian Quant Lab, se presentan como exploraciones y no como productos terminados.',
 
     // Process Section (Phase 4)
     'process.sectionIndex': '06 // FORMA DE TRABAJAR',
@@ -313,7 +313,7 @@ export const ui = {
     'projects.builtLabel': 'WHAT I BUILT',
     'projects.repoLink': 'View repository',
     'projects.liveLink': 'View website',
-    'projects.note': 'Learning projects are labeled as such; Adrian Quant Lab is unfinished.',
+    'projects.note': 'Learning prototypes, including Adrian Quant Lab, are presented as explorations rather than finished products.',
 
     // Process Section (Phase 4)
     'process.sectionIndex': '06 // WORKING PROCESS',

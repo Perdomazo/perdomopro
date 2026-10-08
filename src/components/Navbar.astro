@@ -22,7 +22,7 @@ const consultingHref = locale === 'en' ? '/en/consulting/' : '/consultoria/';
 const navItems = page === 'consulting'
   ? (locale === 'en'
     ? [
-        { label: 'Home', href: homeHref },
+        { label: 'Technical profile', href: homeHref },
         { label: 'Problems', href: '#problemas' },
         { label: 'Solutions', href: '#soluciones' },
         { label: 'Process', href: '#proceso' },
@@ -30,7 +30,7 @@ const navItems = page === 'consulting'
         { label: 'FAQ', href: '#faq' },
       ]
     : [
-        { label: 'Inicio', href: homeHref },
+        { label: 'Perfil técnico', href: homeHref },
         { label: 'Problemas', href: '#problemas' },
         { label: 'Soluciones', href: '#soluciones' },
         { label: 'Proceso', href: '#proceso' },
@@ -128,8 +128,8 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
       class:list={[
         'hidden lg:inline-flex items-center gap-2 px-4 py-2 text-xs font-mono-tech transition-all duration-200',
         page === 'consulting'
-          ? 'border border-fg-primary text-fg-primary hover:bg-fg-primary hover:text-canvas'
-          : 'bg-fg-primary text-canvas shadow-sm hover:bg-fg-secondary hover:shadow-md',
+          ? 'border border-accent-primary text-accent-primary hover:bg-accent-subtle'
+          : 'bg-accent-primary font-sans font-medium text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98]',
       ]}
     >
       {page === 'consulting'
@@ -214,8 +214,8 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
       class:list={[
         'inline-flex items-center gap-2 px-4 py-2 text-sm transition-colors',
         page === 'consulting'
-          ? 'border border-fg-primary text-fg-primary'
-          : 'bg-fg-primary text-canvas',
+        ? 'border border-accent-primary text-accent-primary'
+          : 'bg-accent-primary font-sans font-medium text-white',
       ]}
     >
       {page === 'consulting'

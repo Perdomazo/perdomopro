@@ -11,6 +11,8 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const currentYear = new Date().getFullYear();
 const homeHref = locale === 'en' ? '/en/' : '/';
+const consultingHref = locale === 'en' ? '/en/consulting/' : '/consultoria/';
+const isConsultingPage = Astro.url.pathname.replace(/\/$/, '') === (locale === 'en' ? '/en/consulting' : '/consultoria');
 ---
 
 <footer
@@ -41,6 +43,21 @@ const homeHref = locale === 'en' ? '/en/' : '/';
 
       <!-- Quick Channels -->
       <nav class="flex flex-wrap items-center gap-6 text-xs font-mono-tech" aria-label={t('footer.linksLabel')}>
+        {isConsultingPage ? (
+          <a
+            href={homeHref}
+            class="text-fg-primary hover:text-accent-primary underline underline-offset-4 transition-colors"
+          >
+            {locale === 'en' ? 'Technical profile' : 'Perfil técnico'} ↗
+          </a>
+        ) : (
+          <a
+            href={consultingHref}
+            class="text-fg-primary hover:text-accent-primary underline underline-offset-4 transition-colors"
+          >
+            {locale === 'en' ? 'Technology consulting' : 'Consultoría tecnológica'} ↗
+          </a>
+        )}
         <a
           href={siteConfig.links.github}
           target="_blank"

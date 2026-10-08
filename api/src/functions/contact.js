@@ -1,66 +1,105 @@
 const { app } = require("@azure/functions");
 const { Resend } = require("resend");
 
+const MAX_BODY_BYTES = 16 * 1024;
+const MAX_LENGTHS = {
+  nombre: 120,
+  correo: 254,
+  negocio: 160,
+  telefono: 40,
+  preferencia: 30,
+  descripcion: 5000,
+  servicio: 120,
+  idioma: 10,
+  sitioWeb: 200,
+};
+
+const response = (status, message) => ({ status, jsonBody: { ok: status >= 200 && status < 300, message } });
+const text = (value, maxLength) => (typeof value === "string" ? value.trim().slice(0, maxLength) : "");
+const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+}[character]));
+const emailPattern = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
+
+async function handleContact(request, context, { getEnv = (key) => process.env[key], sendEmail } = {}) {
+  if (request.method !== "POST") return response(405, "Method not allowed.");
+  const contentType = request.headers.get("content-type") || "";
+  if (!contentType.toLowerCase().includes("application/json")) return response(415, "Unsupported content type.");
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (contentLength > MAX_BODY_BYTES) return response(413, "Request is too large.");
+
+  let rawBody;
+  try {
+    rawBody = await request.text();
+  } catch {
+    return response(400, "Invalid request.");
+  }
+  if (Buffer.byteLength(rawBody, "utf8") > MAX_BODY_BYTES) return response(413, "Request is too large.");
+
+  let input;
+  try {
+    input = JSON.parse(rawBody);
+  } catch {
+    return response(400, "Invalid request.");
+  }
+  if (!input || typeof input !== "object" || Array.isArray(input)) return response(400, "Invalid request.");
+
+  // Quietly accept automated submissions without sending email.
+  if (typeof input.sitioWeb === "string" && input.sitioWeb.trim()) return response(200, "Message received.");
+
+  const fields = Object.fromEntries(Object.entries(MAX_LENGTHS).map(([key, max]) => [key, text(input[key], max)]));
+  if (!fields.nombre || !fields.correo || !fields.descripcion) return response(400, "Please complete the required fields.");
+  if (!emailPattern.test(fields.correo) || /[\r\n]/.test(fields.correo)) return response(400, "Please provide a valid email address.");
+  if ([fields.nombre, fields.negocio, fields.telefono, fields.preferencia, fields.servicio].some((value) => /[\r\n\u0000-\u001f]/.test(value))) {
+    return response(400, "Please review the submitted fields.");
+  }
+
+  const apiKey = getEnv("RESEND_API_KEY");
+  const from = getEnv("CONTACT_FROM_EMAIL");
+  const to = getEnv("CONTACT_TO_EMAIL");
+  if (!apiKey || !from || !to || !emailPattern.test(from) || !emailPattern.test(to)) {
+    context.error("Contact mail is unavailable because required settings are missing or invalid.");
+    return response(503, "The contact form is temporarily unavailable. Please email directly.");
+  }
+
+  const send = sendEmail || (async (message) => new Resend(apiKey).emails.send(message));
+  const rows = [
+    ["Name", fields.nombre],
+    ["Business", fields.negocio || "Not provided"],
+    ["Email", fields.correo],
+    ["Phone", fields.telefono || "Not provided"],
+    ["Preferred contact", fields.preferencia || "Not specified"],
+    ["Service", fields.servicio || "Not specified"],
+    ["Language", fields.idioma || "Not specified"],
+  ];
+  const htmlRows = rows.map(([label, value]) => `<p><strong>${label}:</strong> ${escapeHtml(value)}</p>`).join("");
+  const textRows = rows.map(([label, value]) => `${label}: ${value}`).join("\n");
+  const message = {
+    from,
+    to,
+    replyTo: fields.correo,
+    subject: "New PerdomoPro technology consultation inquiry",
+    html: `${htmlRows}<p><strong>Description:</strong></p><div style="white-space:pre-wrap">${escapeHtml(fields.descripcion)}</div>`,
+    text: `${textRows}\n\nDescription:\n${fields.descripcion}`,
+  };
+
+  try {
+    const result = await send(message);
+    if (result?.error) {
+      context.error("Resend rejected a contact message.");
+      return response(502, "The message could not be sent. Please try again or email directly.");
+    }
+    return response(200, "Message received.");
+  } catch {
+    context.error("Sending a contact message failed.");
+    return response(502, "The message could not be sent. Please try again or email directly.");
+  }
+}
+
 app.http("contact", {
   methods: ["POST"],
   authLevel: "anonymous",
-  handler: async (request, context) => {
-    try {
-      const body = await request.json();
-      const { nombre, negocio, correo, servicio, descripcion } = body;
-
-      if (!nombre || !correo || !descripcion) {
-        return {
-          status: 400,
-          jsonBody: { ok: false, message: "Faltan campos obligatorios." }
-        };
-      }
-
-      const resend = new Resend(process.env.RESEND_API_KEY);
-
-      const htmlContent = `
-        <h2>Nueva solicitud de contacto: ${negocio || 'Independiente'}</h2>
-        <p><strong>Nombre:</strong> ${nombre}</p>
-        <p><strong>Correo:</strong> ${correo}</p>
-        <p><strong>Servicio:</strong> ${servicio || 'No especificado'}</p>
-        <p><strong>Descripción:</strong></p>
-        <p>${descripcion}</p>
-      `;
-
-      const data = await resend.emails.send({
-        from: process.env.CONTACT_FROM_EMAIL || 'contacto@perdomopro.com',
-        to: process.env.CONTACT_TO_EMAIL || 'adrian.perdomo1507@gmail.com',
-        subject: `Nueva solicitud de consultoría de ${nombre}`,
-        html: htmlContent
-      });
-
-      if (data.error) {
-        context.error("Resend API Error:", data.error);
-        return {
-          status: 500,
-          jsonBody: { ok: false, message: "Error al enviar el correo." }
-        };
-      }
-
-      context.log("Correo enviado exitosamente:", data);
-
-      return {
-        status: 200,
-        jsonBody: {
-          ok: true,
-          message: "Mensaje enviado correctamente."
-        }
-      };
-    } catch (error) {
-      context.error("Error en /api/contact:", error);
-
-      return {
-        status: 400,
-        jsonBody: {
-          ok: false,
-          message: "Solicitud inválida o error en el servidor."
-        }
-      };
-    }
-  }
+  handler: (request, context) => handleContact(request, context),
 });
+
+module.exports = { handleContact, escapeHtml };

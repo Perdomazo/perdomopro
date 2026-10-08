@@ -18,6 +18,7 @@ export interface ProjectData {
   technologies: readonly string[];
   href?: string;
   liveHref?: string;
+  preview?: { src: string; alt: Record<Locale, string> };
   content: Record<Locale, LocalizedProjectInfo>;
 }
 
@@ -28,6 +29,10 @@ export const projectsData: readonly ProjectData[] = [
     classification: 'personal',
     technologies: ['Python', 'SQLite', 'Elo', 'Dixon–Coles'],
     href: 'https://github.com/Perdomazo/ScoreRecord',
+    preview: {
+      src: '/images/projects/scorerecord-overview.jpg',
+      alt: { 'es-MX': 'Vista general de la aplicación ScoreRecord', en: 'Overview of the ScoreRecord application' },
+    },
     content: {
       'es-MX': {
         title: 'ScoreRecord',
@@ -108,16 +113,16 @@ export const projectsData: readonly ProjectData[] = [
         category: 'PYTHON / INVESTIGACIÓN / MERCADOS',
         typeBadge: 'Laboratorio de aprendizaje',
         problem: 'Explorar un sistema de trading algorítmico exige entender cómo se organizan los datos, las pruebas y la operación.',
-        built: 'Inicié un laboratorio de aprendizaje basado en Freqtrade. El alcance creció más de lo que podía completar y el proyecto quedó incompleto.',
-        demonstrates: 'Una exploración técnica en curso, no un producto terminado ni una estrategia con resultados validados.',
+        built: 'Inicié un prototipo experimental con Freqtrade para explorar la estructura de un sistema de trading algorítmico y su operación con Docker.',
+        demonstrates: 'Una exploración de aprendizaje sin terminar; no es un producto ni una estrategia con resultados validados.',
       },
       en: {
         title: 'Adrian Quant Lab',
         category: 'PYTHON / RESEARCH / MARKETS',
         typeBadge: 'Learning lab',
         problem: 'Exploring algorithmic trading systems means understanding how data, tests, and operations fit together.',
-        built: 'I started a learning lab based on Freqtrade. Its scope grew beyond what I could complete, so the project remains unfinished.',
-        demonstrates: 'An ongoing technical exploration, not a finished product or a strategy with validated results.',
+        built: 'I started an experimental Freqtrade prototype to explore the structure and operation of an algorithmic trading system with Docker.',
+        demonstrates: 'An unfinished learning exploration, not a product or a strategy with validated results.',
       },
     },
   },
@@ -128,6 +133,10 @@ export const projectsData: readonly ProjectData[] = [
     technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GitHub Actions', 'Azure Static Web Apps'],
     href: 'https://github.com/Perdomazo/perdomopro',
     liveHref: 'https://perdomopro.com/',
+    preview: {
+      src: '/images/projects/perdomopro-home.jpg',
+      alt: { 'es-MX': 'Página de inicio de PerdomoPro', en: 'PerdomoPro homepage' },
+    },
     content: {
       'es-MX': {
         title: 'PerdomoPro',

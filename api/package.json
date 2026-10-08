@@ -4,7 +4,8 @@
   "description": "API de contacto de PerdomoPro",
   "main": "src/functions/*.js",
   "scripts": {
-    "start": "func start"
+    "start": "func start",
+    "test": "node --test"
   },
   "dependencies": {
     "@azure/functions": "^4.16.5",

@@ -39,7 +39,7 @@ export const siteConfig: SiteConfig = {
   url: 'https://perdomopro.com',
   defaultLocale: DEFAULT_LOCALE,
   supportedLocales: SUPPORTED_LOCALES,
-  themeColor: '#FCFCFD',
+  themeColor: '#FFFFFF',
   author: {
     name: 'Adrián Perdomo',
     brand: 'PerdomoPro',

@@ -12,7 +12,7 @@ const t = useTranslations(locale);
 
 const projectsHref = locale === 'en' ? '/en/#projects' : '#proyectos';
 const contactHref = locale === 'en' ? '/en/#contact' : '#contacto';
-const typewriterPhrases = locale === 'en'
+const rotatingPhrases = locale === 'en'
   ? ['software and infrastructure.', 'processes and automation.', 'cloud and operations.']
   : ['software e infraestructura.', 'procesos y automatización.', 'cloud y operación.'];
 ---
@@ -59,14 +59,14 @@ const typewriterPhrases = locale === 'en'
         data-hero-headline
       >
         <span>{t('hero.headlinePrefix')}</span>{' '}
-        <span class="font-normal text-fg-primary underline decoration-border-muted underline-offset-8 decoration-1">
+        <span class="font-medium text-fg-primary underline decoration-border-muted underline-offset-8 decoration-1">
           <span class="sr-only">{t('hero.headlineHighlight')}</span>
           <span
             aria-hidden="true"
-            data-typewriter-text
-            data-typewriter-phrases={JSON.stringify(typewriterPhrases)}
-            class="inline-block min-h-[2.1em]"
-          >{typewriterPhrases[0]}</span>
+            data-word-morph
+            data-word-morph-phrases={JSON.stringify(rotatingPhrases)}
+            class="inline-block min-h-[2.1em] transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none"
+          >{rotatingPhrases[0]}</span>
         </span>
       </h1>
 
@@ -74,7 +74,7 @@ const typewriterPhrases = locale === 'en'
       <div class="flex flex-wrap items-center gap-4 pt-2 sm:pt-4" data-hero-cta>
         <a
           href={contactHref}
-          class="group inline-flex items-center gap-3 bg-fg-primary text-canvas px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase hover:bg-fg-secondary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+          class="group inline-flex items-center gap-3 bg-accent-primary text-white px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
         >
           <span>{t('hero.cta.contact')}</span>
           <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
@@ -82,7 +82,7 @@ const typewriterPhrases = locale === 'en'
 
         <a
           href={projectsHref}
-          class="group inline-flex items-center gap-3 border border-border-subtle hover:border-fg-primary text-fg-primary px-6 py-3.5 text-xs font-mono-tech tracking-wider uppercase transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+          class="group inline-flex items-center gap-3 border border-border-subtle hover:border-accent-primary text-fg-primary px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
         >
           <span>{t('hero.cta.projects')}</span>
           <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
@@ -132,54 +132,39 @@ const typewriterPhrases = locale === 'en'
 </section>
 
 <script>
-  const typewriterElements = document.querySelectorAll<HTMLElement>('[data-typewriter-text]');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function setupWordMorph() {
+    const element = document.querySelector<HTMLElement>('[data-word-morph]');
+    if (!element || element.dataset.wordMorphInitialized === 'true') return;
+    element.dataset.wordMorphInitialized = 'true';
 
-  typewriterElements.forEach((element) => {
-    if (element.dataset.typewriterInitialized) return;
-    element.dataset.typewriterInitialized = 'true';
-
-    const phrases = JSON.parse(element.dataset.typewriterPhrases ?? '[]') as string[];
+    const phrases = JSON.parse(element.dataset.wordMorphPhrases ?? '[]') as string[];
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (phrases.length < 2 || reducedMotion.matches) return;
 
-    let phraseIndex = 0;
-    let characterIndex = phrases[0].length;
-    let deleting = false;
+    let index = 0;
     let timer = 0;
-
-    const stop = () => {
-      window.clearTimeout(timer);
-      element.textContent = phrases[0];
-    };
-    const animate = () => {
-      if (reducedMotion.matches) {
-        element.textContent = phrases[0];
-        return;
-      }
-
-      const phrase = phrases[phraseIndex];
-      if (!deleting && characterIndex >= phrase.length) {
-        deleting = true;
-        timer = window.setTimeout(animate, 1700);
-        return;
-      }
-
-      characterIndex += deleting ? -1 : 1;
-      element.textContent = phrase.slice(0, characterIndex);
-
-      if (deleting && characterIndex === 0) {
-        deleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        timer = window.setTimeout(animate, 240);
-        return;
-      }
-
-      timer = window.setTimeout(animate, deleting ? 28 : 54);
+    const rotate = () => {
+      if (reducedMotion.matches) return;
+      element.classList.add('translate-y-2', 'opacity-0');
+      timer = window.setTimeout(() => {
+        index = (index + 1) % phrases.length;
+        element.textContent = phrases[index];
+        element.classList.remove('translate-y-2');
+        requestAnimationFrame(() => element.classList.remove('opacity-0'));
+        timer = window.setTimeout(rotate, 3400);
+      }, 280);
     };
 
-    timer = window.setTimeout(animate, 1800);
+    timer = window.setTimeout(rotate, 3400);
     reducedMotion.addEventListener('change', (event) => {
-      if (event.matches) stop();
-    });
-  });
+      if (event.matches) {
+        window.clearTimeout(timer);
+        element.classList.remove('translate-y-2', 'opacity-0');
+        element.textContent = phrases[0];
+      }
+    }, { once: true });
+  }
+
+  document.addEventListener('astro:page-load', setupWordMorph);
+  setupWordMorph();
 </script>

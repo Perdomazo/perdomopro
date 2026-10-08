@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  /* Slate-Violet & Tech Purple palette */
-  --color-canvas: #FCFCFD;
-  --color-canvas-subtle: #F5F5F7;
+  /* White-first surfaces with a restrained slate-violet accent */
+  --color-canvas: #FFFFFF;
+  --color-canvas-subtle: #FAF9FC;
   --color-canvas-elevated: #FFFFFF;
 
-  --color-fg-primary: #0F0F14;
-  --color-fg-secondary: #4A4A5A;
-  --color-fg-muted: #6B6B7B;
-  --color-fg-subtle: #A3A3B5;
+  --color-fg-primary: #191722;
+  --color-fg-secondary: #514E5C;
+  --color-fg-muted: #696675;
+  --color-fg-subtle: #A7A3B0;
 
-  --color-border-subtle: #E6E6FA;
-  --color-border-muted: #D1D1E0;
-  --color-border-strong: #1F1F2E;
+  --color-border-subtle: #EAE7F0;
+  --color-border-muted: #D7D2E0;
+  --color-border-strong: #191722;
 
-  --color-accent-primary: #7C3AED;
-  --color-accent-subtle: #F3F0FF;
+  --color-accent-primary: #5B3E83;
+  --color-accent-interactive: #73579B;
+  --color-accent-subtle: #F5F1FA;
 
   /* Subtle technical indicators */
   --color-status-active: #059669;
@@ -32,17 +33,18 @@
 }
 
 :root {
-  --canvas: #FCFCFD;
-  --canvas-subtle: #F5F5F7;
+  --canvas: #FFFFFF;
+  --canvas-subtle: #FAF9FC;
   --canvas-elevated: #FFFFFF;
-  --fg-primary: #0F0F14;
-  --fg-secondary: #4A4A5A;
-  --fg-muted: #6B6B7B;
-  --border-subtle: #E6E6FA;
-  --border-muted: #D1D1E0;
-  --border-strong: #1F1F2E;
-  --accent-primary: #7C3AED;
-  --accent-subtle: #F3F0FF;
+  --fg-primary: #191722;
+  --fg-secondary: #514E5C;
+  --fg-muted: #696675;
+  --border-subtle: #EAE7F0;
+  --border-muted: #D7D2E0;
+  --border-strong: #191722;
+  --accent-primary: #5B3E83;
+  --accent-interactive: #73579B;
+  --accent-subtle: #F5F1FA;
 }
 
 /* Base HTML Document Styles */
@@ -57,6 +59,7 @@ html {
 }
 
 body {
+  isolation: isolate;
   margin: 0;
   min-height: 100vh;
   display: flex;
@@ -73,10 +76,13 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-color: var(--canvas);
-  background-image: radial-gradient(var(--border-subtle) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 66%) 0%, rgb(255 255 255 / 20%) 50%, rgb(255 255 255 / 76%) 100%),
+    radial-gradient(ellipse 44rem 30rem at 8% 4%, rgb(115 87 155 / 10%), transparent 76%),
+    radial-gradient(ellipse 42rem 32rem at 94% 22%, rgb(115 87 155 / 7%), transparent 78%),
+    radial-gradient(rgb(91 62 131 / 8%) 0.7px, transparent 0.8px);
+  background-size: 100% 100%, 100% 58rem, 100% 76rem, 30px 30px;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
 }
 
 /* Editorial Selection */
@@ -94,21 +100,6 @@ section[id] {
 :focus-visible {
   outline: 2px solid var(--fg-primary);
   outline-offset: 2px;
-}
-
-@keyframes typewriter-caret {
-  50% { opacity: 0; }
-}
-
-[data-typewriter-text]::after {
-  content: '';
-  display: inline-block;
-  width: 1px;
-  height: 0.85em;
-  margin-left: 0.1em;
-  background: currentColor;
-  vertical-align: -0.04em;
-  animation: typewriter-caret 1s steps(1, end) infinite;
 }
 
 /* Monospace Utility Foundation */
@@ -133,9 +124,6 @@ section[id] {
     opacity: 0.35 !important;
   }
 
-  [data-typewriter-text]::after {
-    animation: none;
-  }
 }
 
 /* Lenis Smooth Scroll Foundation */
