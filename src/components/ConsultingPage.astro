@@ -42,15 +42,9 @@ const copy = en ? {
   processTitle: 'From understanding the problem to supporting the solution.',
   processLead: 'Each stage is agreed according to scope. A small project may combine stages; a larger one may need more discovery and review.',
   process: [
-    ['Detect', 'Listen to the friction and identify who is affected.'],
-    ['Evaluate', 'Review the current workflow, constraints, and desired outcome.'],
-    ['Prototype', 'Sketch or build a small demonstrator to make the proposal tangible.'],
-    ['Review together', 'Check that the approach fits the people who will use it.'],
-    ['Agree scope', 'Set deliverables, timing, cost, and responsibilities before implementation.'],
-    ['Implement', 'Build and refine the solution against the agreed requirements.'],
-    ['Deploy', 'Prepare the solution for use in its intended environment.'],
-    ['Operate and support', 'Provide support or maintenance under an agreed arrangement.'],
-    ['Evolve', 'Plan further changes when use and new needs justify them.'],
+    ['Phase 1: Discovery and Evaluation', 'We understand the current process and design a solution tailored to your operation.'],
+    ['Phase 2: Implementation and Deployment', 'Development, automation, and cloud launch.'],
+    ['Phase 3: Operation and Support', 'Accompaniment, maintenance, and evolution based on system usage.'],
   ],
   examplesLabel: 'SELECTED WORK',
   examplesTitle: 'Real projects that show how I approach technology.',
@@ -72,7 +66,7 @@ const copy = en ? {
     ['Implementation', 'Scoped separately according to requirements and agreed deliverables.'],
     ['Operation and support', 'Hosting, maintenance, and follow-up are discussed as separate recurring needs.'],
   ],
-  supportNote: 'For reference only: basic support may start around MXN $250 per month. Very simple implementations may have an initial reference range of MXN $500–$1,000. These are not fixed prices or quotes; the actual scope and costs are confirmed first.',
+  supportNote: 'The final scope and costs are confirmed during our initial conversations and will be outlined clearly before any work begins.',
   faqLabel: 'FREQUENT QUESTIONS',
   faqTitle: 'A few useful details before we talk.',
   faq: [
@@ -127,15 +121,9 @@ const copy = en ? {
   processTitle: 'De entender el problema a acompañar la solución.',
   processLead: 'Acordamos cada etapa según el alcance. Un proyecto pequeño puede combinar etapas; uno más amplio puede necesitar más análisis y revisión.',
   process: [
-    ['Detectar', 'Escuchar la fricción e identificar a quién afecta.'],
-    ['Evaluar', 'Revisar el flujo actual, las restricciones y el resultado deseado.'],
-    ['Prototipar', 'Esbozar o construir un demostrador pequeño para hacer tangible la propuesta.'],
-    ['Revisar juntos', 'Validar que el enfoque tenga sentido para quienes usarán la solución.'],
-    ['Acordar el alcance', 'Definir entregables, tiempos, costo y responsabilidades antes de implementar.'],
-    ['Implementar', 'Construir y ajustar la solución con base en los requisitos acordados.'],
-    ['Desplegar', 'Preparar la solución para usarla en el entorno previsto.'],
-    ['Operar y dar soporte', 'Acordar soporte o mantenimiento bajo condiciones definidas.'],
-    ['Evolucionar', 'Planear cambios cuando el uso y las nuevas necesidades lo justifiquen.'],
+    ['Fase 1: Descubrimiento y Evaluación', 'Entendemos el proceso actual y diseñamos una solución ajustada a tu operación.'],
+    ['Fase 2: Implementación y Despliegue', 'Desarrollo, automatización y puesta en marcha en la nube.'],
+    ['Fase 3: Operación y Soporte', 'Acompañamiento, mantenimiento y evolución según el uso del sistema.'],
   ],
   examplesLabel: 'TRABAJO SELECCIONADO',
   examplesTitle: 'Proyectos reales que muestran cómo abordo la tecnología.',
@@ -157,7 +145,7 @@ const copy = en ? {
     ['Implementación', 'Se cotiza según los requisitos y entregables acordados.'],
     ['Operación y soporte', 'Alojamiento, mantenimiento y acompañamiento se revisan como necesidades recurrentes separadas.'],
   ],
-  supportNote: 'Solo como referencia: el soporte básico puede iniciar alrededor de $250 MXN al mes. Implementaciones muy sencillas pueden tener un rango inicial de referencia de $500–$1,000 MXN. No son precios fijos ni cotizaciones; primero se confirma el alcance y los costos reales.',
+  supportNote: 'No son precios fijos ni cotizaciones genéricas; primero se confirma el alcance y los costos reales durante nuestras conversaciones iniciales.',
   faqLabel: 'PREGUNTAS FRECUENTES',
   faqTitle: 'Algunos detalles útiles antes de conversar.',
   faq: [
@@ -336,33 +324,63 @@ const projectVisuals = {
   function setupConsultingForm() {
     const form = document.querySelector<HTMLFormElement>('#consulting-contact-form');
     const status = document.querySelector<HTMLElement>('#consulting-form-status');
-    if (!form || !status || form.dataset.ready === 'true') return;
+    const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+    
+    if (!form || !status || !submitBtn || form.dataset.ready === 'true') return;
     form.dataset.ready = 'true';
-    form.addEventListener('submit', (event) => {
+    
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!form.reportValidity()) return;
+      
       const values = new FormData(form);
       const name = String(values.get('name') ?? '').trim();
       const email = String(values.get('email') ?? '').trim();
       const problem = String(values.get('problem') ?? '').trim();
+      const business = String(values.get('business') ?? '').trim();
+      
       if (!name || !email || !problem) {
-        status.textContent = form.dataset.formError ?? '';
+        status.textContent = form.dataset.formError ?? 'Faltan campos obligatorios.';
         return;
       }
-      const lines = [
-        `Name: ${name}`,
-        `Business: ${String(values.get('business') ?? '').trim() || '—'}`,
-        `Email: ${email}`,
-        `Phone: ${String(values.get('phone') ?? '').trim() || '—'}`,
-        `Preferred contact: ${String(values.get('preferred') ?? '').trim() || '—'}`,
-        '',
-        'Process or problem:',
-        problem,
-      ];
-      const subject = encodeURIComponent(form.dataset.emailSubject ?? 'Consultation inquiry');
-      const body = encodeURIComponent(lines.join('\n'));
-      const recipient = form.dataset.contactEmail ?? '';
-      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+      
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'Enviando...';
+      submitBtn.disabled = true;
+      status.textContent = '';
+      
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nombre: name,
+            correo: email,
+            negocio: business,
+            descripcion: problem,
+            servicio: 'Consultoría'
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          form.reset();
+          status.style.color = 'var(--status-active, #059669)';
+          status.textContent = 'Mensaje enviado correctamente. Me pondré en contacto pronto.';
+        } else {
+          status.style.color = '#D97706';
+          status.textContent = data.message || 'Error al enviar. Por favor intenta más tarde.';
+        }
+      } catch (error) {
+        status.style.color = '#D97706';
+        status.textContent = 'Error de conexión. Intenta enviar un correo directamente.';
+      } finally {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
     });
   }
   document.addEventListener('astro:page-load', setupConsultingForm);
