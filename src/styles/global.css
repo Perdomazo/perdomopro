@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* Editorial monochrome palette with warm off-white canvas */
-  --color-canvas: #FAFAF8;
-  --color-canvas-subtle: #F4F4F0;
+  /* Slate-Violet & Tech Purple palette */
+  --color-canvas: #FCFCFD;
+  --color-canvas-subtle: #F5F5F7;
   --color-canvas-elevated: #FFFFFF;
 
-  --color-fg-primary: #111111;
-  --color-fg-secondary: #5F5F5F;
-  --color-fg-muted: #70706E;
-  --color-fg-subtle: #B5B5B3;
+  --color-fg-primary: #0F0F14;
+  --color-fg-secondary: #4A4A5A;
+  --color-fg-muted: #6B6B7B;
+  --color-fg-subtle: #A3A3B5;
 
-  --color-border-subtle: #E7E7E5;
-  --color-border-muted: #D3D3CF;
-  --color-border-strong: #111111;
+  --color-border-subtle: #E6E6FA;
+  --color-border-muted: #D1D1E0;
+  --color-border-strong: #1F1F2E;
+
+  --color-accent-primary: #7C3AED;
+  --color-accent-subtle: #F3F0FF;
 
   /* Subtle technical indicators */
   --color-status-active: #059669;
@@ -29,15 +32,17 @@
 }
 
 :root {
-  --canvas: #FAFAF8;
-  --canvas-subtle: #F4F4F0;
+  --canvas: #FCFCFD;
+  --canvas-subtle: #F5F5F7;
   --canvas-elevated: #FFFFFF;
-  --fg-primary: #111111;
-  --fg-secondary: #5F5F5F;
-  --fg-muted: #70706E;
-  --border-subtle: #E7E7E5;
-  --border-muted: #D3D3CF;
-  --border-strong: #111111;
+  --fg-primary: #0F0F14;
+  --fg-secondary: #4A4A5A;
+  --fg-muted: #6B6B7B;
+  --border-subtle: #E6E6FA;
+  --border-muted: #D1D1E0;
+  --border-strong: #1F1F2E;
+  --accent-primary: #7C3AED;
+  --accent-subtle: #F3F0FF;
 }
 
 /* Base HTML Document Styles */
@@ -59,6 +64,19 @@ body {
   background-color: var(--canvas);
   color: var(--fg-primary);
   line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--canvas);
+  background-image: radial-gradient(var(--border-subtle) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
 }
 
 /* Editorial Selection */

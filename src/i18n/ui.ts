@@ -6,10 +6,10 @@ export const ui = {
   'es-MX': {
     // Site metadata
     'site.title': 'Adrián Perdomo — PerdomoPro',
-    'site.description': 'Soy Adrián Perdomo, estudiante de Ingeniería en Computación y becario de Soporte TI en KnowIT. Comparto proyectos de software y mi experiencia entre infraestructura y cloud.',
+    'site.description': 'Soy Adrián Perdomo, enfocado en Ingeniería en Computación y Soporte TI e infraestructura cloud en KnowIT. Comparto proyectos de software y mi experiencia.',
     'site.metaTitle': 'Adrián Perdomo | Software, TI y Cloud',
     'site.keywords': 'Adrián Perdomo, PerdomoPro, desarrollo de software, soporte TI, infraestructura, cloud, Azure, proyectos',
-    'site.status': 'Estudiante y becario de Soporte TI',
+    'site.status': 'Ingeniería en Computación (7.º sem.) / Soporte TI e infraestructura cloud',
     'site.tagline': 'Software e infraestructura, desde una misma perspectiva.',
 
     // Core navigation labels (shared architecture)
@@ -29,7 +29,7 @@ export const ui = {
 
     // Hero Section Content & Metadata
     'hero.sectionIndex': '01 // INICIO',
-    'hero.statusIndicator': 'ESTUDIANTE + BECARIO DE TI',
+    'hero.statusIndicator': 'SOPORTE TI E INFRAESTRUCTURA CLOUD',
     'hero.technicalPillars': 'SOFTWARE / INFRAESTRUCTURA / CLOUD',
     'hero.headlinePrefix': 'Soy Adrián Perdomo. Desarrollo soluciones que conectan',
     'hero.headlineHighlight': 'software e infraestructura.',
@@ -38,10 +38,10 @@ export const ui = {
     'hero.cta.projects': 'Ver proyectos',
     'hero.cta.about': 'Conocer más sobre mí',
     'hero.cta.contact': 'Hablemos de tu proyecto',
-    'hero.meta.roleTitle': 'EXPERIENCIA ACTUAL',
-    'hero.meta.roleValue': 'Becario de Soporte TI · KnowIT',
+    'hero.meta.roleTitle': 'ROL PRINCIPAL',
+    'hero.meta.roleValue': 'Soporte TI e infraestructura cloud en KnowIT',
     'hero.meta.educationTitle': 'FORMACIÓN',
-    'hero.meta.educationValue': '7.º semestre · UdeG',
+    'hero.meta.educationValue': 'Ingeniería en Computación · CUCEI UdeG (7.º sem.)',
 
     // About Section
     'about.sectionIndex': '05 // SOBRE MÍ',
@@ -204,10 +204,10 @@ export const ui = {
   en: {
     // Site metadata
     'site.title': 'Adrián Perdomo — PerdomoPro',
-    'site.description': 'I am Adrián Perdomo, a Computer Engineering student and IT Support Intern at KnowIT. I share software projects and my experience across infrastructure and cloud.',
+    'site.description': 'I am Adrián Perdomo, studying Computer Engineering and working in IT Support and cloud infrastructure at KnowIT. I share software projects and my experience.',
     'site.metaTitle': 'Adrián Perdomo | Software, IT & Cloud',
     'site.keywords': 'Adrián Perdomo, PerdomoPro, software development, IT support, infrastructure, cloud, Azure, projects',
-    'site.status': 'Student and IT Support Intern',
+    'site.status': 'Computer Engineering (7th sem.) / IT Support & Cloud Infrastructure',
     'site.tagline': 'Software and infrastructure, from one perspective.',
 
     // Core navigation labels (shared architecture)
@@ -227,7 +227,7 @@ export const ui = {
 
     // Hero Section Content & Metadata
     'hero.sectionIndex': '01 // HOME',
-    'hero.statusIndicator': 'STUDENT + IT SUPPORT INTERN',
+    'hero.statusIndicator': 'IT SUPPORT & CLOUD INFRASTRUCTURE',
     'hero.technicalPillars': 'SOFTWARE / INFRASTRUCTURE / CLOUD',
     'hero.headlinePrefix': 'I am Adrián Perdomo. I build solutions that connect',
     'hero.headlineHighlight': 'software and infrastructure.',
@@ -236,10 +236,10 @@ export const ui = {
     'hero.cta.projects': 'View projects',
     'hero.cta.about': 'About Adrián',
     'hero.cta.contact': 'Discuss a project',
-    'hero.meta.roleTitle': 'CURRENT EXPERIENCE',
-    'hero.meta.roleValue': 'IT Support Intern · KnowIT',
+    'hero.meta.roleTitle': 'MAIN ROLE',
+    'hero.meta.roleValue': 'IT Support & Cloud Infrastructure · KnowIT',
     'hero.meta.educationTitle': 'EDUCATION',
-    'hero.meta.educationValue': '7th semester · UdeG',
+    'hero.meta.educationValue': 'Computer Engineering · CUCEI UdeG (7th sem.)',
 
     // About Section
     'about.sectionIndex': '05 // ABOUT',

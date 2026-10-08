@@ -39,7 +39,7 @@ export const siteConfig: SiteConfig = {
   url: 'https://perdomopro.com',
   defaultLocale: DEFAULT_LOCALE,
   supportedLocales: SUPPORTED_LOCALES,
-  themeColor: '#FAFAF8',
+  themeColor: '#FCFCFD',
   author: {
     name: 'Adrián Perdomo',
     brand: 'PerdomoPro',
@@ -49,7 +49,7 @@ export const siteConfig: SiteConfig = {
       country: 'México',
       formatted: 'Guadalajara, Jalisco, México',
     },
-    title: 'Estudiante de Ingeniería en Computación · Becario de Soporte TI',
+    title: 'Ingeniería en Computación · CUCEI UdeG (7.º sem.)',
     education: 'Ingeniería en Computación',
     focusAreas: ['Software', 'Infraestructura', 'Cloud', 'Automatización', 'IA'],
   },
