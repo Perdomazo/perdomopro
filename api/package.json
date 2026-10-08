@@ -1,0 +1,13 @@
+{
+  "name": "perdomopro-api",
+  "version": "1.0.0",
+  "description": "API de contacto de PerdomoPro",
+  "main": "src/functions/*.js",
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.16.5",
+    "resend": "^6.32.1"
+  }
+}
