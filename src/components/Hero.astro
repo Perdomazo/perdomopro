@@ -20,12 +20,13 @@ const rotatingPhrases = locale === 'en'
 <section
   id="hero"
   data-scroll-module
-  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-3 sm:pb-4 min-h-[calc(100vh-5rem)] flex flex-col justify-between"
+  class="relative isolate overflow-hidden w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-3 sm:pb-4 min-h-[calc(100vh-5rem)] flex flex-col justify-between"
   aria-labelledby="hero-heading"
 >
+  <div class="hero-wash" aria-hidden="true"></div>
   <!-- Top Editorial Technical Metadata Strip -->
   <header
-    class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary p-4 sm:p-5 border border-border-subtle bg-canvas-subtle shadow-sm"
+    class="relative z-10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary p-4 sm:p-5 border border-border-subtle bg-white/75 shadow-sm backdrop-blur-[2px]"
     data-hero-meta="top"
   >
     <div class="flex items-center gap-3">
@@ -43,7 +44,7 @@ const rotatingPhrases = locale === 'en'
   </header>
 
   <!-- Central Editorial Grid (Asymmetric) -->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start my-auto py-10 lg:py-16">
+  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start my-auto py-10 lg:py-16">
     <!-- Primary Content Column -->
     <div class="lg:col-span-7 xl:col-span-8 space-y-6 sm:space-y-8">
       <!-- Technical Focus Pill -->
@@ -115,7 +116,7 @@ const rotatingPhrases = locale === 'en'
 
   <!-- Bottom Editorial Metadata & Visual Anchor -->
   <footer
-    class="border-t border-border-subtle pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono-tech text-fg-muted"
+    class="relative z-10 border-t border-border-subtle pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono-tech text-fg-muted"
     data-hero-meta="bottom"
   >
     <div class="flex items-center gap-2">

@@ -10,6 +10,7 @@ let lenisInstance: Lenis | null = null;
 let gsapMatchMediaInstance: gsap.MatchMedia | null = null;
 let tickerListener: ((time: number) => void) | null = null;
 let clickListener: ((e: MouseEvent) => void) | null = null;
+let consultingRevealObserver: IntersectionObserver | null = null;
 
 /**
  * Clean up existing motion instances, listeners, and ScrollTriggers.
@@ -34,6 +35,11 @@ export function cleanupMotion(): void {
   if (clickListener) {
     document.removeEventListener('click', clickListener);
     clickListener = null;
+  }
+
+  if (consultingRevealObserver) {
+    consultingRevealObserver.disconnect();
+    consultingRevealObserver = null;
   }
 
   // 4. Destroy Lenis smooth scroll
@@ -153,21 +159,44 @@ export function initMotion(): void {
       const yOffset = isDesktop ? 14 : 8;
       const duration = isDesktop ? 0.65 : 0.5;
 
-      // Consulting page content enters in small, readable groups. Each item
-      // keeps its final state in markup so the page remains usable without JS.
+      // Consulting content uses native intersection reveals so blocks never
+      // remain hidden if scroll positions change while the page is loading.
       const consultingPage = document.querySelector('[data-consulting-page]');
       if (consultingPage) {
-        const revealItems = consultingPage.querySelectorAll<HTMLElement>('[data-reveal-item]');
-        revealItems.forEach((item) => {
-          gsap.from(item, {
-            opacity: 0,
-            y: yOffset,
-            duration,
-            ease: 'power2.out',
+        const revealItems = Array.from(consultingPage.querySelectorAll<HTMLElement>('[data-reveal-item]'));
+        if ('IntersectionObserver' in window) {
+          consultingRevealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+
+          revealItems.forEach((item) => {
+            const siblings = Array.from(item.parentElement?.querySelectorAll<HTMLElement>(':scope > [data-reveal-item]') ?? []);
+            const stagger = Math.min(Math.max(siblings.indexOf(item), 0), 2);
+            item.style.setProperty('--reveal-delay', `${stagger * 70}ms`);
+            item.classList.add('consulting-reveal');
+            consultingRevealObserver?.observe(item);
+          });
+        } else {
+          revealItems.forEach((item) => item.classList.add('is-visible'));
+        }
+
+        // Keep outgoing sections readable while softly shifting focus to the next block.
+        const modules = consultingPage.querySelectorAll<HTMLElement>('[data-scroll-module]');
+        modules.forEach((module) => {
+          gsap.to(module, {
+            opacity: 0.94,
+            filter: 'blur(1px)',
+            ease: 'none',
             scrollTrigger: {
-              trigger: item,
-              start: 'top 90%',
-              once: true,
+              trigger: module,
+              start: 'bottom bottom',
+              end: 'bottom 62%',
+              scrub: 0.35,
             },
           });
         });

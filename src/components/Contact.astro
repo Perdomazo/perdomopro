@@ -51,7 +51,7 @@ const consultingHref = locale === 'en' ? '/en/consulting/' : '/consultoria/';
       <div class="flex flex-wrap items-center gap-5 pt-4">
         <a
           href={`mailto:${siteConfig.links.email}`}
-          class="group inline-flex items-center gap-3 bg-fg-primary text-canvas px-8 py-4 text-xs sm:text-sm font-mono-tech tracking-wider uppercase hover:bg-fg-secondary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+          class="group inline-flex items-center gap-3 bg-accent-primary text-white px-8 py-4 text-xs sm:text-sm font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
         >
           <span>{t('contact.cta')}</span>
           <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
@@ -67,7 +67,7 @@ const consultingHref = locale === 'en' ? '/en/consulting/' : '/consultoria/';
 
         <a
           href={consultingHref}
-          class="group inline-flex items-center gap-3 border border-fg-primary px-5 py-3.5 text-xs sm:text-sm font-mono-tech tracking-wider uppercase text-fg-primary transition-colors duration-150 hover:bg-fg-primary hover:text-canvas focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary"
+          class="group inline-flex items-center gap-3 border border-accent-primary/40 bg-accent-subtle px-5 py-3.5 text-xs sm:text-sm font-sans font-medium tracking-wider uppercase text-accent-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-primary hover:bg-accent-primary hover:text-white active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
         >
           <span>{t('contact.consultingLink')}</span>
           <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">↗</span>

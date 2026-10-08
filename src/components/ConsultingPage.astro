@@ -193,11 +193,12 @@ const projectVisuals = {
 ---
 
 <div class="consulting-page" data-consulting-page>
-  <section id="inicio-consultoria" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-12 sm:pt-16 pb-20 sm:pb-28" data-scroll-module>
-    <div class="border-y border-border-subtle py-4 flex flex-wrap justify-between gap-3 text-[10px] sm:text-xs font-mono-tech tracking-[0.12em] text-fg-muted">
+  <section id="inicio-consultoria" class="relative isolate overflow-hidden max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-12 sm:pt-16 pb-20 sm:pb-28" data-scroll-module>
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="relative z-10 border-y border-border-subtle bg-white/65 py-4 flex flex-wrap justify-between gap-3 text-[10px] sm:text-xs font-mono-tech tracking-[0.12em] text-fg-muted backdrop-blur-[2px]">
       <span>{copy.eyebrow}</span><span>{copy.heroMeta}</span>
     </div>
-    <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 pt-16 sm:pt-24 lg:pt-32 items-end">
+    <div class="relative z-10 grid lg:grid-cols-12 gap-12 lg:gap-8 pt-16 sm:pt-24 lg:pt-32 items-end">
       <div class="lg:col-span-8" data-reveal-item>
         <p class="mb-7 text-xs sm:text-sm font-mono-tech uppercase tracking-[0.13em] text-fg-secondary"><span class="mr-3 text-status-active" aria-hidden="true">■</span>{en ? 'SOFTWARE / AUTOMATION / CLOUD' : 'SOFTWARE / AUTOMATIZACIÓN / CLOUD'}</p>
         <h1 class="max-w-5xl font-sans text-4xl sm:text-6xl lg:text-7xl xl:text-[5.6rem] leading-[0.98] tracking-[-0.055em] text-fg-primary">{copy.heroTitle}</h1>
@@ -210,7 +211,7 @@ const projectVisuals = {
         </div>
       </div>
     </div>
-    <div class="mt-20 sm:mt-28 border border-border-subtle bg-canvas-subtle p-6 sm:p-10 shadow-sm" data-reveal-item>
+    <div class="relative z-10 mt-20 sm:mt-28 border border-border-subtle bg-white/75 p-6 sm:p-10 shadow-sm backdrop-blur-[2px]" data-reveal-item>
       <p class="mb-7 text-[10px] font-mono-tech tracking-[0.14em] text-fg-muted">{copy.cue}</p>
       <div class="grid sm:grid-cols-3 gap-3 sm:gap-0 items-stretch">
         {copy.flow.map((step, index) => <div class="flex items-center gap-3 sm:px-5 first:pl-0 last:pr-0" data-flow-step>
@@ -253,7 +254,7 @@ const projectVisuals = {
     </div>
   </section>
 
-  <section id="proyectos" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-2 sm:pt-3 pb-16 sm:pb-24" data-scroll-module>
+  <section id="proyectos" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-2 sm:pt-3 pb-8 sm:pb-10" data-scroll-module>
     <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>04 // {en ? 'PROJECTS' : 'PROYECTOS'}</span><span>{copy.examplesLabel}</span></header>
     <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 pt-10 sm:pt-14 items-end" data-reveal-item>
       <h2 class="lg:col-span-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.examplesTitle}</h2>
@@ -290,7 +291,7 @@ const projectVisuals = {
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
+  <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8 sm:pt-10 pb-16 sm:pb-24" data-scroll-module>
     <div class="border border-border-subtle bg-canvas-subtle p-6 sm:p-10 lg:p-14 shadow-sm" data-reveal-item>
       <div class="grid lg:grid-cols-12 gap-10 items-start"><div class="lg:col-span-5"><p class="text-xs font-mono-tech tracking-widest text-fg-muted">05 // {copy.cloudLabel}</p><h2 class="mt-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.cloudTitle}</h2></div><div class="lg:col-span-7"><p class="text-base sm:text-lg leading-relaxed text-fg-secondary">{copy.cloudBody}</p><ul class="mt-8 list-none p-0 m-0 divide-y divide-border-subtle border-y border-border-subtle">{copy.cloudPoints.map((point, i) => <li class="flex gap-4 py-4 text-sm text-fg-primary"><span class="font-mono-tech text-xs text-fg-muted">0{i + 1}</span>{point}</li>)}</ul></div></div>
     </div>
