@@ -54,14 +54,20 @@ async function handleContact(request, context, { getEnv = (key) => process.env[k
     return response(400, "Please review the submitted fields.");
   }
 
-  const apiKey = getEnv("RESEND_API_KEY");
-  const from = getEnv("CONTACT_FROM_EMAIL");
-  const to = getEnv("CONTACT_TO_EMAIL");
-  if (!apiKey || !from || !to || !emailPattern.test(from) || !emailPattern.test(to)) {
-    context.error("Contact mail is unavailable because required settings are missing or invalid.");
+  const settings = {
+    RESEND_API_KEY: getEnv("RESEND_API_KEY"),
+    CONTACT_FROM_EMAIL: getEnv("CONTACT_FROM_EMAIL"),
+    CONTACT_TO_EMAIL: getEnv("CONTACT_TO_EMAIL"),
+  };
+  const invalidSettings = Object.entries(settings)
+    .filter(([key, value]) => !value || ((key === "CONTACT_FROM_EMAIL" || key === "CONTACT_TO_EMAIL") && !emailPattern.test(value)))
+    .map(([key]) => key);
+  if (invalidSettings.length) {
+    context.error(`Contact mail unavailable; check Azure API settings: ${invalidSettings.join(", ")}.`);
     return response(503, "The contact form is temporarily unavailable. Please email directly.");
   }
 
+  const { RESEND_API_KEY: apiKey, CONTACT_FROM_EMAIL: from, CONTACT_TO_EMAIL: to } = settings;
   const send = sendEmail || (async (message) => new Resend(apiKey).emails.send(message));
   const rows = [
     ["Name", fields.nombre],

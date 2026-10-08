@@ -57,9 +57,15 @@ test("sends escaped content, reply-to, and optional contact details", async () =
 
 test("fails closed when Resend settings are missing", async () => {
   let sent = false;
-  const result = await handleContact(request(valid), context, { getEnv: () => undefined, sendEmail: async () => { sent = true; } });
+  const errors = [];
+  const result = await handleContact(request(valid), { error: (message) => errors.push(message) }, {
+    getEnv: (key) => key === "RESEND_API_KEY" ? "private-test-value" : undefined,
+    sendEmail: async () => { sent = true; },
+  });
   assert.equal(result.status, 503);
   assert.equal(sent, false);
+  assert.match(errors[0], /CONTACT_FROM_EMAIL, CONTACT_TO_EMAIL/);
+  assert.doesNotMatch(errors[0], /private-test-value/);
 });
 
 test("does not expose provider errors to the visitor", async () => {
