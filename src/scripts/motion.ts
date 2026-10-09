@@ -404,36 +404,6 @@ export function initMotion(): void {
         }
       }
 
-      // Fade individual content blocks only as they leave above the sticky
-      // header. The old section-wide trigger started as soon as a section
-      // entered the viewport, softening text while it was still being read.
-      // These semantic groups keep the same exit treatment on both pages,
-      // while the rest of a long section stays sharp and readable.
-      const exitCandidates = Array.from(
-        document.querySelectorAll<HTMLElement>(
-          '[data-scroll-module] :is(header, article, li, blockquote, summary, form, h1, h2, h3, h4, p)'
-        )
-      );
-      const exitGroups = exitCandidates.filter((item) => {
-        const isGroup = item.matches('header, article, li, blockquote, summary, form');
-        const nestedInGroup = item.parentElement?.closest('header, article, li, blockquote, summary, form');
-        return isGroup || !nestedInGroup;
-      });
-
-      exitGroups.forEach((block) => {
-        gsap.to(block, {
-          filter: 'blur(0.65px) opacity(0.82)',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: block,
-            start: 'bottom 22%',
-            end: 'bottom 8%',
-            scrub: 0.55,
-          },
-        });
-      });
-
-
       // --------------------------------------------------
       // A. HERO ENTRANCE SEQUENCE
       // --------------------------------------------------
@@ -449,32 +419,38 @@ export function initMotion(): void {
       if (heroHeadline) {
         const heroTl = gsap.timeline({
           defaults: { ease: 'power2.out', duration },
+          onComplete: () => {
+            gsap.set(
+              [heroBrand, heroMetaTop, heroCategory, heroHeadline, heroDesc, heroSpecList, heroCta, heroMetaBottom].filter(Boolean),
+              { clearProps: 'opacity,transform' }
+            );
+          },
         });
 
         // 1. Brand in navbar
         if (heroBrand) {
-          heroTl.from(heroBrand, { opacity: 0, y: -4, duration: 0.45 }, 0);
+          heroTl.from(heroBrand, { opacity: 0, y: -4, duration: 0.45, clearProps: 'opacity,transform' }, 0);
         }
 
         // 2. Top metadata & category indicator
         const topElements = [heroMetaTop, heroCategory].filter(Boolean);
         if (topElements.length > 0) {
-          heroTl.from(topElements, { opacity: 0, y: yOffset * 0.7, stagger: 0.08 }, 0.08);
+          heroTl.from(topElements, { opacity: 0, y: yOffset * 0.7, stagger: 0.08, clearProps: 'opacity,transform' }, 0.08);
         }
 
         // 3. Main editorial headline
-        heroTl.from(heroHeadline, { opacity: 0, y: yOffset, duration: duration + 0.1 }, 0.18);
+        heroTl.from(heroHeadline, { opacity: 0, y: yOffset, duration: duration + 0.1, clearProps: 'opacity,transform' }, 0.18);
 
         // 4. Description & technical spec list
         const descElements = [heroDesc, heroSpecList].filter(Boolean);
         if (descElements.length > 0) {
-          heroTl.from(descElements, { opacity: 0, y: yOffset, stagger: 0.1 }, 0.32);
+          heroTl.from(descElements, { opacity: 0, y: yOffset, stagger: 0.1, clearProps: 'opacity,transform' }, 0.32);
         }
 
         // 5. Action buttons & bottom metadata
         const ctaElements = [heroCta, heroMetaBottom].filter(Boolean);
         if (ctaElements.length > 0) {
-          heroTl.from(ctaElements, { opacity: 0, y: yOffset * 0.8, stagger: 0.08 }, 0.44);
+          heroTl.from(ctaElements, { opacity: 0, y: yOffset * 0.8, stagger: 0.08, clearProps: 'opacity,transform' }, 0.44);
         }
       }
 
@@ -495,6 +471,7 @@ export function initMotion(): void {
           duration,
           stagger: 0.1,
           ease: 'power2.out',
+          clearProps: 'opacity,transform',
           scrollTrigger: {
             trigger: aboutSection,
             start: 'top 85%',
@@ -517,6 +494,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.08,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: profileSection,
               start: 'top 85%',
@@ -532,6 +510,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.09,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: milestones[0],
               start: 'top 85%',
@@ -555,6 +534,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.08,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: areasSection,
               start: 'top 85%',
@@ -570,6 +550,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.07,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: cards[0],
               start: 'top 85%',
@@ -593,6 +574,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.08,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: projectsSection,
               start: 'top 85%',
@@ -607,6 +589,7 @@ export function initMotion(): void {
             y: yOffset * 1.1,
             duration: duration + 0.1,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: article,
               start: 'top 85%',
@@ -624,6 +607,7 @@ export function initMotion(): void {
               stagger: 0.06,
               ease: 'power2.out',
               delay: 0.15,
+              clearProps: 'opacity,transform',
               scrollTrigger: {
                 trigger: article,
                 start: 'top 80%',
@@ -652,6 +636,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.08,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: processSection,
               start: 'top 85%',
@@ -685,6 +670,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.07,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: track,
               start: 'top 85%',
@@ -708,6 +694,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.08,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: stackSection,
               start: 'top 85%',
@@ -723,6 +710,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.06,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: categories[0],
               start: 'top 85%',
@@ -746,6 +734,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.08,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: currentlySection,
               start: 'top 85%',
@@ -761,6 +750,7 @@ export function initMotion(): void {
             duration,
             stagger: 0.07,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: topicCards[0],
               start: 'top 85%',
@@ -783,6 +773,7 @@ export function initMotion(): void {
           duration,
           stagger: 0.09,
           ease: 'power2.out',
+          clearProps: 'opacity,transform',
           scrollTrigger: {
             trigger: contactSection,
             start: 'top 85%',
@@ -801,6 +792,7 @@ export function initMotion(): void {
             y: yOffset * 0.8,
             duration,
             ease: 'power2.out',
+            clearProps: 'opacity,transform',
             scrollTrigger: {
               trigger: footerEl,
               start: 'top 95%',
