@@ -402,23 +402,36 @@ export function initMotion(): void {
         } else {
           revealItems.forEach((item) => item.classList.add('is-visible'));
         }
-
-        // Keep outgoing sections readable while softly shifting focus to the next block.
-        const modules = consultingPage.querySelectorAll<HTMLElement>('[data-scroll-module]');
-        modules.forEach((module) => {
-          gsap.to(module, {
-            opacity: 0.94,
-            filter: 'blur(1px)',
-            ease: 'none',
-            scrollTrigger: {
-              trigger: module,
-              start: 'bottom bottom',
-              end: 'bottom 62%',
-              scrub: 0.35,
-            },
-          });
-        });
       }
+
+      // Fade individual content blocks only as they leave above the sticky
+      // header. The old section-wide trigger started as soon as a section
+      // entered the viewport, softening text while it was still being read.
+      // These semantic groups keep the same exit treatment on both pages,
+      // while the rest of a long section stays sharp and readable.
+      const exitCandidates = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          '[data-scroll-module] :is(header, article, li, blockquote, summary, form, h1, h2, h3, h4, p)'
+        )
+      );
+      const exitGroups = exitCandidates.filter((item) => {
+        const isGroup = item.matches('header, article, li, blockquote, summary, form');
+        const nestedInGroup = item.parentElement?.closest('header, article, li, blockquote, summary, form');
+        return isGroup || !nestedInGroup;
+      });
+
+      exitGroups.forEach((block) => {
+        gsap.to(block, {
+          filter: 'blur(0.65px) opacity(0.82)',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: block,
+            start: 'bottom 22%',
+            end: 'bottom 8%',
+            scrub: 0.55,
+          },
+        });
+      });
 
 
       // --------------------------------------------------

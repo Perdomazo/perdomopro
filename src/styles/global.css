@@ -192,7 +192,7 @@ section[id] {
 
 .consulting-reveal {
   opacity: 0;
-  filter: blur(4px);
+  filter: blur(1.5px);
   transform: translateY(0.65rem);
   transition:
     opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
