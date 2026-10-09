@@ -11,6 +11,7 @@ let gsapMatchMediaInstance: gsap.MatchMedia | null = null;
 let tickerListener: ((time: number) => void) | null = null;
 let clickListener: ((e: MouseEvent) => void) | null = null;
 let consultingRevealObserver: IntersectionObserver | null = null;
+let scrollWashObserver: IntersectionObserver | null = null;
 
 /**
  * Clean up existing motion instances, listeners, and ScrollTriggers.
@@ -42,6 +43,12 @@ export function cleanupMotion(): void {
     consultingRevealObserver = null;
   }
 
+  if (scrollWashObserver) {
+    scrollWashObserver.disconnect();
+    scrollWashObserver = null;
+  }
+  document.documentElement.removeAttribute('data-scroll-wash');
+
   // 4. Destroy Lenis smooth scroll
   if (lenisInstance) {
     lenisInstance.destroy();
@@ -67,6 +74,40 @@ export function initMotion(): void {
 
   // Check accessibility reduced-motion preference
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Shift two soft background lights as each content section reaches the
+  // center of the viewport. The radial gradients themselves stay static;
+  // only their positions and opacity transition between restrained states.
+  const washModules = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-module]'))
+    .filter((module) => module.id !== 'hero' && module.id !== 'inicio-consultoria');
+  const washStates = ['wash-1', 'wash-2', 'wash-3', 'wash-4'];
+  washModules.forEach((module, index) => {
+    module.dataset.scrollWash = washStates[index % washStates.length];
+  });
+
+  if ('IntersectionObserver' in window && washModules.length > 0) {
+    const activeWashModules = new Set<HTMLElement>();
+    scrollWashObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const module = entry.target as HTMLElement;
+        if (entry.isIntersecting) activeWashModules.add(module);
+        else activeWashModules.delete(module);
+      });
+
+      const viewportCenter = window.innerHeight / 2;
+      const currentModule = Array.from(activeWashModules).sort((a, b) => {
+        const aCenter = a.getBoundingClientRect().top + a.getBoundingClientRect().height / 2;
+        const bCenter = b.getBoundingClientRect().top + b.getBoundingClientRect().height / 2;
+        return Math.abs(aCenter - viewportCenter) - Math.abs(bCenter - viewportCenter);
+      })[0];
+
+      if (currentModule?.dataset.scrollWash) {
+        document.documentElement.dataset.scrollWash = currentModule.dataset.scrollWash;
+      }
+    }, { rootMargin: '-160px 0px -160px 0px', threshold: 0 });
+
+    washModules.forEach((module) => scrollWashObserver?.observe(module));
+  }
 
   // ----------------------------------------------------
   // 1. LENIS SMOOTH SCROLL SETUP (Bypassed if reduced-motion)
