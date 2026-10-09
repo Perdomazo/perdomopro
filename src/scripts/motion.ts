@@ -11,7 +11,309 @@ let gsapMatchMediaInstance: gsap.MatchMedia | null = null;
 let tickerListener: ((time: number) => void) | null = null;
 let clickListener: ((e: MouseEvent) => void) | null = null;
 let consultingRevealObserver: IntersectionObserver | null = null;
-let scrollWashObserver: IntersectionObserver | null = null;
+let washContext: gsap.Context | null = null;
+let washLayer: HTMLElement | null = null;
+
+// ----------------------------------------------------
+// CORNER WASH
+// Four radial lights, one per viewport corner. Each scroll "stage" lights a
+// different combination of corners, so the glow never travels across the
+// content: lights fade/scale in and out where they live, and drift a little
+// (translate + rotate) as the page scrolls.
+// ----------------------------------------------------
+type WashCorner = 'tl' | 'tr' | 'bl' | 'br';
+
+interface WashLight {
+  /** Opacity of the corner light (0 = off) */
+  o: number;
+  /** Scale of the corner light */
+  s: number;
+  /** How far the light is pulled into the screen, in % of its own size */
+  inset: number;
+}
+
+type WashPattern = Record<WashCorner, WashLight>;
+
+const WASH_OUT = 40; // % of its size a light sits outside the viewport edge
+const WASH_ORDER: WashCorner[] = ['tl', 'tr', 'bl', 'br'];
+
+const WASH_CORNERS: Record<
+  WashCorner,
+  {
+    sx: number;
+    sy: number;
+    pos: string;
+    gradient: string;
+    drift: { xPercent: number; yPercent: number; rotate: number }[];
+  }
+> = {
+  tl: {
+    sx: -1,
+    sy: -1,
+    pos: 'top:0;left:0;',
+    gradient:
+      'radial-gradient(ellipse at center, rgb(91 62 131 / 21%) 0%, rgb(115 87 155 / 11%) 32%, transparent 70%)',
+    drift: [
+      { xPercent: 12, yPercent: 9, rotate: 26 },
+      { xPercent: -4, yPercent: 16, rotate: -12 },
+      { xPercent: 10, yPercent: -3, rotate: 30 },
+    ],
+  },
+  tr: {
+    sx: 1,
+    sy: -1,
+    pos: 'top:0;right:0;',
+    gradient:
+      'radial-gradient(ellipse at center, rgb(115 87 155 / 19%) 0%, rgb(173 154 198 / 11%) 32%, transparent 70%)',
+    drift: [
+      { xPercent: -10, yPercent: 12, rotate: -24 },
+      { xPercent: 6, yPercent: 4, rotate: 14 },
+      { xPercent: -12, yPercent: 14, rotate: -32 },
+    ],
+  },
+  bl: {
+    sx: -1,
+    sy: 1,
+    pos: 'bottom:0;left:0;',
+    gradient:
+      'radial-gradient(ellipse at center, rgb(91 62 131 / 17%) 0%, rgb(173 154 198 / 10%) 32%, transparent 70%)',
+    drift: [
+      { xPercent: 10, yPercent: -10, rotate: -28 },
+      { xPercent: 14, yPercent: 2, rotate: 10 },
+      { xPercent: 4, yPercent: -14, rotate: -34 },
+    ],
+  },
+  br: {
+    sx: 1,
+    sy: 1,
+    pos: 'bottom:0;right:0;',
+    gradient:
+      'radial-gradient(ellipse at center, rgb(115 87 155 / 20%) 0%, rgb(91 62 131 / 10%) 32%, transparent 70%)',
+    drift: [
+      { xPercent: -12, yPercent: -8, rotate: 24 },
+      { xPercent: -2, yPercent: -16, rotate: -10 },
+      { xPercent: -14, yPercent: -4, rotate: 32 },
+    ],
+  },
+};
+
+const WASH_OFF: WashLight = { o: 0, s: 0.8, inset: 0 };
+
+// Shown above the first section, where the hero already has its own wash.
+const WASH_REST: WashPattern = {
+  tl: WASH_OFF,
+  tr: WASH_OFF,
+  bl: WASH_OFF,
+  br: { o: 0.4, s: 0.9, inset: 2 },
+};
+
+// Six corner compositions. Consecutive stages always pick different ones.
+const WASH_PATTERNS: WashPattern[] = [
+  // 0. Diagonal ↘ : top-left + bottom-right
+  {
+    tl: { o: 1, s: 1.05, inset: 6 },
+    tr: WASH_OFF,
+    bl: WASH_OFF,
+    br: { o: 0.85, s: 1, inset: 4 },
+  },
+  // 1. Diagonal ↙ : top-right + bottom-left
+  {
+    tl: WASH_OFF,
+    tr: { o: 1, s: 1.05, inset: 6 },
+    bl: { o: 0.85, s: 1, inset: 4 },
+    br: WASH_OFF,
+  },
+  // 2. Top band: both upper corners, hint of bottom-right
+  {
+    tl: { o: 0.8, s: 0.95, inset: 3 },
+    tr: { o: 0.85, s: 0.95, inset: 3 },
+    bl: WASH_OFF,
+    br: { o: 0.22, s: 0.85, inset: 0 },
+  },
+  // 3. Bottom band: both lower corners, hint of top-left
+  {
+    tl: { o: 0.22, s: 0.85, inset: 0 },
+    tr: WASH_OFF,
+    bl: { o: 0.85, s: 0.95, inset: 3 },
+    br: { o: 0.8, s: 0.95, inset: 3 },
+  },
+  // 4. One large top-right light, small bottom-left counterweight
+  {
+    tl: WASH_OFF,
+    tr: { o: 1, s: 1.3, inset: 10 },
+    bl: { o: 0.4, s: 0.8, inset: 0 },
+    br: WASH_OFF,
+  },
+  // 5. One large bottom-left light, small top-right counterweight
+  {
+    tl: WASH_OFF,
+    tr: { o: 0.4, s: 0.8, inset: 0 },
+    bl: { o: 1, s: 1.3, inset: 10 },
+    br: WASH_OFF,
+  },
+];
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+/**
+ * Build the fixed layer holding the four corner lights.
+ * Structure: layer > corner (pattern tweens) > glow (scroll drift).
+ * The layer is a direct child of <body>, which already isolates its stacking
+ * context, so z-index -1 sits above the page background and below content.
+ */
+function createWashLayer(): {
+  layer: HTMLElement;
+  corners: Record<WashCorner, { corner: HTMLElement; glow: HTMLElement }>;
+} {
+  const layer = document.createElement('div');
+  layer.setAttribute('aria-hidden', 'true');
+  layer.setAttribute('data-corner-wash', '');
+  layer.style.cssText =
+    'position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:layout paint style;';
+
+  const corners = {} as Record<WashCorner, { corner: HTMLElement; glow: HTMLElement }>;
+
+  WASH_ORDER.forEach((key) => {
+    const config = WASH_CORNERS[key];
+
+    const corner = document.createElement('div');
+    corner.style.cssText =
+      `position:absolute;${config.pos}` +
+      'width:clamp(26rem,68vw,62rem);height:clamp(24rem,68vh,52rem);' +
+      'opacity:0;will-change:transform,opacity;';
+
+    const glow = document.createElement('div');
+    glow.style.cssText =
+      `position:absolute;inset:0;border-radius:50%;background:${config.gradient};will-change:transform;`;
+
+    corner.appendChild(glow);
+    layer.appendChild(corner);
+    corners[key] = { corner, glow };
+  });
+
+  document.body.prepend(layer);
+  return { layer, corners };
+}
+
+function initCornerWash(prefersReducedMotion: boolean): void {
+  const washModules = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-module]')).filter(
+    (module) => module.id !== 'hero' && module.id !== 'inicio-consultoria'
+  );
+
+  const { layer, corners } = createWashLayer();
+  washLayer = layer;
+
+  washContext = gsap.context(() => {
+    const placement = (key: WashCorner, light: WashLight) => ({
+      opacity: light.o,
+      scale: light.s,
+      xPercent: WASH_CORNERS[key].sx * (WASH_OUT - light.inset),
+      yPercent: WASH_CORNERS[key].sy * (WASH_OUT - light.inset),
+    });
+
+    const applyPattern = (pattern: WashPattern, immediate: boolean): void => {
+      WASH_ORDER.forEach((key) => {
+        const target = placement(key, pattern[key]);
+        const el = corners[key].corner;
+
+        if (immediate) {
+          gsap.set(el, target);
+          return;
+        }
+
+        // Lights entering ease out slowly; lights leaving fade a bit faster,
+        // so the corners hand the glow over instead of popping.
+        const entering = target.opacity > Number(gsap.getProperty(el, 'opacity'));
+        gsap.to(el, {
+          ...target,
+          duration: entering ? 1.8 : 1.2,
+          ease: entering ? 'power3.out' : 'power2.inOut',
+          overwrite: 'auto',
+        });
+      });
+    };
+
+    // Reduced motion: one static composition, no tweens, no drift.
+    if (prefersReducedMotion) {
+      applyPattern(WASH_PATTERNS[0] ?? WASH_REST, true);
+      return;
+    }
+
+    // Start unlit but positioned at the rest state; the first pattern applied
+    // below fades the right corners in.
+    WASH_ORDER.forEach((key) => {
+      gsap.set(corners[key].corner, { ...placement(key, WASH_REST[key]), opacity: 0 });
+    });
+
+    // Scroll drift: each light wanders inside its corner and its ellipse
+    // rotates, so the gradient edge keeps changing while you scroll.
+    WASH_ORDER.forEach((key) => {
+      gsap.to(corners[key].glow, {
+        keyframes: WASH_CORNERS[key].drift.map((step) => ({ ...step, ease: 'sine.inOut' })),
+        ease: 'none',
+        scrollTrigger: {
+          start: 0,
+          end: 'max',
+          scrub: 1.2,
+        },
+      });
+    });
+
+    if (washModules.length === 0) {
+      applyPattern(WASH_REST, false);
+      return;
+    }
+
+    // Pattern selection. The module closest to the viewport center decides the
+    // base pattern; tall modules advance up to two extra steps as you scroll
+    // through them, so long sections also change composition.
+    let currentIndex = -2; // -1 is the rest state; -2 forces the first apply
+
+    const evaluate = (): void => {
+      const viewportHeight = window.innerHeight;
+      const center = viewportHeight / 2;
+
+      let bestIndex = -1;
+      let bestDistance = Infinity;
+      let bestRect: DOMRect | null = null;
+
+      for (let i = 0; i < washModules.length; i += 1) {
+        const washModule = washModules[i];
+        if (!washModule) continue;
+
+        const rect = washModule.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > viewportHeight) continue;
+
+        const distance = Math.abs(rect.top + rect.height / 2 - center);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestIndex = i;
+          bestRect = rect;
+        }
+      }
+
+      let nextIndex = -1;
+      if (bestRect && bestIndex >= 0) {
+        const step = clamp(Math.floor((center - bestRect.top) / (viewportHeight * 1.15)), 0, 2);
+        nextIndex = (bestIndex * 3 + step) % WASH_PATTERNS.length;
+      }
+
+      if (nextIndex === currentIndex) return;
+      currentIndex = nextIndex;
+      applyPattern(nextIndex === -1 ? WASH_REST : (WASH_PATTERNS[nextIndex] ?? WASH_REST), false);
+    };
+
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: evaluate,
+      onRefresh: evaluate,
+    });
+    evaluate();
+  });
+}
 
 /**
  * Clean up existing motion instances, listeners, and ScrollTriggers.
@@ -43,10 +345,17 @@ export function cleanupMotion(): void {
     consultingRevealObserver = null;
   }
 
-  if (scrollWashObserver) {
-    scrollWashObserver.disconnect();
-    scrollWashObserver = null;
+  // Corner wash: revert its tweens/ScrollTriggers and remove the light layer
+  if (washContext) {
+    washContext.revert();
+    washContext = null;
   }
+  if (washLayer) {
+    washLayer.remove();
+    washLayer = null;
+  }
+  document.querySelectorAll('[data-corner-wash]').forEach((node) => node.remove());
+  // Legacy attribute from the previous wash system (kept so old CSS stays inert)
   document.documentElement.removeAttribute('data-scroll-wash');
 
   // 4. Destroy Lenis smooth scroll
@@ -75,39 +384,9 @@ export function initMotion(): void {
   // Check accessibility reduced-motion preference
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Shift two soft background lights as each content section reaches the
-  // center of the viewport. The radial gradients themselves stay static;
-  // only their positions and opacity transition between restrained states.
-  const washModules = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-module]'))
-    .filter((module) => module.id !== 'hero' && module.id !== 'inicio-consultoria');
-  const washStates = ['wash-1', 'wash-2', 'wash-3', 'wash-4'];
-  washModules.forEach((module, index) => {
-    module.dataset.scrollWash = washStates[index % washStates.length];
-  });
-
-  if ('IntersectionObserver' in window && washModules.length > 0) {
-    const activeWashModules = new Set<HTMLElement>();
-    scrollWashObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const module = entry.target as HTMLElement;
-        if (entry.isIntersecting) activeWashModules.add(module);
-        else activeWashModules.delete(module);
-      });
-
-      const viewportCenter = window.innerHeight / 2;
-      const currentModule = Array.from(activeWashModules).sort((a, b) => {
-        const aCenter = a.getBoundingClientRect().top + a.getBoundingClientRect().height / 2;
-        const bCenter = b.getBoundingClientRect().top + b.getBoundingClientRect().height / 2;
-        return Math.abs(aCenter - viewportCenter) - Math.abs(bCenter - viewportCenter);
-      })[0];
-
-      if (currentModule?.dataset.scrollWash) {
-        document.documentElement.dataset.scrollWash = currentModule.dataset.scrollWash;
-      }
-    }, { rootMargin: '-160px 0px -160px 0px', threshold: 0 });
-
-    washModules.forEach((module) => scrollWashObserver?.observe(module));
-  }
+  // Four soft violet lights anchored to the viewport corners. Scrolling swaps
+  // which corners are lit (pattern per section) and slowly drifts the lights.
+  initCornerWash(prefersReducedMotion);
 
   // ----------------------------------------------------
   // 1. LENIS SMOOTH SCROLL SETUP (Bypassed if reduced-motion)
