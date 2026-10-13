@@ -1,0 +1,201 @@
+---
+export interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
+---
+
+<div
+  id={id}
+  class:list={['particles-bg-container', className]}
+  aria-hidden="true"
+  data-particles-container
+></div>
+
+<!-- Biblioteca particles.js oficial local -->
+<script is:inline src="/vendor/particles.min.js"></script>
+
+<script is:inline define:vars={{ containerId: id }}>
+  (() => {
+    const initParticles = () => {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      if (typeof window.particlesJS !== 'function') {
+        setTimeout(initParticles, 80);
+        return;
+      }
+
+      // Evitar acumulación de canvas al navegar con Astro ClientRouter
+      const existingCanvas = container.querySelector('.particles-js-canvas-el');
+      if (existingCanvas) {
+        existingCanvas.remove();
+      }
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      window.particlesJS(containerId, {
+        particles: {
+          number: {
+            value: prefersReducedMotion ? 12 : 30,
+            density: {
+              enable: true,
+              value_area: 800
+            }
+          },
+          color: {
+            value: '#59065f'
+          },
+          shape: {
+            type: 'circle',
+            stroke: {
+              width: 0,
+              color: '#ff0000'
+            },
+            polygon: {
+              nb_sides: 5
+            }
+          },
+          opacity: {
+            value: 0.5,
+            random: false,
+            anim: {
+              enable: false,
+              speed: 2,
+              opacity_min: 0,
+              sync: false
+            }
+          },
+          size: {
+            value: 5.25,
+            random: true,
+            anim: {
+              enable: false,
+              speed: 35,
+              size_min: 0,
+              sync: false
+            }
+          },
+          line_linked: {
+            enable: true,
+            distance: 262.5,
+            color: '#59065f',
+            opacity: 0.4,
+            width: 1.75
+          },
+          move: {
+            enable: !prefersReducedMotion,
+            speed: prefersReducedMotion ? 0 : 3.5,
+            direction: 'none',
+            random: false,
+            straight: false,
+            out_mode: 'out',
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 3000,
+              rotateY: 3000
+            }
+          }
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: {
+            onhover: {
+              enable: !prefersReducedMotion,
+              mode: 'grab'
+            },
+            onclick: {
+              enable: true,
+              mode: 'push'
+            },
+            resize: true
+          },
+          modes: {
+            grab: {
+              distance: 245,
+              line_linked: {
+                opacity: 1
+              }
+            },
+            bubble: {
+              distance: 350,
+              size: 140,
+              duration: 0.4
+            },
+            repulse: {
+              distance: 350,
+              duration: 0.4
+            },
+            push: {
+              particles_nb: 4
+            },
+            remove: {
+              particles_nb: 2
+            }
+          }
+        },
+        retina_detect: true
+      });
+
+      container.dataset.initialized = 'true';
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initParticles, { once: true });
+    } else {
+      initParticles();
+    }
+
+    document.addEventListener('astro:page-load', initParticles);
+
+    // Limpieza de bucles de animación al desmontar página para preservar memoria
+    document.addEventListener('astro:before-swap', () => {
+      if (window.pJSDom && window.pJSDom.length > 0) {
+        for (let i = window.pJSDom.length - 1; i >= 0; i--) {
+          const item = window.pJSDom[i];
+          if (item && item.pJS && item.pJS.canvas && item.pJS.canvas.el) {
+            if (item.pJS.canvas.el.closest(`#${containerId}`)) {
+              if (item.pJS.fn && item.pJS.fn.vendors && item.pJS.fn.vendors.animFrame) {
+                cancelAnimationFrame(item.pJS.fn.vendors.animFrame);
+              }
+              window.pJSDom.splice(i, 1);
+            }
+          }
+        }
+      }
+    });
+  })();
+</script>
+
+<style>
+  .particles-bg-container {
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    width: 100vw;
+    max-width: none;
+    height: calc(100% + 2rem);
+    transform: translateX(-50%);
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: auto;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 15%, #ede6f7 0%, #f4f0fa 50%, rgba(255, 255, 255, 0.4) 85%),
+      #e6e6ff;
+    /* Máscara de desvanecimiento hacia abajo: se disuelve suavemente hacia el canvas inferior */
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  .particles-bg-container :global(.particles-js-canvas-el) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: auto;
+  }
+</style>

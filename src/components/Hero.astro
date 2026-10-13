@@ -2,6 +2,7 @@
 import { siteConfig } from '../config/site';
 import { type Locale } from '../i18n/config';
 import { useTranslations } from '../i18n/utils';
+import ParticlesBackground from './ParticlesBackground.astro';
 
 export interface Props {
   locale: Locale;
@@ -23,6 +24,7 @@ const rotatingPhrases = locale === 'en'
   class="relative isolate w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-3 sm:pb-4 min-h-[calc(100vh-5rem)] flex flex-col justify-between"
   aria-labelledby="hero-heading"
 >
+  <ParticlesBackground id="perdomopro-particles-hero" />
   <div class="hero-wash" aria-hidden="true"></div>
   <!-- Top Editorial Technical Metadata Strip -->
   <header
