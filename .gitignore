@@ -42,3 +42,5 @@ coverage/
 #local tests
 api/local.settings.json
 api/node_modules/
+
+.agents/
