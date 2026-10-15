@@ -2,6 +2,7 @@
 import { siteConfig } from '../config/site';
 import { projectsData } from '../data/projects';
 import type { Locale } from '../i18n/config';
+import ParticlesBackground from './ParticlesBackground.astro';
 
 export interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -556,24 +557,24 @@ const projectVisuals = {
 
 <div class="consulting-page" data-consulting-page>
   <section id="inicio-consultoria" class="relative isolate max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-12 sm:pt-16 pb-20 sm:pb-28" data-scroll-module>
-    <div class="hero-wash" aria-hidden="true"></div>
-    <div class="relative z-10 border-y border-border-subtle bg-white/65 py-4 flex flex-wrap justify-between gap-3 text-[10px] sm:text-xs font-mono-tech tracking-[0.12em] text-fg-muted backdrop-blur-[2px]">
+    <ParticlesBackground id="perdomopro-particles-consulting" />
+    <div class="relative z-10 border-y border-border-subtle bg-white/65 py-4 flex flex-wrap justify-between gap-3 text-[10px] sm:text-xs font-mono-tech tracking-[0.12em] text-fg-muted backdrop-blur-[2px] pointer-events-none">
       <span>{copy.eyebrow}</span><span>{copy.heroMeta}</span>
     </div>
-    <div class="relative z-10 grid lg:grid-cols-12 gap-12 lg:gap-8 pt-16 sm:pt-24 lg:pt-32 items-end">
+    <div class="relative z-10 grid lg:grid-cols-12 gap-12 lg:gap-8 pt-16 sm:pt-24 lg:pt-32 items-end pointer-events-none">
       <div class="lg:col-span-8" data-reveal-item>
         <p class="mb-7 text-xs sm:text-sm font-mono-tech uppercase tracking-[0.13em] text-fg-secondary"><span class="mr-3 text-status-active" aria-hidden="true">■</span>{en ? 'SOFTWARE / AUTOMATION / CLOUD' : 'SOFTWARE / AUTOMATIZACIÓN / CLOUD'}</p>
         <h1 class="max-w-5xl font-sans text-4xl sm:text-6xl lg:text-7xl xl:text-[5.6rem] leading-[0.98] tracking-[-0.055em] text-fg-primary">{copy.heroTitle}</h1>
       </div>
       <div class="lg:col-span-4 lg:pb-2" data-reveal-item>
         <p class="text-lg sm:text-xl leading-relaxed text-fg-secondary">{copy.heroIntro}</p>
-        <div class="mt-8 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3">
+        <div class="mt-8 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 pointer-events-auto">
           <a href="#contacto" class="group inline-flex justify-center items-center gap-3 bg-accent-primary px-5 py-3.5 text-sm text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary">{copy.start}<span class="transition-transform group-hover:translate-x-1" aria-hidden="true">↗</span></a>
           <a href="#soluciones" class="group inline-flex justify-center items-center gap-3 border border-border-subtle px-5 py-3.5 text-sm text-fg-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-primary hover:bg-accent-subtle active:translate-y-0 active:scale-[0.98]">{copy.explore}<span class="transition-transform group-hover:translate-y-0.5" aria-hidden="true">↓</span></a>
         </div>
       </div>
     </div>
-    <div class="relative z-10 mt-20 sm:mt-28 border border-border-subtle bg-white/75 p-6 sm:p-10 shadow-sm backdrop-blur-[2px]" data-reveal-item>
+    <div class="relative z-10 mt-20 sm:mt-28 border border-border-subtle bg-white/75 p-6 sm:p-10 shadow-sm backdrop-blur-[2px] pointer-events-none" data-reveal-item>
       <p class="mb-7 text-[10px] font-mono-tech tracking-[0.14em] text-fg-muted">{copy.cue}</p>
       <div class="grid sm:grid-cols-3 gap-3 sm:gap-0 items-stretch">
         {copy.flow.map((step, index) => <div class="flex items-center gap-3 sm:px-5 first:pl-0 last:pr-0" data-flow-step>

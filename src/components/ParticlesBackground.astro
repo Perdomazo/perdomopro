@@ -1,0 +1,258 @@
+---
+export interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
+---
+
+<div
+  id={id}
+  class:list={['particles-bg-container', className]}
+  aria-hidden="true"
+  data-particles-container={id}
+></div>
+
+<!-- Carga de la biblioteca particles.js oficial local -->
+<script is:inline src="/vendor/particles.min.js"></script>
+
+<script is:inline>
+  (() => {
+    const initAllParticles = () => {
+      if (typeof window.particlesJS !== 'function') {
+        setTimeout(initAllParticles, 60);
+        return;
+      }
+
+      const containers = document.querySelectorAll('[data-particles-container]');
+      containers.forEach((container) => {
+        const targetId = container.id || 'perdomopro-particles';
+
+        // Eliminar canvas previo si se recarga mediante navegación Astro
+        const existingCanvas = container.querySelector('.particles-js-canvas-el');
+        if (existingCanvas) {
+          existingCanvas.remove();
+        }
+
+        window.particlesJS(targetId, {
+          particles: {
+            number: {
+              value: 30,
+              density: {
+                enable: true,
+                value_area: 800
+              }
+            },
+            color: {
+              value: '#59065f'
+            },
+            shape: {
+              type: 'circle',
+              stroke: {
+                width: 0,
+                color: '#ff0000'
+              },
+              polygon: {
+                nb_sides: 5
+              }
+            },
+            opacity: {
+              value: 0.5,
+              random: false,
+              anim: {
+                enable: false,
+                speed: 2,
+                opacity_min: 0,
+                sync: false
+              }
+            },
+            size: {
+              value: 5.25,
+              random: true,
+              anim: {
+                enable: false,
+                speed: 35,
+                size_min: 0,
+                sync: false
+              }
+            },
+            line_linked: {
+              enable: true,
+              distance: 262.5,
+              color: '#59065f',
+              opacity: 0.4,
+              width: 1.75
+            },
+            move: {
+              enable: true,
+              speed: 3.5,
+              direction: 'none',
+              random: false,
+              straight: false,
+              out_mode: 'out',
+              bounce: false,
+              attract: {
+                enable: false,
+                rotateX: 3000,
+                rotateY: 3000
+              }
+            }
+          },
+          interactivity: {
+            detect_on: 'canvas',
+            events: {
+              onhover: {
+                enable: true,
+                mode: 'grab'
+              },
+              onclick: {
+                enable: true,
+                mode: 'push'
+              },
+              resize: true
+            },
+            modes: {
+              grab: {
+                distance: 245,
+                line_linked: {
+                  opacity: 1
+                }
+              },
+              bubble: {
+                distance: 350,
+                size: 140,
+                duration: 0.4
+              },
+              repulse: {
+                distance: 350,
+                duration: 0.4
+              },
+              push: {
+                particles_nb: 4
+              },
+              remove: {
+                particles_nb: 2
+              }
+            }
+          },
+          retina_detect: true
+        });
+
+        container.dataset.initialized = 'true';
+
+        // Escucha global dentro de toda la sección Hero para rastrear el cursor
+        // incluso sobre títulos, párrafos y bloques de texto superpuestos
+        const section = container.closest('section') || container.parentElement;
+        if (section && !section.dataset.particlesListening) {
+          section.dataset.particlesListening = 'true';
+
+          const getCanvas = () => container.querySelector('.particles-js-canvas-el');
+          const getPJS = (canvas) => {
+            if (!window.pJSDom || !canvas) return null;
+            const item = window.pJSDom.find(
+              (entry) => entry && entry.pJS && entry.pJS.canvas && entry.pJS.canvas.el === canvas
+            );
+            return item ? item.pJS : null;
+          };
+
+          section.addEventListener(
+            'mousemove',
+            (e) => {
+              const canvas = getCanvas();
+              const p = getPJS(canvas);
+              if (!p || !canvas) return;
+
+              const rect = canvas.getBoundingClientRect();
+              const mouseX = e.clientX - rect.left;
+              const mouseY = e.clientY - rect.top;
+              const ratio = p.tmp.retina ? p.canvas.pxratio : 1;
+
+              p.interactivity.mouse.pos_x = mouseX * ratio;
+              p.interactivity.mouse.pos_y = mouseY * ratio;
+              p.interactivity.status = 'mousemove';
+            },
+            { passive: true }
+          );
+
+          section.addEventListener('mouseleave', () => {
+            const canvas = getCanvas();
+            const p = getPJS(canvas);
+            if (!p) return;
+
+            p.interactivity.mouse.pos_x = null;
+            p.interactivity.mouse.pos_y = null;
+            p.interactivity.status = 'mouseleave';
+          });
+
+          section.addEventListener('click', (e) => {
+            const canvas = getCanvas();
+            const p = getPJS(canvas);
+            if (!p || !canvas) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            const ratio = p.tmp.retina ? p.canvas.pxratio : 1;
+
+            p.interactivity.mouse.click_pos_x = mouseX * ratio;
+            p.interactivity.mouse.click_pos_y = mouseY * ratio;
+            p.interactivity.mouse.click_time = new Date().getTime();
+
+            if (p.interactivity.events.onclick.enable && p.interactivity.events.onclick.mode === 'push') {
+              p.fn.modes.pushParticles(p.interactivity.modes.push.particles_nb, p.interactivity.mouse);
+            }
+          });
+        }
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAllParticles, { once: true });
+    } else {
+      initAllParticles();
+    }
+
+    document.addEventListener('astro:page-load', initAllParticles);
+
+    document.addEventListener('astro:before-swap', () => {
+      if (window.pJSDom && window.pJSDom.length > 0) {
+        for (let i = window.pJSDom.length - 1; i >= 0; i--) {
+          const item = window.pJSDom[i];
+          if (item && item.pJS && item.pJS.fn && item.pJS.fn.vendors && item.pJS.fn.vendors.animFrame) {
+            cancelAnimationFrame(item.pJS.fn.vendors.animFrame);
+          }
+        }
+        window.pJSDom = [];
+      }
+    });
+  })();
+</script>
+
+<style>
+  .particles-bg-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    transform: translateX(-50%);
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: auto;
+    background: #e6e6ff;
+    /* Desvanecimiento progresivo al hacer scroll hacia el canvas inferior */
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  .particles-bg-container :global(.particles-js-canvas-el) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: auto;
+  }
+</style>
