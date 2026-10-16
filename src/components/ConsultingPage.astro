@@ -44,6 +44,13 @@ export interface InvestmentTier {
   idealFor: string;
 }
 
+export interface QuickNavItem {
+  num: string;
+  title: string;
+  desc: string;
+  href: string;
+}
+
 export interface CloudSovereignty {
   badge: string;
   title: string;
@@ -58,8 +65,33 @@ const copy = en ? {
   heroMeta: 'Adrián Perdomo · Independent technology consultant',
   start: 'Tell me what is getting in the way',
   explore: 'Explore solutions',
-  cue: 'FROM THE REAL OPERATION TO A WORKING SOLUTION',
-  flow: ['Business need', 'Useful solution', 'Supported operation'],
+  quickNavLabel: 'EXPLORE BY WHAT YOU NEED TODAY',
+  quickNav: [
+    {
+      num: '01',
+      title: 'Common business problems',
+      desc: 'Operational friction & bottlenecks',
+      href: '#problemas',
+    },
+    {
+      num: '02',
+      title: 'Custom solutions and tools',
+      desc: 'Internal systems, web, automation & cloud',
+      href: '#soluciones',
+    },
+    {
+      num: '03',
+      title: 'How I can help you step by step',
+      desc: 'From discovery to supported launch',
+      href: '#proceso',
+    },
+    {
+      num: '04',
+      title: 'Investment and scope models',
+      desc: 'Clear engagement tiers & cloud ownership',
+      href: '#inversion',
+    },
+  ],
   sectionLabel: 'COMMON OPERATIONAL FRICTION',
   problemsTitle: 'When everyday work depends on too many manual steps.',
   problemsLead: 'These are starting points for a conversation, not assumptions about your business. I first understand how the work is done today.',
@@ -301,8 +333,33 @@ const copy = en ? {
   heroMeta: 'Adrián Perdomo · Consultor tecnológico independiente',
   start: 'Cuéntame qué proceso quieres mejorar',
   explore: 'Explorar soluciones',
-  cue: 'DE LA OPERACIÓN REAL A UNA SOLUCIÓN FUNCIONAL',
-  flow: ['Necesidad del negocio', 'Solución útil', 'Operación acompañada'],
+  quickNavLabel: 'EXPLORA SEGÚN LO QUE BUSCAS HOY',
+  quickNav: [
+    {
+      num: '01',
+      title: 'Problemas frecuentes en negocios',
+      desc: 'Fricciones operativas y cuellos de botella',
+      href: '#problemas',
+    },
+    {
+      num: '02',
+      title: 'Soluciones y herramientas a medida',
+      desc: 'Sistemas internos, web, automatización y cloud',
+      href: '#soluciones',
+    },
+    {
+      num: '03',
+      title: 'Cómo te puedo ayudar paso a paso',
+      desc: 'Del diagnóstico al despliegue acompañado',
+      href: '#proceso',
+    },
+    {
+      num: '04',
+      title: 'Modalidades de inversión y alcance',
+      desc: 'Esquemas claros y soberanía tecnológica',
+      href: '#inversion',
+    },
+  ],
   sectionLabel: 'FRICCIONES COTIDIANAS',
   problemsTitle: 'Cuando el trabajo diario depende de demasiados pasos manuales.',
   problemsLead: 'Son posibles puntos de partida para una conversación, no suposiciones sobre tu negocio. Primero entendemos cómo se trabaja hoy.',
@@ -556,33 +613,65 @@ const projectVisuals = {
 ---
 
 <div class="consulting-page" data-consulting-page>
-  <section id="inicio-consultoria" class="relative isolate max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-12 sm:pt-16 pb-20 sm:pb-28" data-scroll-module>
+  <section id="inicio-consultoria" class="relative isolate max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-16 sm:pb-24" data-scroll-module>
     <ParticlesBackground id="perdomopro-particles-consulting" />
-    <div class="relative z-10 border-y border-border-subtle bg-white/65 py-4 flex flex-wrap justify-between gap-3 text-[10px] sm:text-xs font-mono-tech tracking-[0.12em] text-fg-muted backdrop-blur-[2px] pointer-events-none">
-      <span>{copy.eyebrow}</span><span>{copy.heroMeta}</span>
-    </div>
-    <div class="relative z-10 grid lg:grid-cols-12 gap-12 lg:gap-8 pt-16 sm:pt-24 lg:pt-32 items-end pointer-events-none">
+    <header
+      class="relative z-10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-primary p-4 sm:p-5 border border-border-subtle bg-white/80 shadow-xs backdrop-blur-[4px] pointer-events-none"
+      data-hero-meta="top"
+    >
+      <div class="flex items-center gap-3">
+        <span class="text-fg-muted">{en ? '01 // CONSULTING' : '01 // CONSULTORÍA'}</span>
+        <span class="text-border-muted" aria-hidden="true">/</span>
+        <span class="text-fg-primary font-semibold">{siteConfig.brand}</span>
+        <span class="text-border-muted hidden sm:inline" aria-hidden="true">•</span>
+        <span class="text-fg-muted hidden sm:inline">{en ? 'TECHNOLOGY FOR SMALL BUSINESSES' : 'TECNOLOGÍA PARA PEQUEÑOS NEGOCIOS'}</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-status-active" aria-hidden="true"></span>
+          <span class="text-fg-primary font-semibold">{copy.heroMeta}</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-14 pt-8 sm:pt-10 lg:pt-12 items-end pointer-events-none">
       <div class="lg:col-span-8" data-reveal-item>
-        <p class="mb-7 text-xs sm:text-sm font-mono-tech uppercase tracking-[0.13em] text-fg-secondary"><span class="mr-3 text-status-active" aria-hidden="true">■</span>{en ? 'SOFTWARE / AUTOMATION / CLOUD' : 'SOFTWARE / AUTOMATIZACIÓN / CLOUD'}</p>
+        <p class="mb-6 text-xs sm:text-sm font-mono-tech uppercase tracking-[0.13em] text-fg-primary font-medium"><span class="mr-3 text-status-active" aria-hidden="true">■</span>{en ? 'SOFTWARE / AUTOMATION / CLOUD' : 'SOFTWARE / AUTOMATIZACIÓN / CLOUD'}</p>
         <h1 class="max-w-5xl font-sans text-4xl sm:text-6xl lg:text-7xl xl:text-[5.6rem] leading-[0.98] tracking-[-0.055em] text-fg-primary">{copy.heroTitle}</h1>
       </div>
       <div class="lg:col-span-4 lg:pb-2" data-reveal-item>
-        <p class="text-lg sm:text-xl leading-relaxed text-fg-secondary">{copy.heroIntro}</p>
+        <p class="text-lg sm:text-xl leading-relaxed text-fg-primary font-normal">{copy.heroIntro}</p>
         <div class="mt-8 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 pointer-events-auto">
           <a href="#contacto" class="group inline-flex justify-center items-center gap-3 bg-accent-primary px-5 py-3.5 text-sm text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary">{copy.start}<span class="transition-transform group-hover:translate-x-1" aria-hidden="true">↗</span></a>
           <a href="#soluciones" class="group inline-flex justify-center items-center gap-3 border border-border-subtle px-5 py-3.5 text-sm text-fg-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-primary hover:bg-accent-subtle active:translate-y-0 active:scale-[0.98]">{copy.explore}<span class="transition-transform group-hover:translate-y-0.5" aria-hidden="true">↓</span></a>
         </div>
       </div>
     </div>
-    <div class="relative z-10 mt-20 sm:mt-28 border border-border-subtle bg-white/75 p-6 sm:p-10 shadow-sm backdrop-blur-[2px] pointer-events-none" data-reveal-item>
-      <p class="mb-7 text-[10px] font-mono-tech tracking-[0.14em] text-fg-muted">{copy.cue}</p>
-      <div class="grid sm:grid-cols-3 gap-3 sm:gap-0 items-stretch">
-        {copy.flow.map((step, index) => <div class="flex items-center gap-3 sm:px-5 first:pl-0 last:pr-0" data-flow-step>
-          <span class="text-xs font-mono-tech text-fg-muted">0{index + 1}</span><span class="text-sm sm:text-base text-fg-primary">{step}</span>
-          {index < copy.flow.length - 1 && <span class="hidden sm:block ml-auto text-fg-muted" aria-hidden="true">→</span>}
-        </div>)}
+    <nav role="navigation" aria-label={copy.quickNavLabel} class="relative z-10 mt-16 sm:mt-24 border border-border-subtle bg-white/75 p-5 sm:p-8 shadow-sm backdrop-blur-[2px] pointer-events-auto" data-reveal-item>
+      <h2 class="mb-4 text-[10px] font-mono-tech tracking-[0.14em] uppercase text-fg-muted font-normal">{copy.quickNavLabel}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        {copy.quickNav.map((item) => (
+          <a
+            href={item.href}
+            class="group flex flex-col justify-between border border-border-subtle bg-white/85 p-4 sm:p-5 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-primary hover:bg-canvas hover:shadow-md active:translate-y-0 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono-tech text-xs font-semibold text-accent-primary">{item.num}</span>
+                <span class="text-xs text-fg-muted transition-transform duration-200 group-hover:translate-x-0.5 group-hover:translate-y-0.5" aria-hidden="true">↘</span>
+              </div>
+              <h3 class="mt-2.5 text-sm sm:text-base font-semibold text-fg-primary group-hover:text-accent-primary transition-colors leading-snug">
+                {item.title}
+              </h3>
+            </div>
+            <p class="mt-2 text-xs text-fg-secondary leading-relaxed font-mono-tech">
+              {item.desc}
+            </p>
+          </a>
+        ))}
       </div>
-    </div>
+    </nav>
   </section>
 
   <!-- 01 // PROBLEMAS Y FRICCIONES -->
@@ -597,7 +686,7 @@ const projectVisuals = {
         <p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.problemsLead}</p>
       </div>
       <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
-        {copy.problems.map((problem, i) => (
+        {copy.problems.slice(0, 2).map((problem, i) => (
           <article class="flex flex-col justify-between border border-border-subtle bg-canvas-subtle p-5 sm:p-6 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-700/30 hover:shadow-md" data-reveal-item>
             <div>
               <div class="flex items-center justify-between gap-3">
@@ -618,6 +707,27 @@ const projectVisuals = {
         ))}
       </div>
     </div>
+    <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {copy.problems.slice(2, 6).map((problem, i) => (
+        <article class="flex flex-col justify-between border border-border-subtle bg-canvas-subtle p-5 sm:p-6 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-700/30 hover:shadow-md" data-reveal-item>
+          <div>
+            <div class="flex items-center justify-between gap-3">
+              <p class="text-[10px] font-mono-tech tracking-widest text-fg-muted">0{i + 3} / {en ? 'FRICTION' : 'FRICCIÓN'}</p>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 border border-amber-500/25 bg-amber-500/10 text-amber-900 font-mono-tech text-[10px] tracking-wider uppercase font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-600" aria-hidden="true"></span>
+                {problem.tag}
+              </span>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-fg-primary">{problem.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-fg-secondary">{problem.desc}</p>
+          </div>
+          <div class="mt-5 pt-3.5 border-t border-border-subtle/80 flex items-start gap-2 text-xs font-mono-tech text-fg-secondary">
+            <span class="text-amber-700 font-bold shrink-0 mt-0.5" aria-hidden="true">↳</span>
+            <span><strong class="text-amber-900 font-semibold">{en ? 'Bottleneck:' : 'Cuello de botella:'}</strong> {problem.bottleneck}</span>
+          </div>
+        </article>
+      ))}
+    </div>
   </section>
 
   <!-- 02 // SOLUCIONES DE ALTO VALOR -->
@@ -631,41 +741,30 @@ const projectVisuals = {
         <h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.solutionsTitle}</h2>
         <p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.solutionsLead}</p>
       </div>
-      <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
-        {copy.solutions.map((solution, i) => (
-          <article class:list={[
-            "group relative flex flex-col justify-between overflow-hidden border border-border-subtle bg-canvas p-6 sm:p-7 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-lg focus-within:ring-2 focus-within:ring-accent-primary",
-            solution.isFeatured ? "sm:col-span-2 ring-1 ring-accent-primary/15" : "sm:col-span-1"
-          ]} data-reveal-item>
+      <div class="lg:col-span-7 flex flex-col">
+        {copy.solutions.slice(0, 1).map((solution) => (
+          <article class="group relative flex h-full flex-col justify-between overflow-hidden border border-border-subtle bg-canvas p-6 sm:p-7 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-lg focus-within:ring-2 focus-within:ring-accent-primary sm:col-span-2 ring-1 ring-accent-primary/15" data-reveal-item>
             <div class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent" aria-hidden="true"></div>
 
             <div>
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2">
-                  <span class="font-mono-tech text-xs font-semibold text-accent-primary">0{i + 1}</span>
+                  <span class="font-mono-tech text-xs font-semibold text-accent-primary">01</span>
                   <span class="h-3 w-px bg-border-subtle" aria-hidden="true"></span>
                   <span class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted">{solution.focus}</span>
                 </div>
-                {solution.isFeatured && (
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-accent-subtle text-accent-primary border border-accent-primary/20 text-[10px] font-mono-tech tracking-wider uppercase font-semibold">
-                    <span class="w-1.5 h-1.5 rounded-full bg-accent-primary" aria-hidden="true"></span>
-                    {en ? 'CORE PLATFORM' : 'SISTEMA CENTRAL'}
-                  </span>
-                )}
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-accent-subtle text-accent-primary border border-accent-primary/20 text-[10px] font-mono-tech tracking-wider uppercase font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent-primary" aria-hidden="true"></span>
+                  {en ? 'CORE PLATFORM' : 'SISTEMA CENTRAL'}
+                </span>
               </div>
 
-              <h3 class:list={[
-                "font-semibold text-fg-primary",
-                solution.isFeatured ? "mt-4 text-xl sm:text-2xl" : "mt-4 text-lg"
-              ]}>{solution.title}</h3>
+              <h3 class="mt-4 text-xl sm:text-2xl font-semibold text-fg-primary">{solution.title}</h3>
               <p class="mt-2 text-sm leading-relaxed text-fg-secondary">{solution.desc}</p>
 
               <div class="mt-5 pt-4 border-t border-border-subtle">
                 <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">{en ? 'KEY DELIVERABLES' : 'ENTREGABLES CLAVE'}</p>
-                <ul class:list={[
-                  "mt-2.5 space-y-2 text-xs text-fg-secondary list-none p-0 m-0",
-                  solution.isFeatured ? "grid sm:grid-cols-2 gap-x-4 gap-y-2 space-y-0" : ""
-                ]}>
+                <ul class="mt-2.5 grid sm:grid-cols-2 gap-x-4 gap-y-2 space-y-0 text-xs text-fg-secondary list-none p-0 m-0">
                   {solution.deliverables.map((item) => (
                     <li class="flex items-start gap-2">
                       <svg class="w-3.5 h-3.5 text-status-active shrink-0 mt-0.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -684,6 +783,44 @@ const projectVisuals = {
           </article>
         ))}
       </div>
+    </div>
+    <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+      {copy.solutions.slice(1).map((solution, i) => (
+        <article class="group relative flex flex-col justify-between overflow-hidden border border-border-subtle bg-canvas p-6 sm:p-7 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-lg focus-within:ring-2 focus-within:ring-accent-primary sm:col-span-1" data-reveal-item>
+          <div class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent" aria-hidden="true"></div>
+
+          <div>
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <span class="font-mono-tech text-xs font-semibold text-accent-primary">0{i + 2}</span>
+                <span class="h-3 w-px bg-border-subtle" aria-hidden="true"></span>
+                <span class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted">{solution.focus}</span>
+              </div>
+            </div>
+
+            <h3 class="mt-4 text-lg font-semibold text-fg-primary">{solution.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-fg-secondary">{solution.desc}</p>
+
+            <div class="mt-5 pt-4 border-t border-border-subtle">
+              <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">{en ? 'KEY DELIVERABLES' : 'ENTREGABLES CLAVE'}</p>
+              <ul class="mt-2.5 space-y-2 text-xs text-fg-secondary list-none p-0 m-0">
+                {solution.deliverables.map((item) => (
+                  <li class="flex items-start gap-2">
+                    <svg class="w-3.5 h-3.5 text-status-active shrink-0 mt-0.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                    </svg>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-3.5 border-t border-border-subtle/80 text-xs font-mono-tech text-fg-muted">
+            <span class="text-accent-primary font-semibold">{en ? 'Best for:' : 'Ideal para:'}</span> {solution.useCase}
+          </div>
+        </article>
+      ))}
     </div>
   </section>
 
