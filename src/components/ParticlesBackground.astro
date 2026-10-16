@@ -38,14 +38,14 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
         window.particlesJS(targetId, {
           particles: {
             number: {
-              value: 30,
+              value: 28,
               density: {
                 enable: true,
                 value_area: 800
               }
             },
             color: {
-              value: '#59065f'
+              value: '#7e5a9b'
             },
             shape: {
               type: 'circle',
@@ -58,7 +58,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
               }
             },
             opacity: {
-              value: 0.5,
+              value: 0.35,
               random: false,
               anim: {
                 enable: false,
@@ -68,7 +68,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
               }
             },
             size: {
-              value: 5.25,
+              value: 3.8,
               random: true,
               anim: {
                 enable: false,
@@ -79,14 +79,14 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
             },
             line_linked: {
               enable: true,
-              distance: 262.5,
-              color: '#59065f',
-              opacity: 0.4,
-              width: 1.75
+              distance: 215,
+              color: '#8c6ba8',
+              opacity: 0.22,
+              width: 1.2
             },
             move: {
               enable: true,
-              speed: 3.5,
+              speed: 3.2,
               direction: 'none',
               random: false,
               straight: false,
@@ -241,7 +241,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
     z-index: 0;
     overflow: hidden;
     pointer-events: auto;
-    background: #e6e6ff;
+    background: linear-gradient(180deg, #f4f1fa 0%, #f8f6fc 55%, rgba(255, 255, 255, 0) 100%);
     /* Desvanecimiento progresivo al hacer scroll hacia el canvas inferior */
     mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);
     -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);

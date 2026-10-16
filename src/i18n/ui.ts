@@ -29,7 +29,7 @@ export const ui = {
 
     // Hero Section Content & Metadata
     'hero.sectionIndex': '01 // INICIO',
-    'hero.statusIndicator': 'SOPORTE TI E INFRAESTRUCTURA CLOUD',
+    'hero.statusIndicator': 'DESARROLLO E INFRAESTRUCTURA',
     'hero.technicalPillars': 'SOFTWARE / INFRAESTRUCTURA / CLOUD',
     'hero.headlinePrefix': 'Soy Adrián Perdomo. Desarrollo soluciones que conectan',
     'hero.headlineHighlight': 'software e infraestructura.',
@@ -227,7 +227,7 @@ export const ui = {
 
     // Hero Section Content & Metadata
     'hero.sectionIndex': '01 // HOME',
-    'hero.statusIndicator': 'IT SUPPORT & CLOUD INFRASTRUCTURE',
+    'hero.statusIndicator': 'SOFTWARE DEVELOPMENT & INFRASTRUCTURE',
     'hero.technicalPillars': 'SOFTWARE / INFRASTRUCTURE / CLOUD',
     'hero.headlinePrefix': 'I am Adrián Perdomo. I build solutions that connect',
     'hero.headlineHighlight': 'software and infrastructure.',
