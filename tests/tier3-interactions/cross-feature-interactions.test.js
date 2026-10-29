@@ -9,13 +9,12 @@ describe('Tier 3: Pairwise Cross-Feature Interactions', () => {
   const consultingSource = readProjectFile(SOURCE_FILES.consultingAstro);
   const projectsAstro = readProjectFile(SOURCE_FILES.projectsAstro);
 
-  it('T3-INT-01: Interaction between Lenis Smooth Scroll and Project Image Loading: fixed aspect ratios prevent scroll jump', () => {
-    // When Lenis drives scroll position, unconstrained image loads cause scroll-jumps.
-    // Verifies project cards provide aspect-[16/8] or aspect-[16/9] on image wrapper.
+  it('T3-INT-01: Interaction between Lenis Smooth Scroll and Compact Project Cards: .transition-card avoids opacity collision', () => {
+    // Compact project cards use .transition-card so hover transforms never collide with GSAP entrance opacity reveals.
     assert.match(
       projectsAstro,
-      /aspect-\[16\/(?:8|9)\]/,
-      'Image container must define explicit aspect ratio to prevent CLS during Lenis scroll'
+      /transition-card/,
+      'Project cards must apply .transition-card for collision-free hardware acceleration during Lenis scroll'
     );
   });
 

@@ -461,34 +461,39 @@ export function initMotion(): void {
       // 1. About
       const aboutSection = document.querySelector('#sobre-mi, #about');
       if (aboutSection) {
-        const header = aboutSection.querySelector('header');
+        const header = aboutSection.querySelector('[data-section-header], header');
+        const card = aboutSection.querySelector('[data-about-card]');
         const aside = aboutSection.querySelector('aside');
         const content = aboutSection.querySelector('.lg\\:col-span-8');
+        const aboutTargets = [header, card, aside, content].filter(Boolean);
 
-        gsap.from([header, aside, content].filter(Boolean), {
-          opacity: 0,
-          y: yOffset,
-          duration,
-          stagger: 0.1,
-          ease: 'power2.out',
-          clearProps: 'opacity,transform',
-          scrollTrigger: {
-            trigger: aboutSection,
-            start: 'top 85%',
-            once: true,
-          },
-        });
+        if (aboutTargets.length > 0) {
+          gsap.from(aboutTargets, {
+            opacity: 0,
+            y: yOffset,
+            duration,
+            stagger: 0.1,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+            scrollTrigger: {
+              trigger: aboutSection,
+              start: 'top 85%',
+              once: true,
+            },
+          });
+        }
       }
 
       // 2. Professional Experience / Trajectory
       const profileSection = document.querySelector('#recorrido, #trajectory');
       if (profileSection) {
-        const header = profileSection.querySelector('header');
+        const header = profileSection.querySelector('[data-section-header], header');
         const title = profileSection.querySelector('#profile-heading')?.parentElement;
+        const headerTargets = Array.from(new Set([header, title].filter(Boolean)));
         const milestones = profileSection.querySelectorAll('article');
 
-        if (header || title) {
-          gsap.from([header, title].filter(Boolean), {
+        if (headerTargets.length > 0) {
+          gsap.from(headerTargets, {
             opacity: 0,
             y: yOffset,
             duration,
@@ -761,25 +766,41 @@ export function initMotion(): void {
       }
 
       // 7. Contact
-      const contactSection = document.querySelector('#contacto, #contact');
+      const contactSection = document.querySelector('#contacto:not([data-consulting-page] #contacto), #contact');
       if (contactSection) {
-        const header = contactSection.querySelector('header');
-        const content = contactSection.querySelector('.lg\\:col-span-8');
-        const aside = contactSection.querySelector('aside');
+        const gridCols = Array.from(contactSection.querySelectorAll('[data-contact-grid] > div'));
+        const aside = contactSection.querySelector('[data-consulting-banner], aside');
 
-        gsap.from([header, content, aside].filter(Boolean), {
-          opacity: 0,
-          y: yOffset,
-          duration,
-          stagger: 0.09,
-          ease: 'power2.out',
-          clearProps: 'opacity,transform',
-          scrollTrigger: {
-            trigger: contactSection,
-            start: 'top 85%',
-            once: true,
-          },
-        });
+        if (gridCols.length > 0) {
+          gsap.from(gridCols, {
+            opacity: 0,
+            y: yOffset,
+            duration,
+            stagger: 0.09,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+            scrollTrigger: {
+              trigger: contactSection,
+              start: 'top 85%',
+              once: true,
+            },
+          });
+        }
+
+        if (aside) {
+          gsap.from(aside, {
+            opacity: 0,
+            y: yOffset,
+            duration,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+            scrollTrigger: {
+              trigger: aside,
+              start: 'top 88%',
+              once: true,
+            },
+          });
+        }
       }
 
       // 8. Footer

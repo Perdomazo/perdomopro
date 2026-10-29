@@ -9,97 +9,91 @@ export interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const stackCategories = [
+const stackColumns = [
   {
-    num: '01',
-    nameKey: 'stack.cat.dev' as const,
-    descKey: 'stack.cat.devDesc' as const,
-    technologies: ['TypeScript', 'JavaScript', 'Python', 'React', 'React Native', 'Astro'],
-    indicator: 'code',
+    title: t('stack.col1.title'),
+    items:
+      locale === 'en'
+        ? [
+            'Microsoft Azure',
+            'AWS',
+            'Linux',
+            'Windows Server',
+            'Docker',
+            'Azure Static Web Apps',
+            'Networking & DNS',
+            'Virtualization',
+          ]
+        : [
+            'Microsoft Azure',
+            'AWS',
+            'Linux',
+            'Windows Server',
+            'Docker',
+            'Azure Static Web Apps',
+            'Redes & DNS',
+            'Virtualización',
+          ],
   },
   {
-    num: '02',
-    nameKey: 'stack.cat.cloud' as const,
-    descKey: 'stack.cat.cloudDesc' as const,
-    technologies: ['Azure', 'AWS', 'Azure Static Web Apps'],
-    indicator: 'cloud',
+    title: t('stack.col2.title'),
+    items: ['Java 21', 'Python', 'TypeScript', 'C / C++', 'PowerShell', 'SQL (MySQL / Oracle)'],
   },
   {
-    num: '03',
-    nameKey: 'stack.cat.infra' as const,
-    descKey: 'stack.cat.infraDesc' as const,
-    technologies: ['Linux', 'Git', 'GitHub', 'Networking', 'Servers'],
-    indicator: 'infra',
-  },
-  {
-    num: '04',
-    nameKey: 'stack.cat.ai' as const,
-    descKey: 'stack.cat.aiDesc' as const,
-    technologies: ['LLMs', 'AI Agents', 'Local AI', 'Automation', 'AI integrations'],
-    indicator: 'ai',
+    title: t('stack.col3.title'),
+    items: [
+      'Spring Boot',
+      'JPA / Hibernate',
+      'Astro',
+      'Tailwind CSS',
+      'GitHub Actions (CI/CD)',
+      'Git & GitHub',
+      'Swagger / OpenAPI',
+    ],
   },
 ];
 ---
 
 <section
   id="stack"
-  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-border-subtle"
+  data-scroll-module
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-border-subtle"
   aria-labelledby="stack-heading"
 >
-  <!-- Section Header Strip -->
-  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary pb-6 mb-12 sm:mb-16 border-b border-border-subtle">
-    <div class="flex items-center gap-3">
-      <span class="text-fg-muted">{t('stack.sectionIndex')}</span>
-      <span class="text-border-muted" aria-hidden="true">/</span>
-      <span class="text-fg-primary font-medium">{t('stack.label')}</span>
-    </div>
-    <div class="text-xs font-mono-tech text-fg-muted">
-      <span>{locale === 'es-MX' ? 'HERRAMIENTAS & ECOISTEMA' : 'TOOLING & ECOSYSTEM'}</span>
-    </div>
-  </header>
-
-  <!-- Section Title & Intro -->
-  <div class="max-w-3xl mb-16 sm:mb-20 space-y-4">
+  <!-- Clean Single-Level Section Header -->
+  <div class="max-w-3xl mb-10 sm:mb-14 space-y-3" data-section-header>
+    <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
+      {t('stack.sectionIndex')}
+    </p>
     <h2
       id="stack-heading"
-      class="text-3xl sm:text-4xl md:text-5xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
+      class="text-3xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
     >
       {t('stack.title')}
     </h2>
-    <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+    <p class="text-base text-fg-secondary leading-relaxed text-pretty">
       {t('stack.subtitle')}
     </p>
   </div>
 
-  <!-- Editorial Stack Grid: 4 Clean Columns / Categories -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 border-t border-border-subtle pt-10">
-    {stackCategories.map((cat) => (
-      <article class="space-y-6 flex flex-col justify-between group">
-        <!-- Top: Number & Category Title -->
-        <div class="space-y-4">
-          <div class="flex items-center justify-between border-b border-border-subtle/70 pb-3">
-            <span class="text-xs font-mono-tech text-fg-muted">{cat.num}</span>
-            <span class="w-1.5 h-1.5 bg-fg-primary rounded-none transition-transform group-hover:scale-125" aria-hidden="true"></span>
+  <!-- 3-Column Scannable Skills & Technologies Matrix -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    {stackColumns.map((col, idx) => (
+      <article class="flex flex-col justify-between border border-border-subtle bg-canvas p-6 sm:p-7 shadow-xs transition-card hover:border-accent-primary/35 hover:shadow-md">
+        <div>
+          <div class="flex items-center justify-between gap-3 pb-4 border-b border-border-subtle/70">
+            <h3 class="text-base sm:text-lg font-medium text-fg-primary tracking-tight">
+              {col.title}
+            </h3>
+            <span class="text-xs font-mono-tech text-accent-primary font-semibold">
+              0{idx + 1}
+            </span>
           </div>
 
-          <h3 class="text-xl sm:text-2xl font-light tracking-tight text-fg-primary">
-            {t(cat.nameKey)}
-          </h3>
-
-          <p class="text-xs sm:text-sm text-fg-secondary font-normal leading-relaxed text-pretty">
-            {t(cat.descKey)}
-          </p>
-        </div>
-
-        <!-- Technologies List (Typographic & Structured) -->
-        <div class="pt-6 border-t border-border-subtle/60">
-          <ul class="space-y-2 list-none p-0 m-0 text-sm font-mono-tech">
-            {cat.technologies.map((tech) => (
-              <li class="flex items-center justify-between py-1 border-b border-border-subtle/40 text-fg-primary">
-                <span>{tech}</span>
-                <span class="text-[10px] text-fg-muted group-hover:text-fg-secondary transition-colors" aria-hidden="true">
-                  +
-                </span>
+          <ul class="mt-5 flex flex-wrap gap-2 list-none p-0 m-0">
+            {col.items.map((tech) => (
+              <li class="px-2.5 py-1 text-xs font-mono-tech border border-border-subtle bg-canvas-subtle text-fg-primary hover:border-accent-primary/40 hover:bg-accent-subtle transition-colors">
+                {tech}
               </li>
             ))}
           </ul>
@@ -107,10 +101,4 @@ const stackCategories = [
       </article>
     ))}
   </div>
-
-  <!-- Footnote -->
-  <footer class="mt-16 pt-6 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono-tech text-fg-muted">
-    <p>{t('stack.footnote')}</p>
-    <span class="text-fg-primary uppercase font-medium">ECOSYSTEM OVER LOGOS</span>
-  </footer>
 </section>
