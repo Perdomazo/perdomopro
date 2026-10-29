@@ -10,103 +10,145 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const sectionId = locale === 'en' ? 'trajectory' : 'recorrido';
 
-const milestones = [
-  {
-    step: '01',
-    phaseKey: 'profile.m2.phase' as const,
-    titleKey: 'profile.m2.title' as const,
-    orgKey: 'profile.m2.org' as const,
-    badgeKey: 'profile.m2.badge' as const,
-    descKey: 'profile.m2.desc' as const,
-    active: true,
-  },
-  {
-    step: '02',
-    phaseKey: 'profile.m1.phase' as const,
-    titleKey: 'profile.m1.title' as const,
-    orgKey: 'profile.m1.org' as const,
-    badgeKey: 'profile.m1.badge' as const,
-    descKey: 'profile.m1.desc' as const,
-    active: false,
-  },
+const knowitBullets = [
+  t('profile.knowit.b1'),
+  t('profile.knowit.b2'),
+  t('profile.knowit.b3'),
+  t('profile.knowit.b4'),
+];
+
+const knowitTags =
+  locale === 'en'
+    ? ['Microsoft Azure', 'AWS', 'Linux', 'Windows Server', 'PowerShell', 'Networking']
+    : ['Microsoft Azure', 'AWS', 'Linux', 'Windows Server', 'PowerShell', 'Redes'];
+
+const credentials = [
+  { title: t('profile.certs.c1.title'), meta: t('profile.certs.c1.meta'), highlight: true },
+  { title: t('profile.certs.c2.title'), meta: t('profile.certs.c2.meta'), highlight: true },
+  { title: t('profile.certs.c3.title'), meta: t('profile.certs.c3.meta'), highlight: false },
+  { title: t('profile.certs.c4.title'), meta: t('profile.certs.c4.meta'), highlight: false },
 ];
 ---
 
 <section
   id={sectionId}
   data-scroll-module
-  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-3 sm:pt-4 pb-20 sm:pb-28 border-t border-border-subtle"
+  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-border-subtle"
   aria-labelledby="profile-heading"
 >
-  <!-- Section Header Strip -->
-  <header class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-secondary p-4 sm:p-5 mb-12 sm:mb-16 border border-border-subtle bg-canvas-subtle shadow-sm">
-    <div class="flex items-center gap-3">
-      <span class="text-fg-muted">{t('profile.sectionIndex')}</span>
-      <span class="text-border-muted" aria-hidden="true">/</span>
-      <span class="text-fg-primary font-medium">{locale === 'es-MX' ? 'EXPERIENCIA Y FORMACIÓN' : 'EXPERIENCE & EDUCATION'}</span>
-    </div>
-    <div class="text-xs font-mono-tech text-fg-muted">
-      <span>{locale === 'es-MX' ? 'PERFIL PROFESIONAL' : 'PROFESSIONAL PROFILE'}</span>
-    </div>
-  </header>
-
-  <!-- Section Title Block -->
-  <div class="max-w-3xl mb-16 sm:mb-20 space-y-4">
+  <!-- Clean Single-Level Section Header -->
+  <div class="max-w-3xl mb-10 sm:mb-14 space-y-3" data-section-header>
+    <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
+      {t('profile.sectionIndex')}
+    </p>
     <h2
       id="profile-heading"
-      class="text-3xl sm:text-4xl md:text-5xl font-light tracking-[-0.03em] leading-tight text-fg-primary"
+      class="text-3xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
     >
       {t('profile.title')}
     </h2>
-    <p class="text-base sm:text-lg text-fg-secondary font-normal leading-relaxed text-pretty">
+    <p class="text-base text-fg-secondary leading-relaxed text-pretty">
       {t('profile.subtitle')}
     </p>
   </div>
 
-  <!-- Editorial Timeline / Trajectory Flow -->
-  <div class="space-y-0 border-t border-border-subtle divide-y divide-border-subtle">
-    {milestones.map((m) => (
-      <article class="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start group">
-        <!-- Step & Phase Identifier -->
-        <div class="md:col-span-3 space-y-2">
-          <div class="flex items-center gap-2 text-xs font-mono-tech text-fg-muted">
-            <span class="text-sm font-medium text-fg-primary">{m.step}</span>
-            <span class="text-border-muted" aria-hidden="true">—</span>
-            <span class="uppercase tracking-wider">{t(m.phaseKey)}</span>
-          </div>
-          <div class="inline-flex items-center gap-2">
-            <span
-              class={`w-2 h-2 rounded-full ${m.active ? 'bg-status-active animate-pulse' : 'bg-border-muted'}`}
-              aria-hidden="true"
-            ></span>
-            <span class="text-xs font-mono-tech px-2 py-0.5 border border-border-subtle text-fg-primary bg-canvas-subtle">
-              {t(m.badgeKey)}
+  <!-- Structured Career & Education Cards -->
+  <div class="space-y-6">
+    <!-- 1. KnowIT Role Card -->
+    <article class="border border-border-subtle bg-canvas p-6 sm:p-8 shadow-xs transition-card hover:border-accent-primary/35 hover:shadow-md">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 pb-5 border-b border-border-subtle/70">
+        <div class="space-y-1">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <h3 class="text-xl sm:text-2xl font-medium tracking-tight text-fg-primary">
+              {t('profile.knowit.role')}
+            </h3>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-mono-tech border border-accent-primary/20 bg-accent-subtle text-accent-primary font-medium">
+              <span class="w-1.5 h-1.5 rounded-full bg-status-active" aria-hidden="true"></span>
+              {t('profile.knowit.badge')}
             </span>
           </div>
-        </div>
-
-        <!-- Main Title & Context -->
-        <div class="md:col-span-4 space-y-1">
-          <h3 class="text-xl sm:text-2xl font-normal tracking-tight text-fg-primary">
-            {t(m.titleKey)}
-          </h3>
-          <p class="text-xs font-mono-tech text-fg-secondary">
-            {t(m.orgKey)}
+          <p class="text-sm font-medium text-accent-primary">
+            {t('profile.knowit.org')}
           </p>
         </div>
 
-        <!-- Factual Description -->
-        <div class="md:col-span-5">
-          <p class="text-sm sm:text-base text-fg-secondary font-normal leading-relaxed text-pretty">
-            {t(m.descKey)}
+        <div class="text-xs font-mono-tech text-fg-muted sm:text-right shrink-0 space-y-0.5">
+          <p class="text-fg-primary font-medium">{t('profile.knowit.period')}</p>
+          <p>{t('profile.knowit.location')}</p>
+        </div>
+      </div>
+
+      <!-- Impact Bullets (›) -->
+      <ul class="mt-5 space-y-2.5 list-none p-0 m-0">
+        {knowitBullets.map((bullet) => (
+          <li class="flex items-baseline gap-3 text-sm sm:text-[15px] text-fg-secondary leading-relaxed">
+            <span class="text-accent-primary font-mono-tech font-bold shrink-0 select-none" aria-hidden="true">›</span>
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Role Tech Tags -->
+      <div class="mt-6 pt-4 border-t border-border-subtle/60 flex flex-wrap gap-2">
+        {knowitTags.map((tag) => (
+          <span class="px-2.5 py-1 text-[11px] font-mono-tech border border-border-subtle bg-canvas-subtle text-fg-primary">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </article>
+
+    <!-- 2. Education & Competitive Programming / Certifications Card -->
+    <article class="border border-border-subtle bg-canvas p-6 sm:p-8 shadow-xs transition-card hover:border-accent-primary/35 hover:shadow-md">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 pb-5 border-b border-border-subtle/70">
+        <div class="space-y-1">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <h3 class="text-xl sm:text-2xl font-medium tracking-tight text-fg-primary">
+              {t('profile.edu.degree')}
+            </h3>
+            <span class="px-2.5 py-0.5 text-[11px] font-mono-tech border border-border-subtle bg-canvas-subtle text-fg-secondary">
+              {t('profile.edu.badge')}
+            </span>
+          </div>
+          <p class="text-sm font-medium text-fg-secondary">
+            {t('profile.edu.org')}
           </p>
         </div>
-      </article>
-    ))}
+
+        <div class="text-xs font-mono-tech text-fg-muted sm:text-right shrink-0 space-y-0.5">
+          <p class="text-fg-primary font-medium">{t('profile.edu.period')}</p>
+          <p>{t('profile.note')}</p>
+        </div>
+      </div>
+
+      <p class="mt-4 text-sm sm:text-[15px] text-fg-secondary leading-relaxed">
+        {t('profile.edu.summary')}
+      </p>
+
+      <!-- Competitions & Certifications Sub-Grid -->
+      <div class="mt-6 pt-5 border-t border-border-subtle/70">
+        <p class="text-[11px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold mb-3.5">
+          {t('profile.certs.label')}
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {credentials.map((cred) => (
+            <div class="flex items-start gap-2.5 p-3 border border-border-subtle bg-canvas-subtle/70">
+              <span
+                class={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${cred.highlight ? 'bg-accent-primary' : 'bg-fg-muted'}`}
+                aria-hidden="true"
+              ></span>
+              <div class="min-w-0">
+                <p class="text-xs sm:text-sm font-medium text-fg-primary leading-snug">
+                  {cred.title}
+                </p>
+                <p class="text-[11px] font-mono-tech text-fg-muted mt-0.5">
+                  {cred.meta}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </article>
   </div>
-
-  <!-- Transparent Honesty Footnote -->
-  <footer class="pt-8 border-t border-border-subtle text-xs font-mono-tech text-fg-muted">
-    <p>{t('profile.note')}</p>
-  </footer>
 </section>

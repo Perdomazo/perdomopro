@@ -40,9 +40,10 @@ const navItems = page === 'consulting'
   : [
       { key: 'nav.home' as const, href: homeHref },
       { key: 'nav.experience' as const, href: locale === 'en' ? '/en/#trajectory' : '/#recorrido' },
-      { key: 'nav.contact' as const, href: locale === 'en' ? '/en/#contact' : '/#contacto' },
+      { key: 'nav.stack' as const, href: locale === 'en' ? '/en/#stack' : '/#stack' },
       { key: 'nav.projects' as const, href: locale === 'en' ? '/en/#projects' : '/#proyectos' },
       { key: 'nav.about' as const, href: locale === 'en' ? '/en/#about' : '/#sobre-mi' },
+      { key: 'nav.contact' as const, href: locale === 'en' ? '/en/#contact' : '/#contacto' },
     ];
 const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.label : t(item.key);
 ---
