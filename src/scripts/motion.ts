@@ -768,14 +768,11 @@ export function initMotion(): void {
       // 7. Contact
       const contactSection = document.querySelector('#contacto:not([data-consulting-page] #contacto), #contact');
       if (contactSection) {
-        const header = contactSection.querySelector('[data-section-header], header');
-        const grid = contactSection.querySelector('[data-contact-grid]');
-        const content = contactSection.querySelector('.lg\\:col-span-8');
-        const aside = contactSection.querySelector('aside');
-        const contactTargets = [header, grid, content, aside].filter(Boolean);
+        const gridCols = Array.from(contactSection.querySelectorAll('[data-contact-grid] > div'));
+        const aside = contactSection.querySelector('[data-consulting-banner], aside');
 
-        if (contactTargets.length > 0) {
-          gsap.from(contactTargets, {
+        if (gridCols.length > 0) {
+          gsap.from(gridCols, {
             opacity: 0,
             y: yOffset,
             duration,
@@ -785,6 +782,21 @@ export function initMotion(): void {
             scrollTrigger: {
               trigger: contactSection,
               start: 'top 85%',
+              once: true,
+            },
+          });
+        }
+
+        if (aside) {
+          gsap.from(aside, {
+            opacity: 0,
+            y: yOffset,
+            duration,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+            scrollTrigger: {
+              trigger: aside,
+              start: 'top 88%',
               once: true,
             },
           });

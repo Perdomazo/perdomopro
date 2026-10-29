@@ -21,13 +21,13 @@ const rotatingPhrases = locale === 'en'
 <section
   id="hero"
   data-scroll-module
-  class="relative isolate w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-10 sm:pt-16 pb-16 sm:pb-24"
+  class="relative isolate w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
   aria-labelledby="hero-heading"
 >
   <ParticlesBackground id="perdomopro-particles" />
 
-  <!-- Central Editorial Grid (Asymmetric) -->
-  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start pointer-events-none">
+  <!-- Vertically & Visually Centered Editorial Grid -->
+  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center my-auto pointer-events-none">
     <!-- Primary Content Column -->
     <div class="lg:col-span-7 xl:col-span-8 space-y-6 sm:space-y-8">
       <!-- Single Subtle Eyebrow Identifier -->
@@ -36,20 +36,26 @@ const rotatingPhrases = locale === 'en'
         <span>{t('hero.technicalPillars')}</span>
       </div>
 
-      <!-- Main Headline -->
+      <!-- Main Headline: Fixed-height grid cell prevents vertical jumping across word rotations -->
       <h1
         id="hero-heading"
-        class="text-3xl sm:text-5xl md:text-6xl lg:text-[4.15rem] font-normal tracking-[-0.035em] leading-[1.08] text-fg-primary max-w-3xl text-balance"
+        class="text-3xl sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.1] text-fg-primary max-w-3xl"
         data-hero-headline
       >
-        <span>{t('hero.headlinePrefix')}</span>{' '}
-        <span class="font-medium text-fg-primary underline decoration-border-muted underline-offset-8 decoration-1">
+        <span class="block">{t('hero.headlinePrefix')}</span>
+        <span class="grid items-baseline pt-1">
           <span class="sr-only">{t('hero.headlineHighlight')}</span>
+          {rotatingPhrases.map((phrase) => (
+            <span
+              aria-hidden="true"
+              class="[grid-area:1/1] invisible pointer-events-none select-none font-medium underline decoration-border-muted underline-offset-8 decoration-1"
+            >{phrase}</span>
+          ))}
           <span
             aria-hidden="true"
             data-word-morph
             data-word-morph-phrases={JSON.stringify(rotatingPhrases)}
-            class="inline-block min-h-[2.1em] transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none"
+            class="[grid-area:1/1] font-medium text-fg-primary underline decoration-border-muted underline-offset-8 decoration-1 transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none"
           >{rotatingPhrases[0]}</span>
         </span>
       </h1>
@@ -119,7 +125,7 @@ const rotatingPhrases = locale === 'en'
     </div>
 
     <!-- Secondary Editorial & Metadata Column -->
-    <div class="lg:col-span-5 xl:col-span-4 space-y-6 lg:pt-8">
+    <div class="lg:col-span-5 xl:col-span-4 space-y-6">
       <p class="text-base sm:text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
         {t('hero.description')}
       </p>
