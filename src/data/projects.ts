@@ -20,6 +20,7 @@ export interface ProjectData {
   technologies: readonly string[];
   href?: string;
   liveHref?: string;
+  pipelineHref?: string;
   preview?: { src: string; alt: Record<Locale, string> };
   content: Record<Locale, LocalizedProjectInfo>;
 }
@@ -92,6 +93,7 @@ export const projectsData: readonly ProjectData[] = [
     number: '03',
     classification: 'software-project',
     technologies: ['Python', 'Pandas', 'NumPy', 'NetworkX', 'Matplotlib', 'CustomTkinter'],
+    href: 'https://github.com/Perdomazo/Adrian-Quant-Lab-',
     content: {
       'es-MX': {
         title: 'ETF Portfolio Analytics Tool',
@@ -151,6 +153,7 @@ export const projectsData: readonly ProjectData[] = [
     technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GitHub Actions', 'Azure Static Web Apps'],
     href: 'https://github.com/Perdomazo/perdomopro',
     liveHref: 'https://perdomopro.com/',
+    pipelineHref: 'https://github.com/Perdomazo/perdomopro/blob/main/.github/workflows/azure-static-web-apps.yml',
     preview: {
       src: '/images/projects/perdomopro-home.jpg',
       alt: { 'es-MX': 'Página de inicio de PerdomoPro', en: 'PerdomoPro homepage' },

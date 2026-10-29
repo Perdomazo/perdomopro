@@ -165,7 +165,7 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
       <button
         id="mobile-nav-toggle"
         type="button"
-        class="inline-flex items-center justify-center p-2 text-fg-primary hover:text-fg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary transition-colors"
+        class="inline-flex items-center justify-center p-2.5 -mr-1.5 text-fg-primary hover:text-fg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-primary transition-colors"
         aria-label={t('a11y.openMenu')}
         aria-expanded="false"
         aria-controls="mobile-nav-menu"
@@ -213,10 +213,10 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
     <a
       href={page === 'consulting' ? '#contacto' : consultingHref}
       class:list={[
-        'inline-flex items-center gap-2 px-4 py-2 text-sm transition-colors',
+        'mobile-nav-link flex w-full items-center justify-center gap-2 px-4 py-3 text-xs uppercase tracking-wider transition-colors',
         page === 'consulting'
-        ? 'border border-accent-primary text-accent-primary'
-          : 'bg-accent-primary font-sans font-medium text-white',
+          ? 'border border-accent-primary text-accent-primary font-mono-tech'
+          : 'bg-accent-primary font-sans font-medium text-white shadow-xs',
       ]}
     >
       {page === 'consulting'
@@ -251,6 +251,9 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
 <script>
   function setupNavbar() {
     const header = document.getElementById('site-header');
+    if (!header || header.dataset.navbarReady === 'true') return;
+    header.dataset.navbarReady = 'true';
+
     const toggleBtn = document.getElementById('mobile-nav-toggle');
     const menu = document.getElementById('mobile-nav-menu');
     const topPath = document.getElementById('line-top');

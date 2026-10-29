@@ -14,41 +14,27 @@ const sectionId = locale === 'en' ? 'about' : 'sobre-mi';
 <section
   id={sectionId}
   data-scroll-module
-  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20 border-t border-border-subtle"
+  class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-20 border-t border-border-subtle"
   aria-labelledby="about-heading"
 >
-  <div class="max-w-3xl mb-8 sm:mb-10 space-y-3" data-section-header>
+  <div class="max-w-3xl mb-6 sm:mb-10 space-y-2.5 sm:space-y-3" data-section-header>
     <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
       {t('about.sectionIndex')}
     </p>
     <h2
       id="about-heading"
-      class="text-3xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
+      class="text-2xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
     >
       {t('about.title')}
     </h2>
   </div>
 
-  <div class="border border-border-subtle bg-canvas p-6 sm:p-8 lg:p-10 shadow-xs space-y-5" data-about-card>
-    <p class="text-lg sm:text-xl font-medium tracking-tight text-fg-primary leading-snug max-w-3xl">
+  <div class="border border-border-subtle bg-canvas p-5 sm:p-8 lg:p-9 shadow-xs space-y-3.5" data-about-card>
+    <p class="text-base sm:text-xl font-medium tracking-tight text-fg-primary leading-snug max-w-3xl">
       {t('about.lead')}
     </p>
     <p class="text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty max-w-4xl">
       {t('about.paragraph1')}
     </p>
-    <div class="pt-4 border-t border-border-subtle/70 flex flex-wrap gap-x-8 gap-y-2 text-xs font-mono-tech text-fg-muted">
-      <div>
-        <span class="uppercase tracking-wider">{t('about.meta.perspectiveTitle')}:</span>{' '}
-        <span class="text-fg-primary font-medium">{t('about.meta.perspectiveValue')}</span>
-      </div>
-      <div>
-        <span class="uppercase tracking-wider">{t('about.meta.focusTitle')}:</span>{' '}
-        <span class="text-fg-primary font-medium">{t('about.meta.focusValue')}</span>
-      </div>
-      <div>
-        <span class="uppercase tracking-wider">{t('about.meta.baseTitle')}:</span>{' '}
-        <span class="text-fg-primary font-medium">{t('about.meta.baseValue')}</span>
-      </div>
-    </div>
   </div>
 </section>
