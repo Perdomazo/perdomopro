@@ -1,40 +1,36 @@
 ---
 import { siteConfig } from '../config/site';
-import { projectsData } from '../data/projects';
 import type { Locale } from '../i18n/config';
 import ParticlesBackground from './ParticlesBackground.astro';
 
-export interface Props { locale: Locale }
+export interface Props {
+  locale: Locale;
+}
+
 const { locale } = Astro.props;
 const en = locale === 'en';
 const mail = siteConfig.links.email;
+const homeHref = en ? '/en/' : '/';
 
-export interface ProblemItem {
+export interface SolutionCard {
+  num: string;
+  category: string;
   title: string;
-  desc: string;
-  tag: string;
-  bottleneck: string;
+  pain: string;
+  summary: string;
+  bullets: string[];
+  outcomePill: string;
 }
 
-export interface SolutionItem {
-  title: string;
-  desc: string;
-  focus: string;
-  isFeatured?: boolean;
-  deliverables: string[];
-  useCase: string;
-}
-
-export interface ProcessItem {
+export interface ProcessStep {
   step: string;
-  title: string;
   timeline: string;
+  title: string;
   desc: string;
   deliverable: string;
-  checkpoint: string;
 }
 
-export interface InvestmentTier {
+export interface ContractingTier {
   tierNumber: string;
   badge: string;
   name: string;
@@ -44,859 +40,699 @@ export interface InvestmentTier {
   idealFor: string;
 }
 
-export interface QuickNavItem {
-  num: string;
-  title: string;
-  desc: string;
-  href: string;
-}
-
-export interface CloudSovereignty {
+export interface SovereigntyBlock {
   badge: string;
   title: string;
   desc: string;
   points: string[];
 }
 
-const copy = en ? {
-  eyebrow: 'PERDOMOPRO · TECHNOLOGY FOR SMALL BUSINESSES',
-  heroTitle: 'I turn everyday business processes into digital solutions.',
-  heroIntro: 'I help small and medium-sized businesses identify operational friction and address it with practical software, automation, and cloud services.',
-  heroMeta: 'Adrián Perdomo · Independent technology consultant',
-  start: 'Tell me what is getting in the way',
-  explore: 'Explore solutions',
-  quickNavLabel: 'EXPLORE BY WHAT YOU NEED TODAY',
-  quickNav: [
-    {
-      num: '01',
-      title: 'Common business problems',
-      desc: 'Operational friction & bottlenecks',
-      href: '#problemas',
-    },
-    {
-      num: '02',
-      title: 'Custom solutions and tools',
-      desc: 'Internal systems, web, automation & cloud',
-      href: '#soluciones',
-    },
-    {
-      num: '03',
-      title: 'How I can help you step by step',
-      desc: 'From discovery to supported launch',
-      href: '#proceso',
-    },
-    {
-      num: '04',
-      title: 'Investment and scope models',
-      desc: 'Clear engagement tiers & cloud ownership',
-      href: '#inversion',
-    },
-  ],
-  sectionLabel: 'COMMON OPERATIONAL FRICTION',
-  problemsTitle: 'When everyday work depends on too many manual steps.',
-  problemsLead: 'These are starting points for a conversation, not assumptions about your business. I first understand how the work is done today.',
-  problems: [
-    {
-      title: 'Orders and requests',
-      desc: 'Orders captured in chat messages, paper slips, or quick notes, then re-entered manually elsewhere.',
-      tag: 'Manual capture',
-      bottleneck: 'Delayed customer confirmations and high risk of lost or duplicated orders during peak business hours.',
-    },
-    {
-      title: 'Appointments and follow-up',
-      desc: 'Bookings managed via phone calls or physical notebooks without a unified schedule accessible to the team.',
-      tag: 'Fragmented schedule',
-      bottleneck: 'Schedule overlaps, unconfirmed client no-shows, and lost hours manually rearranging calendars.',
-    },
-    {
-      title: 'Information in many places',
-      desc: 'Customer records, product catalog, pricing, and stock details scattered across spreadsheets, chats, and folders.',
-      tag: 'Siloed data',
-      bottleneck: 'Impossible to verify account balances or true inventory without cross-checking three different sources.',
-    },
-    {
-      title: 'Repeated manual work',
-      desc: 'The same transaction or contact details are retyped across invoices, dispatch slips, and weekly reports.',
-      tag: 'Duplicate entry',
-      bottleneck: 'Loss of 1 to 2 daily hours on clerical duplicate entry that pulls staff away from high-value tasks.',
-    },
-    {
-      title: 'Limited digital presence',
-      desc: 'The business relies solely on social media profiles or direct messages to showcase products and services.',
-      tag: 'Single channel',
-      bottleneck: 'Friction for prospective buyers seeking clear technical specifications and formal quotations.',
-    },
-    {
-      title: 'Low operational visibility',
-      desc: 'Hard to see at a glance the real-time status of open orders, pending receivables, or weekly output.',
-      tag: 'Blind operations',
-      bottleneck: 'Reactive management decisions driven by intuition rather than accurate, centralized operational records.',
-    },
-  ],
-  solutionsLabel: 'WHAT I CAN HELP BUILD',
-  solutionsTitle: 'A right-sized solution for the way your business works.',
-  solutionsLead: 'The scope follows the problem. Sometimes a clear website or workflow is enough; other cases call for a custom system or cloud deployment.',
-  solutions: [
-    {
-      title: 'Internal tools and systems',
-      desc: 'Custom private web dashboards and backoffices to track orders, appointments, customer files, inventory, and daily operations in one unified workspace, accessible from any browser without per-user SaaS license fees.',
-      focus: 'Centralized records & operating workflows',
-      isFeatured: true,
-      deliverables: [
-        'Secure, role-authenticated responsive web backoffice interface',
-        'Structured relational database with automated daily backups and Excel/CSV exports',
-        'Visual workflow status pipeline (e.g. Pending, In Progress, Fulfilled, Invoiced)',
-        'Operational walkthrough manual and hands-on staff onboarding session',
+const copy = en
+  ? {
+      heroEyebrow: '01 / SMB CONSULTING · SOFTWARE, AUTOMATION & CLOUD',
+      heroTitlePrefix: 'I turn everyday business processes into ',
+      heroTitleHighlight: 'digital solutions.',
+      heroIntro:
+        'I help business owners and operations teams replace paper slips, duplicate manual entry, and scattered chat follow-ups with fast, practical tools built around how they actually work.',
+      ctaPrimary: 'Tell me what to improve',
+      ctaSecondary: 'Explore solutions',
+      guarantees: [
+        'Zero monthly per-user fees',
+        '100% code & account ownership',
+        'Direct service in Guadalajara & remote',
       ],
-      useCase: 'Local distributors, auto repair shops, medical practices, equipment suppliers, and multi-staff professional firms.',
-    },
-    {
-      title: 'Websites and digital catalogs',
-      desc: 'Clear, high-performance showcase of business services and product catalogs, engineered to convert inbound traffic into qualified inquiries via WhatsApp or email.',
-      focus: 'Clear digital presence & lead generation',
-      isFeatured: false,
-      deliverables: [
-        'Custom editorial responsive layout optimized for mobile and desktop screens',
-        'Searchable product/service catalog with structured technical spec sheets',
-        'Direct conversion CTA channels (business WhatsApp and validated contact forms)',
-        'Instant loading speed (100/100 Lighthouse) and foundational local Google SEO',
-      ],
-      useCase: 'Businesses seeking to establish strong credibility and expand beyond social media messaging.',
-    },
-    {
-      title: 'Automation and integrations',
-      desc: 'Seamless bridges between customer channels, spreadsheets, email, and messaging to eliminate duplicate re-entry and alert your team in real time.',
-      focus: 'Fewer repeated steps & synced workflows',
-      isFeatured: false,
-      deliverables: [
-        'Instant WhatsApp or email alerts whenever new customer inquiries or orders arrive',
-        'Two-way automated synchronization between web forms and Google Sheets/Excel',
-        'Automatic PDF generation for dispatch slips, receipts, and order confirmations',
-        'Data validation safeguards to catch clerical typos and duplicate submissions',
-      ],
-      useCase: 'Merchants processing recurring chat orders or teams spending hours manually consolidating spreadsheets.',
-    },
-    {
-      title: 'Cloud setup and deployment',
-      desc: 'Deployment and configuration of cloud services on Azure or AWS hosted directly under your company’s own accounts, ensuring reliability with zero agency markup.',
-      focus: 'Right-sized infrastructure & zero hidden markups',
-      isFeatured: false,
-      deliverables: [
-        'Cloud or serverless infrastructure provisioned under your own business tenant',
-        'Custom domain DNS routing, automatic TLS/SSL certificates, and business email',
-        'Automated backup policies and 24/7 service uptime health monitoring',
-        'Direct vendor billing with strict cost alerts and spending caps',
-      ],
-      useCase: 'Growing businesses requiring independent ownership and control over their technical infrastructure.',
-    },
-    {
-      title: 'Support and ongoing improvement',
-      desc: 'Direct engineering partnership to assist your team, resolve operational questions, and build incremental features as your business evolves.',
-      focus: 'Planned evolution & dedicated engineering',
-      isFeatured: false,
-      deliverables: [
-        'Dedicated monthly hours allotment for priority enhancements and new features',
-        'Direct communication channel without bureaucracy or helpdesk wait times',
-        'Continuous security patch updates and proactive runtime maintenance',
-        'Periodic operational reviews to identify optimization and automation targets',
-      ],
-      useCase: 'Enterprises operating production software that need an ongoing technology partner without full-time overhead.',
-    },
-  ],
-  processLabel: 'A CLEAR, COLLABORATIVE PROCESS',
-  processTitle: 'From understanding the problem to supporting the solution.',
-  processLead: 'I agree each stage with you according to the scope. A small project may combine stages; a larger one may need more discovery and review.',
-  process: [
-    {
-      step: '01',
-      title: 'Phase 1: Discovery and scope',
-      timeline: '1-2 weeks',
-      desc: 'I review your current workflow with you, assess operational feasibility, and define exactly what the first practical solution should include without cost overruns.',
-      deliverable: 'Detailed functional specification and fixed-scope budget proposal.',
-      checkpoint: 'Joint alignment before any engineering begins.',
-    },
-    {
-      step: '02',
-      title: 'Phase 2: Build and validation',
-      timeline: '2-4 week sprints',
-      desc: 'I engineer the agreed solution in short, focused sprints. You access a staging environment to validate screens and workflows with real data before release.',
-      deliverable: 'Working software validated in staging environment and quick-start guide.',
-      checkpoint: 'Sign-off on the release candidate.',
-    },
-    {
-      step: '03',
-      title: 'Phase 3: Deployment and follow-up',
-      timeline: 'Launch & handover',
-      desc: 'I configure deployment onto your business cloud accounts, transfer all credentials, and support your team during the critical go-live days.',
-      deliverable: 'Production system live, full repository handover, and startup stabilization.',
-      checkpoint: 'Operational autonomy with continuous retainer option.',
-    },
-  ],
-  examplesLabel: 'SELECTED WORK',
-  examplesTitle: 'Real projects that show how I approach technology.',
-  examplesLead: 'These are my own projects and site work, not client case studies. They show relevant ways of thinking and building; a conversation is needed to determine what fits your business.',
-  exampleType: 'PERSONAL PROJECT',
-  exampleLink: 'View project',
-  cloudLabel: 'TECHNOLOGY FOLLOWS THE NEED',
-  cloudTitle: 'Software, infrastructure, and deployment belong in the same conversation.',
-  cloudBody: 'I consider how a solution will be hosted, operated, and maintained alongside what it needs to do. I have practical experience with Azure and exposure to AWS; the platform and architecture should be selected for the project, its constraints, and its expected use.',
-  cloudPoints: ['Start from the operating requirement', 'Prefer a scope that can be maintained', 'Make infrastructure and service costs visible'],
-  fitLabel: 'A GOOD PLACE TO START',
-  fitTitle: 'Is this a fit for your business?',
-  fitLead: 'A first conversation helps establish whether the problem is clear enough to scope and whether a custom solution makes sense.',
-  fitPoints: ['A recurring task takes time or causes avoidable errors.', 'Information is split across tools and is difficult to review.', 'You are ready to describe who will use the solution and what should improve.', 'You want a practical first version, with room to evolve it.'],
-  investmentLabel: 'CONTRACTING MODELS',
-  investmentTitle: 'Transparent contracting models, zero hidden fees.',
-  investmentLead: 'Every business has different maturity levels and operational needs. I offer three clear engagement tiers so you can choose the model that best fits your goals.',
-  investmentTiers: [
-    {
-      tierNumber: '01',
-      badge: 'FIXED SCOPE',
-      name: 'Fixed-scope sprint',
-      subtitle: 'Defined budget & milestone delivery',
-      desc: 'End-to-end development of a well-defined solution (internal tool, automation, or web portal) with explicit specifications and guaranteed delivery dates.',
-      inclusions: [
-        'Bounded scope with technical spec agreed upfront',
-        'Fixed-price quote before any engineering starts',
-        'Staging environment with joint validation',
-        'Assisted deployment and initial warranty window',
-      ],
-      idealFor: 'Businesses needing to resolve a specific bottleneck with predictable timelines and investment.',
-    },
-    {
-      tierNumber: '02',
-      badge: 'TECHNICAL AUDIT',
-      name: 'Targeted technical audit',
-      subtitle: 'Assessment & actionable roadmap',
-      desc: 'Deep-dive technical evaluation of existing workflows, bottlenecks, or tool viability to make informed decisions before committing to custom build.',
-      inclusions: [
-        'Deep-dive discovery and operational review',
-        'Audit of current tools and architecture risks',
-        'Executive report with concrete findings',
-        'Recommended roadmap with cost and effort options',
-      ],
-      idealFor: 'Businesses needing technical clarity before deciding whether to buy off-the-shelf or build custom software.',
-    },
-    {
-      tierNumber: '03',
-      badge: 'ONGOING PARTNER',
-      name: 'Continuous monthly retainer',
-      subtitle: 'Dedicated engineering & support',
-      desc: 'Ongoing technical availability for cloud maintenance, incremental feature evolution, and priority support without the overhead of full-time payroll.',
-      inclusions: [
-        'Agreed monthly hour bank with priority response',
-        'Preventative maintenance and dependency updates',
-        'Iterative feature development aligned with monthly needs',
-        'Cloud reliability monitoring and optimization',
-      ],
-      idealFor: 'Operations with live software systems that need a reliable, ongoing engineering ally.',
-    },
-  ],
-  cloudSovereignty: {
-    badge: 'TRANSPARENCY & CLOUD SOVEREIGNTY',
-    title: 'Your business owns its accounts and infrastructure',
-    desc: 'Cloud services (Azure, AWS, Vercel, domains, and databases) are provisioned directly in your company’s name with direct provider-at-cost billing. I never apply hosting markups or withhold credentials: you retain complete ownership of your code, configurations, and data.',
-    points: [
-      'Direct provider-at-cost billing',
-      '100% client ownership of source code & repos',
-      'Zero proprietary vendor lock-in',
-    ],
-  },
-  supportNote: 'There are no generic fixed rates on this page: precise budgets are calculated from required scope, integrations, and deployment scale following our initial conversation.',
-  faqLabel: 'FREQUENT QUESTIONS',
-  faqTitle: 'A few useful details before we talk.',
-  faq: [
-    ['Do you work with businesses of any size?', 'The focus is on small and medium-sized businesses that need help with a concrete process or digital solution. Fit depends on the scope and the available time.'],
-    ['Do I need to know what technology I want?', 'No. It is more useful to explain the current process, the people involved, and what is difficult. Technology choices follow that conversation.'],
-    ['Can you support the solution after delivery?', 'Support and ongoing changes can be discussed as part of the proposal. Their scope, response expectations, and cost should be agreed separately.'],
-    ['How do you estimate a project?', 'I first discuss the process and desired outcome with you. Then I outline the proposed scope, deliverables, assumptions, and estimate for your review.'],
-    ['Are the projects on this page client examples?', 'No. They are personal projects and my own website work. They provide context for how I build, not claims about past client results.'],
-  ],
-  contactLabel: 'LET’S TALK ABOUT YOUR OPERATION',
-  contactTitle: 'What would you like to make easier?',
-  contactBody: 'Tell me a little about the process or problem. I will review your message and follow up using your preferred contact method.',
-  name: 'Your name', business: 'Business (optional)', email: 'Email', phone: 'Phone (optional)',
-  problem: 'What process or problem would you like to improve?',
-  method: 'How would you prefer I contact you?', emailMethod: 'Email', phoneMethod: 'Phone',
-  submit: 'Send message', loading: 'Sending…', direct: 'Or write directly to',
-  privacy: 'Your details will be used to respond to this inquiry.',
-  trapLabel: 'Leave this field empty',
-  formSuccess: 'Your message was sent. I will follow up soon.',
-  formFailure: 'I could not send your message right now. Please try again or email me directly.',
-  formNetworkError: 'A connection error prevented the message from sending. Please try again or email me directly.',
-  footerNote: 'Practical technology, built around real business needs.',
-  formError: 'Please add your name, a valid email, and a short description of the problem.',
-} : {
-  eyebrow: 'PERDOMOPRO · TECNOLOGÍA PARA PEQUEÑOS NEGOCIOS',
-  heroTitle: 'Convierto procesos cotidianos de tu negocio en soluciones digitales.',
-  heroIntro: 'Ayudo a PyMEs a identificar fricciones operativas y atenderlas con software práctico, automatización y servicios cloud.',
-  heroMeta: 'Adrián Perdomo · Consultor tecnológico independiente',
-  start: 'Cuéntame qué proceso quieres mejorar',
-  explore: 'Explorar soluciones',
-  quickNavLabel: 'EXPLORA SEGÚN LO QUE BUSCAS HOY',
-  quickNav: [
-    {
-      num: '01',
-      title: 'Problemas frecuentes en negocios',
-      desc: 'Fricciones operativas y cuellos de botella',
-      href: '#problemas',
-    },
-    {
-      num: '02',
-      title: 'Soluciones y herramientas a medida',
-      desc: 'Sistemas internos, web, automatización y cloud',
-      href: '#soluciones',
-    },
-    {
-      num: '03',
-      title: 'Cómo te puedo ayudar paso a paso',
-      desc: 'Del diagnóstico al despliegue acompañado',
-      href: '#proceso',
-    },
-    {
-      num: '04',
-      title: 'Modalidades de inversión y alcance',
-      desc: 'Esquemas claros y soberanía tecnológica',
-      href: '#inversion',
-    },
-  ],
-  sectionLabel: 'FRICCIONES COTIDIANAS',
-  problemsTitle: 'Cuando el trabajo diario depende de demasiados pasos manuales.',
-  problemsLead: 'Son posibles puntos de partida para una conversación, no suposiciones sobre tu negocio. Primero entendemos cómo se trabaja hoy.',
-  problems: [
-    {
-      title: 'Pedidos y solicitudes',
-      desc: 'Pedidos registrados en mensajes de chat, papel o notas rápidas y recapturados manualmente en otro lugar.',
-      tag: 'Captura manual',
-      bottleneck: 'Demora en confirmaciones a clientes y alto riesgo de pedidos extraviados o duplicados en horas pico.',
-    },
-    {
-      title: 'Citas y seguimiento',
-      desc: 'Reservaciones gestionadas por teléfono o cuadernos físicos sin una agenda centralizada visible para el equipo.',
-      tag: 'Agenda fragmentada',
-      bottleneck: 'Cruces de horarios, ausencias no confirmadas y tiempo valioso perdido reorganizando citas a mano.',
-    },
-    {
-      title: 'Información dispersa',
-      desc: 'Datos de clientes, catálogo, precios e inventario repartidos entre hojas de cálculo, chats y carpetas sueltas.',
-      tag: 'Datos desalineados',
-      bottleneck: 'Imposible consultar saldos pendientes o existencias reales sin revisar tres archivos distintos.',
-    },
-    {
-      title: 'Trabajo manual repetido',
-      desc: 'La misma información de compra o contacto se transcribe una y otra vez en notas de remisión y reportes.',
-      tag: 'Doble captura',
-      bottleneck: 'Pérdida de 1 a 2 horas diarias de trabajo administrativo que resta tiempo a la atención del cliente.',
-    },
-    {
-      title: 'Presencia digital limitada',
-      desc: 'El negocio depende exclusivamente de redes sociales o mensajes para explicar su catálogo y servicios.',
-      tag: 'Canal único',
-      bottleneck: 'Fricción para que prospectos serios conozcan especificaciones y soliciten cotizaciones formales.',
-    },
-    {
-      title: 'Poca visibilidad operativa',
-      desc: 'Cuesta saber de un vistazo el estatus de trabajos en curso, cuentas por cobrar o el desempeño semanal.',
-      tag: 'Control ciego',
-      bottleneck: 'Toma de decisiones reactiva basada en intuiciones en lugar de registros e indicadores confiables.',
-    },
-  ],
-  solutionsLabel: 'QUÉ PUEDO AYUDAR A CONSTRUIR',
-  solutionsTitle: 'Una solución a la medida de cómo funciona tu negocio.',
-  solutionsLead: 'El alcance depende del problema. A veces basta un sitio claro o un flujo de trabajo; otras veces conviene un sistema propio o un despliegue cloud.',
-  solutions: [
-    {
-      title: 'Herramientas y sistemas internos',
-      desc: 'Paneles web privados y sistemas a la medida para registrar pedidos, citas, clientes, inventario u operaciones en un solo lugar, accesibles desde cualquier navegador sin pagar costosas licencias mensuales por usuario.',
-      focus: 'Registros centralizados y flujos operativos',
-      isFeatured: true,
-      deliverables: [
-        'Panel de administración web responsive protegido por autenticación segura',
-        'Base de datos relacional estructurada con respaldos automáticos y exportación Excel/CSV',
-        'Tablero de estados operativos (ej. Pendiente, En proceso, Entregado, Facturado)',
-        'Guía operativa paso a paso y sesión de inducción práctica para el equipo',
-      ],
-      useCase: 'Ferreterías, distribuidoras locales, clínicas dentales, talleres mecánicos y despachos de servicios con múltiples colaboradores.',
-    },
-    {
-      title: 'Sitios web y catálogos digitales',
-      desc: 'Presentación profesional y rápida de servicios o catálogo de productos, diseñada para resolver dudas y convertir visitas en cotizaciones directas por WhatsApp o correo.',
-      focus: 'Presencia digital clara y captación',
-      isFeatured: false,
-      deliverables: [
-        'Diseño web editorial a la medida optimizado para teléfonos y computadoras',
-        'Catálogo navegable con fichas técnicas estructuradas y buscador rápido',
-        'Integración de canales de contacto directo (WhatsApp corporativo y formularios)',
-        'Carga instantánea (100/100 Lighthouse) y configuración de SEO local en Google',
-      ],
-      useCase: 'Negocios que buscan proyectar seriedad y dejar de depender exclusivamente de mensajes directos en redes sociales.',
-    },
-    {
-      title: 'Automatización e integraciones',
-      desc: 'Conexión fluida entre canales de venta, hojas de cálculo, correo y mensajería para eliminar la doble captura manual y alertar a tu equipo al instante.',
-      focus: 'Menos pasos repetidos y datos sincronizados',
-      isFeatured: false,
-      deliverables: [
-        'Alertas instantáneas a WhatsApp o correo ante nuevos pedidos o solicitudes',
-        'Sincronización automática entre formularios web y Google Sheets o Excel',
-        'Generación automática de recibos, órdenes de trabajo o confirmaciones en PDF',
-        'Reglas de validación para prevenir errores de captura e inconsistencias',
-      ],
-      useCase: 'Negocios con recepción continua de pedidos por chat o que pierden horas consolidando notas y reportes semanales.',
-    },
-    {
-      title: 'Configuración y despliegue cloud',
-      desc: 'Puesta en marcha de servicios cloud en Azure o AWS contratados directamente a nombre de tu negocio, garantizando alta disponibilidad sin sobrecostos de intermediarios.',
-      focus: 'Infraestructura adecuada y costos transparentes',
-      isFeatured: false,
-      deliverables: [
-        'Aprovisionamiento de servidores cloud o arquitectura serverless en tu propia cuenta',
-        'Configuración de dominios propios, certificados SSL y correo empresarial',
-        'Estrategia de respaldos automáticos y monitoreo continuo de disponibilidad',
-        'Facturación directa con el proveedor cloud y límites de gasto configurados',
-      ],
-      useCase: 'PyMEs que necesitan alojar herramientas de trabajo con total soberanía y sin depender de agencias externas.',
-    },
-    {
-      title: 'Soporte y mejora continua',
-      desc: 'Acompañamiento técnico directo para resolver eventualidades, responder dudas de tu equipo y agregar nuevas funciones conforme tu operación se expande.',
-      focus: 'Evolución planificada y acompañamiento',
-      isFeatured: false,
-      deliverables: [
-        'Bolsa de horas mensuales para ajustes prioritarios y nuevas características',
-        'Canal de soporte técnico directo sin intermediarios ni tickets demorados',
-        'Mantenimiento preventivo periódico y parches de seguridad continuos',
-        'Sesiones de revisión técnica para identificar oportunidades de optimización',
-      ],
-      useCase: 'Empresas que ya cuentan con un sistema en producción y buscan un aliado tecnológico permanente sin nómina fija.',
-    },
-  ],
-  processLabel: 'UN PROCESO CLARO Y COLABORATIVO',
-  processTitle: 'De entender el problema a acompañar la solución.',
-  processLead: 'Defino contigo cada etapa según el alcance. Un proyecto pequeño puede combinar etapas; uno más amplio puede necesitar más análisis y revisión.',
-  process: [
-    {
-      step: '01',
-      title: 'Fase 1: Diagnóstico y alcance',
-      timeline: '1 a 2 semanas',
-      desc: 'Reviso contigo el proceso actual, su viabilidad operativa y delimitamos con precisión qué debe incluir una primera solución práctica sin sobrecostes.',
-      deliverable: 'Especificación funcional detallada y presupuesto cerrado con alcance delimitado.',
-      checkpoint: 'Validación conjunta antes de iniciar cualquier desarrollo.',
-    },
-    {
-      step: '02',
-      title: 'Fase 2: Construcción y validación',
-      timeline: 'Sprints de 2 a 4 semanas',
-      desc: 'Desarrollo la solución en ciclos cortos y enfocados. Accedes a un entorno de pruebas para validar flujos y pantallas con datos reales antes de salir a producción.',
-      deliverable: 'Software funcional validado en entorno de pruebas y guía de uso rápido.',
-      checkpoint: 'Aprobación formal de la versión candidata a lanzamiento.',
-    },
-    {
-      step: '03',
-      title: 'Fase 3: Despliegue y acompañamiento',
-      timeline: 'Lanzamiento y soporte',
-      desc: 'Configuro el despliegue en la infraestructura cloud de tu negocio, transfiero accesos y acompaño al equipo en los primeros días de operación real.',
-      deliverable: 'Sistema en producción, código transferido y soporte de estabilización inicial.',
-      checkpoint: 'Autonomía operativa del cliente con opción a acompañamiento continuo.',
-    },
-  ],
-  examplesLabel: 'TRABAJO SELECCIONADO',
-  examplesTitle: 'Proyectos reales que muestran cómo abordo la tecnología.',
-  examplesLead: 'Son proyectos personales y trabajo sobre mi propio sitio, no casos de clientes. Muestran formas de construir y resolver; una conversación permite valorar qué encaja con tu negocio.',
-  exampleType: 'PROYECTO PERSONAL',
-  exampleLink: 'Ver proyecto',
-  cloudLabel: 'LA TECNOLOGÍA SIGUE A LA NECESIDAD',
-  cloudTitle: 'Software, infraestructura y despliegue se piensan en conjunto.',
-  cloudBody: 'Considero cómo se alojará, operará y mantendrá una solución además de lo que debe resolver. Tengo experiencia práctica con Azure y exposición a AWS; la plataforma y arquitectura se eligen según el proyecto, sus límites y su uso previsto.',
-  cloudPoints: ['Partir del requisito operativo', 'Elegir un alcance que pueda mantenerse', 'Hacer visibles los costos de infraestructura y servicio'],
-  fitLabel: 'UN BUEN PUNTO DE PARTIDA',
-  fitTitle: '¿Esto encaja con tu negocio?',
-  fitLead: 'Una primera conversación ayuda a definir si el problema permite delimitar un alcance y si una solución a medida tiene sentido.',
-  fitPoints: ['Una tarea recurrente consume tiempo o causa errores evitables.', 'La información está repartida entre herramientas y cuesta consultarla.', 'Puedes describir quién usaría la solución y qué debería mejorar.', 'Buscas una primera versión práctica que pueda evolucionar.'],
-  investmentLabel: 'MODALIDADES DE CONTRATACIÓN',
-  investmentTitle: 'Modalidades de alcance claras, sin costes ocultos.',
-  investmentLead: 'Cada negocio tiene un nivel de madurez y una necesidad distinta. Ofrezco tres esquemas de contratación transparentes para que elijas la relación que mejor encaja con tus objetivos.',
-  investmentTiers: [
-    {
-      tierNumber: '01',
-      badge: 'ALCANCE CERRADO',
-      name: 'Sprint de alcance cerrado',
-      subtitle: 'Presupuesto fijo y entrega definida',
-      desc: 'Construcción integral de una solución concreta (sistema interno, automatización o portal web) con especificación cerrada y fecha de entrega.',
-      inclusions: [
-        'Alcance delimitado con especificación técnica previa',
-        'Presupuesto fijo acordado antes de comenzar',
-        'Entorno de pruebas y validación conjunta',
-        'Despliegue asistido y periodo de garantía inicial',
-      ],
-      idealFor: 'Negocios que buscan resolver un cuello de botella específico con inversión y plazos predecibles.',
-    },
-    {
-      tierNumber: '02',
-      badge: 'EVALUACIÓN PREVIA',
-      name: 'Diagnóstico técnico puntual',
-      subtitle: 'Auditoría y hoja de ruta',
-      desc: 'Evaluación técnica de procesos existentes, cuellos de botella o viabilidad de herramientas para tomar decisiones informadas antes de invertir en desarrollo.',
-      inclusions: [
-        'Sesión de inmersión y levantamiento operativo',
-        'Auditoría de herramientas y arquitectura actual',
-        'Informe ejecutivo con hallazgos y riesgos',
-        'Hoja de ruta recomendada y estimación de opciones',
-      ],
-      idealFor: 'PyMEs que necesitan claridad estratégica antes de decidir si comprar o programar software a medida.',
-    },
-    {
-      tierNumber: '03',
-      badge: 'CONTINUIDAD TÉCNICA',
-      name: 'Acompañamiento continuo mensual',
-      subtitle: 'Retainer de ingeniería y soporte',
-      desc: 'Disponibilidad técnica periódica para mantenimiento de infraestructura, mejoras continuas y soporte prioritario sin la carga de una nómina fija.',
-      inclusions: [
-        'Bolsa mensual de horas acordada con atención prioritaria',
-        'Mantenimiento preventivo y actualización de servicios',
-        'Evolución de nuevas funciones según prioridades del mes',
-        'Monitoreo de disponibilidad y estabilidad cloud',
-      ],
-      idealFor: 'Operaciones con sistemas en producción que necesitan un aliado tecnológico de confianza continuo.',
-    },
-  ],
-  cloudSovereignty: {
-    badge: 'TRANSPARENCIA & SOBERANÍA CLOUD',
-    title: 'Tu negocio es dueño de sus cuentas y de su infraestructura',
-    desc: 'Los servicios de nube (Azure, AWS, Vercel, dominios y bases de datos) se configuran directamente a nombre de tu empresa, con facturación directa del proveedor. Sin márgenes de reventa ocultos sobre hosting ni licencias cautivas: tú conservas el control total y la propiedad de tu código y datos.',
-    points: [
-      'Facturación directa a costo de proveedor',
-      'Código fuente y repositorio 100% de tu propiedad',
-      'Sin dependencias técnicas ni contratos cautivos',
-    ],
-  },
-  supportNote: 'No hay precios fijos en esta página: el presupuesto exacto se define según el alcance, complejidad e integraciones necesarias tras la primera conversación.',
-  faqLabel: 'PREGUNTAS FRECUENTES',
-  faqTitle: 'Algunos detalles útiles antes de conversar.',
-  faq: [
-    ['¿Trabajas con negocios de cualquier tamaño?', 'El enfoque son pequeñas y medianas empresas que necesitan resolver un proceso concreto o desarrollar una solución digital. La compatibilidad depende del alcance y del tiempo disponible.'],
-    ['¿Necesito saber qué tecnología quiero?', 'No. Es más útil explicar el proceso actual, quién participa y qué resulta difícil. Las decisiones tecnológicas vienen después de entender eso.'],
-    ['¿Puedes dar soporte después de entregar?', 'Podemos incluir soporte y cambios posteriores en la propuesta. El alcance, expectativas de respuesta y costo se acuerdan por separado.'],
-    ['¿Cómo estimas un proyecto?', 'Primero conversamos sobre el proceso y el resultado esperado. Después presento un alcance propuesto, entregables, supuestos y estimación para revisar.'],
-    ['¿Los proyectos de esta página son trabajos para clientes?', 'No. Son proyectos personales y trabajo en mi propio sitio. Dan contexto sobre cómo construyo, no presentan resultados de clientes.'],
-  ],
-  contactLabel: 'HABLEMOS DE TU OPERACIÓN',
-  contactTitle: '¿Qué te gustaría hacer más sencillo?',
-  contactBody: 'Cuéntame un poco sobre el proceso o problema. Revisaré tu mensaje y te responderé por el medio que prefieras.',
-  name: 'Tu nombre', business: 'Negocio (opcional)', email: 'Correo electrónico', phone: 'Teléfono (opcional)',
-  problem: '¿Qué proceso o problema te gustaría mejorar?',
-  method: '¿Cómo prefieres que te contacte?', emailMethod: 'Correo', phoneMethod: 'Teléfono',
-  submit: 'Enviar mensaje', loading: 'Enviando…', direct: 'O escríbeme directamente a',
-  privacy: 'Usaré tus datos para responder esta consulta.',
-  trapLabel: 'Deja este campo vacío',
-  formSuccess: 'Tu mensaje se envió correctamente. Te responderé pronto.',
-  formFailure: 'No pude enviar tu mensaje. Inténtalo de nuevo o escríbeme directamente.',
-  formNetworkError: 'Un error de conexión impidió enviar el mensaje. Inténtalo de nuevo o escríbeme directamente.',
-  footerNote: 'Tecnología práctica, construida alrededor de necesidades reales.',
-  formError: 'Agrega tu nombre, un correo válido y una breve descripción del problema.',
-};
+      specRoleLabel: 'Consultant',
+      specRoleValue: 'Adrián Perdomo · Direct attention',
+      specFocusLabel: 'Built for',
+      specFocusValue: 'Distributors, service firms & SMBs',
+      specStepLabel: 'First step',
+      specStepValue: 'Written diagnosis & fixed quote',
 
-const projectIds = ['perdomopro', 'score-record'];
-const examples = projectIds.map((id) => projectsData.find((project) => project.id === id)!).filter(Boolean);
-const projectVisuals = {
-  perdomopro: {
-    src: '/images/projects/perdomopro-home.jpg',
-    alt: en ? 'Screenshot of the PerdomoPro personal website' : 'Captura del sitio personal PerdomoPro',
-  },
-  'score-record': {
-    overview: '/images/projects/scorerecord-overview.jpg',
-    overviewAlt: en ? 'ScoreRecord project overview screen' : 'Pantalla de presentación del proyecto ScoreRecord',
-    dashboard: '/images/projects/scorerecord-dashboard.jpg',
-    dashboardAlt: en ? 'ScoreRecord football forecast dashboard' : 'Panel de pronósticos deportivos de ScoreRecord',
-  },
-} as const;
+      solutionsIndex: '02 / SOLUTIONS',
+      solutionsTitle: 'Practical solutions for the bottlenecks slowing your business down',
+      solutionsLead:
+        'Each tool starts from the daily operational headache costing your team hours and solves it with a clear, reliable deliverable.',
+      painPrefix: 'Solves:',
+      solutions: [
+        {
+          num: '01',
+          category: 'INTERNAL OPERATIONS',
+          title: 'Internal Control Systems',
+          pain: 'Leave behind paper orders, loose sheets, and lost balances.',
+          summary:
+            'A private web dashboard to manage orders, appointments, client records, or inventory in one place from any phone or computer.',
+          bullets: [
+            'Real-time status of orders, deliveries, appointments, or pending receivables.',
+            'Your information stays secure with daily backups and one-click Excel downloads whenever you want.',
+            'Team access tailored by role without paying monthly per-user license fees.',
+          ],
+          outcomePill: 'Your daily operation organized on a single screen and exportable to Excel',
+        },
+        {
+          num: '02',
+          category: 'TIME SAVINGS',
+          title: 'Process & Alert Automation',
+          pain: 'Eliminate the 2 daily hours spent on manual duplicate data entry.',
+          summary:
+            'Automatic connection between web forms, Excel or Google Sheets, instant PDF generation, and real-time WhatsApp or email alerts.',
+          bullets: [
+            'Customer or staff entries sync automatically into your control spreadsheets.',
+            'Quotes, work orders, or dispatch receipts generated as clean PDFs in seconds.',
+            'Instant WhatsApp or email notifications whenever an order or request arrives.',
+          ],
+          outcomePill: 'Save 1 to 2 daily hours of clerical rework and manual typos',
+        },
+        {
+          num: '03',
+          category: 'COMMERCIAL REACH',
+          title: 'Commercial Websites & Catalogs',
+          pain: 'Stop relying solely on answering repetitive messages on social media.',
+          summary:
+            'An ultra-fast digital catalog with search and direct quote requests routed straight to your sales WhatsApp or business email.',
+          bullets: [
+            'Opens in under 1 second on any mobile phone or desktop browser.',
+            'Organized product or service catalog with clear specs and local Google visibility.',
+            'Direct quote buttons and forms connected to your sales team.',
+          ],
+          outcomePill: 'Capture formal quote requests 24/7 with professional credibility',
+        },
+        {
+          num: '04',
+          category: 'CONTINUITY & OWNERSHIP',
+          title: 'Cloud Infrastructure & Business Email',
+          pain: 'Forget about unexpected downtime or depending on outside middlemen.',
+          summary:
+            'Servers on Azure or AWS, custom domains, business email, automated backups, and security configured directly under your company’s name.',
+          bullets: [
+            'Official cloud accounts, domain, and @yourcompany.com email under your control.',
+            'Automated daily backups and uptime monitoring to prevent operational interruptions.',
+            'Direct provider billing with clear cost caps and zero agency markups.',
+          ],
+          outcomePill: 'Reliable systems and business email 100% owned by your company',
+        },
+      ] as SolutionCard[],
+
+      processIndex: '03 / PROCESS',
+      processTitle: 'How we work together',
+      processLead:
+        'A straightforward three-step path in plain language: you know what will be built, how much it costs, and when it launches before we begin.',
+      deliverableLabel: 'DELIVERABLE',
+      process: [
+        {
+          step: '01',
+          timeline: '1 to 2 weeks',
+          title: 'Step 1: Diagnosis & fixed quote',
+          desc: 'We review how your team operates today, and I hand you in writing exactly what we will build, how much it costs, and when it will be delivered.',
+          deliverable: 'Clear written proposal with defined scope, delivery date, and fixed price.',
+        },
+        {
+          step: '02',
+          timeline: '2 to 4 weeks',
+          title: 'Step 2: Build with visible progress',
+          desc: 'We build your tool with visible progress every 2 weeks, and you test it in a safe environment using real examples from your business before launch.',
+          deliverable: 'Working tool tested and validated by you before going live with customers.',
+        },
+        {
+          step: '03',
+          timeline: 'Launch',
+          title: 'Step 3: Go-live & team training',
+          desc: 'We leave the system running on your company’s own accounts, train your team step by step, and support you closely during startup.',
+          deliverable: 'Live system under your company’s name, practical user guide, and launch support.',
+        },
+      ] as ProcessStep[],
+
+      modelsIndex: '04 / MODELS & GUARANTEES',
+      modelsTitle: 'Transparent ways to work together, zero fine print',
+      modelsLead:
+        'Choose the engagement model that fits your current stage. Scope, deliverables, and investment are always agreed in writing upfront.',
+      inclusionsHeader: 'WHAT IS INCLUDED',
+      idealForLabel: 'IDEAL FOR:',
+      investmentTiers: [
+        {
+          tierNumber: '01',
+          badge: 'FIXED SCOPE',
+          name: 'Fixed-scope project',
+          subtitle: 'Closed budget & delivery date',
+          desc: 'End-to-end build of a concrete solution (internal control system, automation, or commercial catalog) with price and timeline locked upfront.',
+          inclusions: [
+            'Written scope and deliverables agreed before starting',
+            'Fixed price with milestone-based payments and zero surprises',
+            'Safe preview environment with visible progress every 2 weeks',
+            'Go-live setup, staff training, and post-launch warranty window',
+          ],
+          idealFor: 'Businesses ready to solve a specific operational bottleneck with predictable cost and dates.',
+        },
+        {
+          tierNumber: '02',
+          badge: 'PRIOR CLARITY',
+          name: 'Operational diagnosis & roadmap',
+          subtitle: 'Clarity before investing',
+          desc: 'Practical review of your current workflows to spot where time or money is leaking and decide what makes sense to implement first.',
+          inclusions: [
+            'Hands-on walkthrough of your current daily operation',
+            'Evaluation of existing spreadsheets, chats, and tools',
+            'Clear summary of findings, bottlenecks, and quick wins',
+            'Step-by-step action plan with realistic budget options',
+          ],
+          idealFor: 'Owners who want objective clarity before deciding whether to buy software or build custom.',
+        },
+        {
+          tierNumber: '03',
+          badge: 'CONTINUITY',
+          name: 'Monthly support & improvement plan',
+          subtitle: 'Dedicated support without payroll',
+          desc: 'Ongoing monthly availability to keep your tools healthy, assist your team, and add new features as your operation grows.',
+          inclusions: [
+            'Agreed monthly hours with priority direct response',
+            'Preventive maintenance, backups, and security updates',
+            'Continuous adjustments and new features as needs evolve',
+            'Uptime and cloud cost monitoring on your accounts',
+          ],
+          idealFor: 'Businesses with live tools that want a dependable technology partner without full-time overhead.',
+        },
+      ] as ContractingTier[],
+
+      sovereignty: {
+        badge: 'TECHNOLOGICAL SOVEREIGNTY',
+        title: 'Your business owns its accounts, its domain, and its code',
+        desc: 'Cloud services, domains, business email, and databases are registered directly under your company’s name at official provider cost. No hidden hosting markups or locked-in credentials: your keys, data, and source code belong 100% to your business from day one.',
+        points: [
+          'Direct provider billing with zero markups',
+          'Accounts, domain & code 100% in your name',
+          'No per-user fees or captive lock-in contracts',
+        ],
+      } as SovereigntyBlock,
+      supportNote:
+        'Every business operates differently: exact budgets are defined in writing based on real scope right after our initial conversation.',
+
+      faqEyebrow: 'FREQUENT QUESTIONS',
+      faqTitle: 'Practical answers before we talk',
+      faq: [
+        [
+          'Do you work with small businesses or only large companies?',
+          'My focus is specifically small and medium-sized businesses (distributors, workshops, clinics, agencies, and service teams) that want to bring order to a concrete process without paying enterprise software prices.',
+        ],
+        [
+          'Do I need technical knowledge to explain what I need?',
+          'Not at all. Just tell me how your team works today, where things get stuck, and what result you want to see. Translating that into a simple, practical tool is my job.',
+        ],
+        [
+          'What happens after delivery? Is training and support included?',
+          'Every project includes hands-on training for your staff and close accompaniment during launch. Afterward, you can operate independently or add an optional monthly support plan whenever you need ongoing improvements.',
+        ],
+        [
+          'How do you calculate the budget and how do payments work?',
+          'We start with a brief, no-cost conversation (20–30 minutes) about your process. Then I deliver a closed written proposal with clear deliverables, dates, and milestone payments—no hidden charges.',
+        ],
+      ],
+
+      contactIndex: '05 / CONTACT',
+      contactTitle: 'Let’s talk about your operation',
+      contactBody:
+        'Tell me briefly which process is slowing your team down today. I will reply within 24 business hours via your preferred channel.',
+      directLabel: 'Direct email',
+      profileLinkLabel: 'Review technical background & portfolio',
+      name: 'Your name',
+      business: 'Business name (optional)',
+      email: 'Email address',
+      phone: 'WhatsApp or phone (optional)',
+      problem: 'Which process or bottleneck would you like to improve?',
+      method: 'Preferred way to reach you',
+      emailMethod: 'Email',
+      phoneMethod: 'WhatsApp / Phone',
+      submit: 'Send message',
+      loading: 'Sending…',
+      privacy: 'Used exclusively to reply to your inquiry.',
+      trapLabel: 'Leave this field empty',
+      formSuccess: 'Message sent. I will get back to you shortly.',
+      formFailure: 'Could not send your message right now. Please try again or email me directly.',
+      formNetworkError: 'Connection error while sending. Please try again or email me directly.',
+      formError: 'Please add your name, a valid email, and a short note on what you want to improve.',
+    }
+  : {
+      heroEyebrow: '01 / CONSULTORÍA PYME · SOFTWARE, AUTOMATIZACIÓN Y CLOUD',
+      heroTitlePrefix: 'Convierto procesos cotidianos de tu negocio en ',
+      heroTitleHighlight: 'soluciones digitales.',
+      heroIntro:
+        'Ayudo a dueños de negocio y equipos operativos a dejar atrás el papel, la doble captura y el seguimiento disperso en chats con herramientas propias, rápidas y fáciles de usar.',
+      ctaPrimary: 'Cuéntame qué quieres mejorar',
+      ctaSecondary: 'Ver soluciones',
+      guarantees: [
+        'Sin rentas mensuales por usuario',
+        'Código y cuentas 100% a tu nombre',
+        'Trato directo en Guadalajara y remoto',
+      ],
+      specRoleLabel: 'Atención',
+      specRoleValue: 'Adrián Perdomo · Trato directo',
+      specFocusLabel: 'Para quién',
+      specFocusValue: 'Comercializadoras, servicios y PyMEs',
+      specStepLabel: 'Primer paso',
+      specStepValue: 'Diagnóstico y presupuesto por escrito',
+
+      solutionsIndex: '02 / SOLUCIONES',
+      solutionsTitle: 'Soluciones prácticas para los cuellos de botella de tu operación',
+      solutionsLead:
+        'Cada herramienta parte del problema real que hoy le quita horas a tu equipo y lo resuelve con un entregable claro, seguro y listo para trabajar.',
+      painPrefix: 'Resuelve:',
+      solutions: [
+        {
+          num: '01',
+          category: 'CONTROL OPERATIVO',
+          title: 'Sistemas Internos de Control',
+          pain: 'Deja atrás pedidos en papel, hojas sueltas y saldos perdidos.',
+          summary:
+            'Panel web privado para concentrar pedidos, citas, clientes o inventario en un solo lugar, accesible desde cualquier celular o computadora.',
+          bullets: [
+            'Estatus al día de pedidos, entregas, citas o cuentas por cobrar.',
+            'Tu información segura con respaldos diarios y descargable en Excel cuando quieras.',
+            'Accesos para tu equipo según su puesto sin pagar rentas mensuales por usuario.',
+          ],
+          outcomePill: 'Tu operación ordenada en una sola pantalla y descargable en Excel',
+        },
+        {
+          num: '02',
+          category: 'AHORRO DE TIEMPO',
+          title: 'Automatización de Procesos y Avisos',
+          pain: 'Elimina las 2 horas diarias de doble captura manual.',
+          summary:
+            'Conexión automática entre formularios, Excel o Google Sheets, generación de documentos en PDF y alertas al instante por WhatsApp o correo.',
+          bullets: [
+            'Lo que registra un cliente o vendedor se guarda solo en tus hojas de control.',
+            'Cotizaciones, órdenes de trabajo o notas generadas en PDF en segundos.',
+            'Avisos inmediatos a tu WhatsApp o correo cada vez que entra un pedido o solicitud.',
+          ],
+          outcomePill: 'Ahorra de 1 a 2 horas diarias de retrabajo y errores de captura',
+        },
+        {
+          num: '03',
+          category: 'CAPTACIÓN COMERCIAL',
+          title: 'Sitios Web y Catálogos Comerciales',
+          pain: 'Deja de depender solo de contestar mensajes en redes sociales.',
+          summary:
+            'Catálogo digital ultrarrápido con buscador claro y solicitud de cotización conectada directo a tu WhatsApp o correo de ventas.',
+          bullets: [
+            'Página que abre en menos de 1 segundo en cualquier celular o computadora.',
+            'Productos o servicios ordenados con fichas claras y presencia en Google.',
+            'Botones y formularios conectados directo a tu WhatsApp o correo comercial.',
+          ],
+          outcomePill: 'Recibe cotizaciones formales 24/7 con imagen seria y profesional',
+        },
+        {
+          num: '04',
+          category: 'CONTINUIDAD Y PROPIEDAD',
+          title: 'Infraestructura Cloud y Correo Empresarial',
+          pain: 'Olvídate de caídas o depender de intermediarios.',
+          summary:
+            'Servidores en Azure o AWS, dominios, correos empresariales, respaldos automáticos y seguridad configurados directamente a nombre de tu empresa.',
+          bullets: [
+            'Cuentas oficiales, dominio y correos @tuempresa.com bajo tu control.',
+            'Respaldos automáticos diarios y monitoreo continuo para evitar interrupciones.',
+            'Pago directo al proveedor con topes de gasto claros y sin sobreprecios.',
+          ],
+          outcomePill: 'Tus sistemas y correos estables, seguros y 100% a nombre de tu empresa',
+        },
+      ] as SolutionCard[],
+
+      processIndex: '03 / PROCESO',
+      processTitle: 'Cómo trabajamos paso a paso',
+      processLead:
+        'Tres etapas claras y sin tecnicismos: sabes exactamente qué vamos a construir, cuánto cuesta y cuándo se entrega antes de iniciar.',
+      deliverableLabel: 'ENTREGABLE',
+      process: [
+        {
+          step: '01',
+          timeline: '1 a 2 semanas',
+          title: 'Paso 1: Diagnóstico y presupuesto cerrado',
+          desc: 'Entendemos cómo opera hoy tu equipo y te entrego por escrito qué vamos a construir, cuánto cuesta y cuándo se entrega.',
+          deliverable: 'Propuesta clara por escrito con alcance definido, fechas y precio fijo.',
+        },
+        {
+          step: '02',
+          timeline: '2 a 4 semanas',
+          title: 'Paso 2: Construcción con avances visibles',
+          desc: 'Desarrollamos la herramienta con avances visibles cada 2 semanas y la pruebas en un entorno seguro con datos de tu negocio antes de lanzarla.',
+          deliverable: 'Herramienta funcional probada y validada contigo antes de salir en vivo.',
+        },
+        {
+          step: '03',
+          timeline: 'Lanzamiento',
+          title: 'Paso 3: Puesta en marcha y capacitación',
+          desc: 'Dejamos el sistema funcionando en las cuentas de tu empresa, capacitamos a tu equipo y te acompaño de cerca en el arranque.',
+          deliverable: 'Sistema operando a nombre de tu negocio, guía práctica y soporte de arranque.',
+        },
+      ] as ProcessStep[],
+
+      modelsIndex: '04 / MODALIDADES Y GARANTÍAS',
+      modelsTitle: 'Modalidades de contratación claras, sin letras chiquitas',
+      modelsLead:
+        'Elige el esquema que mejor se adapte a la etapa actual de tu negocio. Alcance, entregables e inversión quedan siempre por escrito.',
+      inclusionsHeader: 'QUÉ INCLUYE',
+      idealForLabel: 'IDEAL PARA:',
+      investmentTiers: [
+        {
+          tierNumber: '01',
+          badge: 'ALCANCE CERRADO',
+          name: 'Proyecto de alcance cerrado',
+          subtitle: 'Presupuesto fijo y fecha de entrega',
+          desc: 'Desarrollo completo de una solución puntual (sistema de control, automatización o catálogo comercial) con precio y entrega definidos desde el inicio.',
+          inclusions: [
+            'Alcance y entregables acordados por escrito antes de empezar',
+            'Precio fijo con pagos por avance y cero cobros sorpresa',
+            'Entorno seguro de prueba con avances visibles cada 2 semanas',
+            'Puesta en marcha, capacitación a tu equipo y garantía de arranque',
+          ],
+          idealFor: 'Negocios que quieren resolver un cuello de botella concreto con inversión y fechas claras.',
+        },
+        {
+          tierNumber: '02',
+          badge: 'EVALUACIÓN PREVIA',
+          name: 'Diagnóstico y hoja de ruta',
+          subtitle: 'Claridad antes de invertir',
+          desc: 'Revisión profunda de tus procesos actuales para detectar dónde se pierde tiempo o dinero y definir qué conviene implementar primero.',
+          inclusions: [
+            'Levantamiento práctico de cómo trabaja hoy tu equipo',
+            'Revisión de hojas de cálculo, chats y herramientas actuales',
+            'Reporte ejecutivo claro con fugas operativas y mejoras rápidas',
+            'Plan de acción paso a paso con opciones reales de inversión',
+          ],
+          idealFor: 'Dueños que buscan claridad objetiva antes de decidir si comprar un sistema o hacer uno a medida.',
+        },
+        {
+          tierNumber: '03',
+          badge: 'CONTINUIDAD',
+          name: 'Póliza mensual de soporte y mejora',
+          subtitle: 'Respaldo técnico sin nómina fija',
+          desc: 'Acompañamiento mensual directo para mantener tus sistemas al día, resolver dudas operativas y sumar funciones conforme crece tu negocio.',
+          inclusions: [
+            'Horas mensuales acordadas con atención directa y prioritaria',
+            'Mantenimiento preventivo, respaldos y actualizaciones de seguridad',
+            'Ajustes y nuevas funciones según las prioridades del mes',
+            'Monitoreo de estabilidad y control de costos en tus cuentas cloud',
+          ],
+          idealFor: 'Empresas con sistemas en operación que quieren un aliado tecnológico fijo sin carga laboral.',
+        },
+      ] as ContractingTier[],
+
+      sovereignty: {
+        badge: 'SOBERANÍA TECNOLÓGICA',
+        title: 'Tu negocio es dueño de sus cuentas, su dominio y su código',
+        desc: 'Todos los servicios en la nube, dominios, correos empresariales y bases de datos se dan de alta directamente a nombre de tu empresa y al costo oficial del proveedor. Sin sobreprecios de reventa ni intermediarios que retengan tus accesos: las llaves, la información y el código son 100% tuyos.',
+        points: [
+          'Pago directo al proveedor sin sobreprecios',
+          'Cuentas, dominio y código 100% a tu nombre',
+          'Sin rentas por usuario ni contratos forzosos',
+        ],
+      } as SovereigntyBlock,
+      supportNote:
+        'Cada negocio opera distinto: definimos el presupuesto exacto por escrito según el alcance real después de nuestra primera conversación.',
+
+      faqEyebrow: 'PREGUNTAS FRECUENTES',
+      faqTitle: 'Dudas habituales antes de platicar',
+      faq: [
+        [
+          '¿Trabajas con negocios pequeños o solo con empresas grandes?',
+          'Mi enfoque principal son pequeñas y medianas empresas (comercializadoras, talleres, clínicas, despachos y negocios de servicios) que buscan ordenar un proceso concreto sin pagar licencias corporativas impagables.',
+        ],
+        [
+          '¿Necesito saber de tecnología para explicarte lo que busco?',
+          'Para nada. Lo único que necesitas es contarme cómo trabaja hoy tu equipo, dónde se atoran las tareas y qué resultado quieres lograr. Yo me encargo de traducirlo a una herramienta simple.',
+        ],
+        [
+          '¿Qué pasa después de entregar el sistema? ¿Hay capacitación y soporte?',
+          'Toda entrega incluye capacitación práctica para tu equipo y acompañamiento durante el arranque. Después, tú decides si operas de forma independiente o si activamos una póliza mensual para mejoras y soporte continuo.',
+        ],
+        [
+          '¿Cómo se define cuánto cuesta un proyecto y cómo se paga?',
+          'Platicamos sin costo durante 20 a 30 minutos para entender tu operación. Con eso te entrego una propuesta cerrada por escrito con entregables, fechas y pagos divididos por avance, sin sorpresas.',
+        ],
+      ],
+
+      contactIndex: '05 / CONTACTO',
+      contactTitle: 'Hablemos de tu operación',
+      contactBody:
+        'Cuéntame brevemente qué proceso quieres ordenar o agilizar hoy. Te respondo en menos de 24 horas hábiles por el medio que prefieras.',
+      directLabel: 'Correo directo',
+      profileLinkLabel: 'Ver trayectoria y perfil de ingeniería',
+      name: 'Tu nombre',
+      business: 'Nombre de tu negocio (opcional)',
+      email: 'Correo electrónico',
+      phone: 'WhatsApp o teléfono (opcional)',
+      problem: '¿Qué proceso o cuello de botella quieres mejorar?',
+      method: '¿Por dónde prefieres que te contacte?',
+      emailMethod: 'Correo',
+      phoneMethod: 'WhatsApp / Teléfono',
+      submit: 'Enviar mensaje',
+      loading: 'Enviando…',
+      privacy: 'Usaré tus datos únicamente para responder esta consulta.',
+      trapLabel: 'Deja este campo vacío',
+      formSuccess: 'Tu mensaje se envió correctamente. Te responderé pronto.',
+      formFailure: 'No pude enviar tu mensaje en este momento. Inténtalo de nuevo o escríbeme por correo.',
+      formNetworkError: 'Hubo un error de conexión al enviar. Inténtalo de nuevo o escríbeme directamente.',
+      formError: 'Agrega tu nombre, un correo válido y una breve nota sobre lo que buscas mejorar.',
+    };
 ---
 
 <div class="consulting-page" data-consulting-page>
-  <section id="inicio-consultoria" class="relative isolate max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-16 sm:pb-24" data-scroll-module>
+  <!-- 01 / CONSULTORÍA PYME (Full-Viewport Centered Hero matching perdomopro.com) -->
+  <section
+    id="inicio-consultoria"
+    data-scroll-module
+    class="relative isolate w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-16 min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
+    aria-labelledby="consulting-hero-heading"
+  >
     <ParticlesBackground id="perdomopro-particles-consulting" />
-    <header
-      class="relative z-10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech tracking-wider uppercase text-fg-primary p-4 sm:p-5 border border-border-subtle bg-white/80 shadow-xs backdrop-blur-[4px] pointer-events-none"
-      data-hero-meta="top"
-    >
-      <div class="flex items-center gap-3">
-        <span class="text-fg-muted">{en ? '01 // CONSULTING' : '01 // CONSULTORÍA'}</span>
-        <span class="text-border-muted" aria-hidden="true">/</span>
-        <span class="text-fg-primary font-semibold">{siteConfig.brand}</span>
-        <span class="text-border-muted hidden sm:inline" aria-hidden="true">•</span>
-        <span class="text-fg-muted hidden sm:inline">{en ? 'TECHNOLOGY FOR SMALL BUSINESSES' : 'TECNOLOGÍA PARA PEQUEÑOS NEGOCIOS'}</span>
-      </div>
 
-      <div class="flex flex-wrap items-center gap-4 sm:gap-6">
-        <div class="flex items-center gap-2">
-          <span class="inline-block w-2 h-2 rounded-full bg-status-active" aria-hidden="true"></span>
-          <span class="text-fg-primary font-semibold">{copy.heroMeta}</span>
+    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-14 items-center my-auto pointer-events-none">
+      <!-- Primary Content Column -->
+      <div class="lg:col-span-7 xl:col-span-8 space-y-5 sm:space-y-7">
+        <div
+          class="inline-flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech tracking-wider uppercase text-fg-primary font-medium"
+          data-hero-meta="category"
+        >
+          <span class="inline-block w-2 h-2 rounded-full bg-status-active shrink-0" aria-hidden="true"></span>
+          <span>{copy.heroEyebrow}</span>
+        </div>
+
+        <h1
+          id="consulting-hero-heading"
+          class="text-[1.75rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.12] sm:leading-[1.1] text-fg-primary max-w-3xl"
+          data-hero-headline
+        >
+          <span>{copy.heroTitlePrefix}</span>
+          <span class="font-medium underline decoration-border-muted underline-offset-4 sm:underline-offset-8 decoration-1">{copy.heroTitleHighlight}</span>
+        </h1>
+
+        <!-- CTAs & 3 Quick Business Guarantees -->
+        <div class="space-y-4 sm:space-y-5 pt-1 sm:pt-2 pointer-events-auto" data-hero-cta>
+          <div class="flex flex-col min-[460px]:flex-row sm:flex-wrap items-stretch min-[460px]:items-center gap-2.5 sm:gap-3.5">
+            <a
+              href="#contacto"
+              class="group inline-flex justify-center items-center gap-2.5 bg-accent-primary text-white px-5 sm:px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            >
+              <span>{copy.ctaPrimary}</span>
+              <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
+            </a>
+
+            <a
+              href="#soluciones"
+              class="group inline-flex justify-center items-center gap-2.5 border border-border-subtle bg-white/85 backdrop-blur-[2px] hover:border-accent-primary text-fg-primary px-5 sm:px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            >
+              <span>{copy.ctaSecondary}</span>
+              <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
+            </a>
+          </div>
+
+          <!-- Row of 3 Quick Guarantees -->
+          <ul
+            class="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2 pt-0.5 text-[11px] sm:text-xs font-mono-tech text-fg-secondary list-none p-0 m-0"
+            data-hero-guarantees
+          >
+            {copy.guarantees.map((guarantee) => (
+              <li class="inline-flex items-center gap-1.5">
+                <span class="text-status-active font-bold shrink-0" aria-hidden="true">✓</span>
+                <span>{guarantee}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </header>
 
-    <div class="relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-14 pt-8 sm:pt-10 lg:pt-12 items-end pointer-events-none">
-      <div class="lg:col-span-8" data-reveal-item>
-        <p class="mb-6 text-xs sm:text-sm font-mono-tech uppercase tracking-[0.13em] text-fg-primary font-medium"><span class="mr-3 text-status-active" aria-hidden="true">■</span>{en ? 'SOFTWARE / AUTOMATION / CLOUD' : 'SOFTWARE / AUTOMATIZACIÓN / CLOUD'}</p>
-        <h1 class="max-w-5xl font-sans text-4xl sm:text-6xl lg:text-7xl xl:text-[5.6rem] leading-[0.98] tracking-[-0.055em] text-fg-primary">{copy.heroTitle}</h1>
-      </div>
-      <div class="lg:col-span-4 lg:pb-2" data-reveal-item>
-        <p class="text-lg sm:text-xl leading-relaxed text-fg-primary font-normal">{copy.heroIntro}</p>
-        <div class="mt-8 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 pointer-events-auto">
-          <a href="#contacto" class="group inline-flex justify-center items-center gap-3 bg-accent-primary px-5 py-3.5 text-sm text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary">{copy.start}<span class="transition-transform group-hover:translate-x-1" aria-hidden="true">↗</span></a>
-          <a href="#soluciones" class="group inline-flex justify-center items-center gap-3 border border-border-subtle px-5 py-3.5 text-sm text-fg-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-primary hover:bg-accent-subtle active:translate-y-0 active:scale-[0.98]">{copy.explore}<span class="transition-transform group-hover:translate-y-0.5" aria-hidden="true">↓</span></a>
-        </div>
+      <!-- Secondary Editorial & Spec Column -->
+      <div class="lg:col-span-5 xl:col-span-4 space-y-5 sm:space-y-6">
+        <p class="text-[15px] sm:text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
+          {copy.heroIntro}
+        </p>
+
+        <dl class="border-t border-border-subtle pt-4 sm:pt-5 space-y-2.5 sm:space-y-3 text-xs font-mono-tech" data-hero-meta="spec-list">
+          <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+            <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specRoleLabel}</dt>
+            <dd class="text-fg-primary font-semibold sm:text-right">{copy.specRoleValue}</dd>
+          </div>
+
+          <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+            <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specFocusLabel}</dt>
+            <dd class="text-fg-primary font-semibold sm:text-right">{copy.specFocusValue}</dd>
+          </div>
+
+          <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+            <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specStepLabel}</dt>
+            <dd class="text-fg-primary font-medium sm:text-right">{copy.specStepValue}</dd>
+          </div>
+        </dl>
       </div>
     </div>
-    <nav role="navigation" aria-label={copy.quickNavLabel} class="relative z-10 mt-16 sm:mt-24 border border-border-subtle bg-white/75 p-5 sm:p-8 shadow-sm backdrop-blur-[2px] pointer-events-auto" data-reveal-item>
-      <h2 class="mb-4 text-[10px] font-mono-tech tracking-[0.14em] uppercase text-fg-muted font-normal">{copy.quickNavLabel}</h2>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {copy.quickNav.map((item) => (
-          <a
-            href={item.href}
-            class="group flex flex-col justify-between border border-border-subtle bg-white/85 p-4 sm:p-5 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-primary hover:bg-canvas hover:shadow-md active:translate-y-0 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
-          >
-            <div>
-              <div class="flex items-center justify-between gap-2">
-                <span class="font-mono-tech text-xs font-semibold text-accent-primary">{item.num}</span>
-                <span class="text-xs text-fg-muted transition-transform duration-200 group-hover:translate-x-0.5 group-hover:translate-y-0.5" aria-hidden="true">↘</span>
-              </div>
-              <h3 class="mt-2.5 text-sm sm:text-base font-semibold text-fg-primary group-hover:text-accent-primary transition-colors leading-snug">
+  </section>
+
+  <!-- 02 / SOLUCIONES (Pain + Solution + Business Outcome United in 4 Clean Cards) -->
+  <section
+    id="soluciones"
+    data-scroll-module
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
+    aria-labelledby="solutions-heading"
+  >
+    <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
+      <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
+        {copy.solutionsIndex}
+      </p>
+      <h2
+        id="solutions-heading"
+        class="text-2xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
+      >
+        {copy.solutionsTitle}
+      </h2>
+      <p class="text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+        {copy.solutionsLead}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+      {copy.solutions.map((item) => (
+        <article
+          class="group relative flex h-full flex-col justify-between border border-border-subtle bg-canvas p-5 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md overflow-hidden"
+          data-reveal-item
+        >
+          <div class="absolute inset-x-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true"></div>
+
+          <div class="space-y-4">
+            <!-- Card Top Index & Category -->
+            <div class="flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech text-fg-muted">
+              <span class="font-semibold text-accent-primary">{item.num}</span>
+              <span class="text-border-muted" aria-hidden="true">/</span>
+              <span class="uppercase tracking-wider">{item.category}</span>
+            </div>
+
+            <!-- Title, Pain Eliminated & Business Deliverable Summary -->
+            <div class="space-y-2">
+              <h3 class="text-lg sm:text-2xl font-medium tracking-tight text-fg-primary group-hover:text-accent-primary transition-colors">
                 {item.title}
               </h3>
-            </div>
-            <p class="mt-2 text-xs text-fg-secondary leading-relaxed font-mono-tech">
-              {item.desc}
-            </p>
-          </a>
-        ))}
-      </div>
-    </nav>
-  </section>
 
-  <!-- 01 // PROBLEMAS Y FRICCIONES -->
-  <section id="problemas" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
-    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary">
-      <span>01 // {en ? 'PROBLEMS & FRICTIONS' : 'PROBLEMAS Y FRICCIONES'}</span>
-      <span>{copy.sectionLabel}</span>
-    </header>
-    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16">
-      <div class="lg:col-span-5" data-reveal-item>
-        <h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.problemsTitle}</h2>
-        <p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.problemsLead}</p>
-      </div>
-      <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
-        {copy.problems.slice(0, 2).map((problem, i) => (
-          <article class="flex flex-col justify-between border border-border-subtle bg-canvas-subtle p-5 sm:p-6 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-700/30 hover:shadow-md" data-reveal-item>
-            <div>
-              <div class="flex items-center justify-between gap-3">
-                <p class="text-[10px] font-mono-tech tracking-widest text-fg-muted">0{i + 1} / {en ? 'FRICTION' : 'FRICCIÓN'}</p>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 border border-amber-500/25 bg-amber-500/10 text-amber-900 font-mono-tech text-[10px] tracking-wider uppercase font-semibold">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-600" aria-hidden="true"></span>
-                  {problem.tag}
-                </span>
-              </div>
-              <h3 class="mt-4 text-lg font-semibold text-fg-primary">{problem.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-fg-secondary">{problem.desc}</p>
+              <p class="text-xs sm:text-[13px] font-mono-tech text-amber-900 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1.5 leading-snug">
+                <span class="font-semibold">{copy.painPrefix}</span> {item.pain}
+              </p>
+
+              <p class="pt-1 text-[13.5px] sm:text-[15px] text-fg-secondary leading-relaxed text-pretty">
+                {item.summary}
+              </p>
             </div>
-            <div class="mt-5 pt-3.5 border-t border-border-subtle/80 flex items-start gap-2 text-xs font-mono-tech text-fg-secondary">
-              <span class="text-amber-700 font-bold shrink-0 mt-0.5" aria-hidden="true">↳</span>
-              <span><strong class="text-amber-900 font-semibold">{en ? 'Bottleneck:' : 'Cuello de botella:'}</strong> {problem.bottleneck}</span>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-    <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {copy.problems.slice(2, 6).map((problem, i) => (
-        <article class="flex flex-col justify-between border border-border-subtle bg-canvas-subtle p-5 sm:p-6 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-700/30 hover:shadow-md" data-reveal-item>
-          <div>
-            <div class="flex items-center justify-between gap-3">
-              <p class="text-[10px] font-mono-tech tracking-widest text-fg-muted">0{i + 3} / {en ? 'FRICTION' : 'FRICCIÓN'}</p>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 border border-amber-500/25 bg-amber-500/10 text-amber-900 font-mono-tech text-[10px] tracking-wider uppercase font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-600" aria-hidden="true"></span>
-                {problem.tag}
-              </span>
-            </div>
-            <h3 class="mt-4 text-lg font-semibold text-fg-primary">{problem.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-fg-secondary">{problem.desc}</p>
+
+            <!-- 3 Concrete Business-Language Points -->
+            <ul class="pt-1 space-y-2 list-none p-0 m-0">
+              {item.bullets.map((bullet) => (
+                <li class="flex items-baseline gap-2.5 text-xs sm:text-sm text-fg-secondary leading-relaxed">
+                  <span class="text-accent-primary font-mono-tech font-bold shrink-0 select-none" aria-hidden="true">›</span>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div class="mt-5 pt-3.5 border-t border-border-subtle/80 flex items-start gap-2 text-xs font-mono-tech text-fg-secondary">
-            <span class="text-amber-700 font-bold shrink-0 mt-0.5" aria-hidden="true">↳</span>
-            <span><strong class="text-amber-900 font-semibold">{en ? 'Bottleneck:' : 'Cuello de botella:'}</strong> {problem.bottleneck}</span>
+
+          <!-- Business Outcome Pill -->
+          <div class="mt-5 sm:mt-6 pt-4 border-t border-border-subtle/70">
+            <span class="inline-flex items-start gap-2 px-2.5 sm:px-3 py-1.5 border border-accent-primary/20 bg-accent-subtle text-accent-primary text-[11px] sm:text-xs font-mono-tech font-medium leading-snug">
+              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" aria-hidden="true"></span>
+              <span>{item.outcomePill}</span>
+            </span>
           </div>
         </article>
       ))}
     </div>
   </section>
 
-  <!-- 02 // SOLUCIONES DE ALTO VALOR -->
-  <section id="soluciones" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
-    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary">
-      <span>02 // {en ? 'SOLUTIONS' : 'SOLUCIONES'}</span>
-      <span>{copy.solutionsLabel}</span>
-    </header>
-    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16">
-      <div class="lg:col-span-5" data-reveal-item>
-        <h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.solutionsTitle}</h2>
-        <p class="mt-6 max-w-xl leading-relaxed text-fg-secondary">{copy.solutionsLead}</p>
-      </div>
-      <div class="lg:col-span-7 flex flex-col">
-        {copy.solutions.slice(0, 1).map((solution) => (
-          <article class="group relative flex h-full flex-col justify-between overflow-hidden border border-border-subtle bg-canvas p-6 sm:p-7 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-lg focus-within:ring-2 focus-within:ring-accent-primary sm:col-span-2 ring-1 ring-accent-primary/15" data-reveal-item>
-            <div class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent" aria-hidden="true"></div>
-
-            <div>
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-2">
-                  <span class="font-mono-tech text-xs font-semibold text-accent-primary">01</span>
-                  <span class="h-3 w-px bg-border-subtle" aria-hidden="true"></span>
-                  <span class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted">{solution.focus}</span>
-                </div>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-accent-subtle text-accent-primary border border-accent-primary/20 text-[10px] font-mono-tech tracking-wider uppercase font-semibold">
-                  <span class="w-1.5 h-1.5 rounded-full bg-accent-primary" aria-hidden="true"></span>
-                  {en ? 'CORE PLATFORM' : 'SISTEMA CENTRAL'}
-                </span>
-              </div>
-
-              <h3 class="mt-4 text-xl sm:text-2xl font-semibold text-fg-primary">{solution.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-fg-secondary">{solution.desc}</p>
-
-              <div class="mt-5 pt-4 border-t border-border-subtle">
-                <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">{en ? 'KEY DELIVERABLES' : 'ENTREGABLES CLAVE'}</p>
-                <ul class="mt-2.5 grid sm:grid-cols-2 gap-x-4 gap-y-2 space-y-0 text-xs text-fg-secondary list-none p-0 m-0">
-                  {solution.deliverables.map((item) => (
-                    <li class="flex items-start gap-2">
-                      <svg class="w-3.5 h-3.5 text-status-active shrink-0 mt-0.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                      </svg>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div class="mt-5 pt-3.5 border-t border-border-subtle/80 text-xs font-mono-tech text-fg-muted">
-              <span class="text-accent-primary font-semibold">{en ? 'Best for:' : 'Ideal para:'}</span> {solution.useCase}
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-    <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-      {copy.solutions.slice(1).map((solution, i) => (
-        <article class="group relative flex flex-col justify-between overflow-hidden border border-border-subtle bg-canvas p-6 sm:p-7 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-lg focus-within:ring-2 focus-within:ring-accent-primary sm:col-span-1" data-reveal-item>
-          <div class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent" aria-hidden="true"></div>
-
-          <div>
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-2">
-                <span class="font-mono-tech text-xs font-semibold text-accent-primary">0{i + 2}</span>
-                <span class="h-3 w-px bg-border-subtle" aria-hidden="true"></span>
-                <span class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted">{solution.focus}</span>
-              </div>
-            </div>
-
-            <h3 class="mt-4 text-lg font-semibold text-fg-primary">{solution.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-fg-secondary">{solution.desc}</p>
-
-            <div class="mt-5 pt-4 border-t border-border-subtle">
-              <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">{en ? 'KEY DELIVERABLES' : 'ENTREGABLES CLAVE'}</p>
-              <ul class="mt-2.5 space-y-2 text-xs text-fg-secondary list-none p-0 m-0">
-                {solution.deliverables.map((item) => (
-                  <li class="flex items-start gap-2">
-                    <svg class="w-3.5 h-3.5 text-status-active shrink-0 mt-0.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                    </svg>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div class="mt-5 pt-3.5 border-t border-border-subtle/80 text-xs font-mono-tech text-fg-muted">
-            <span class="text-accent-primary font-semibold">{en ? 'Best for:' : 'Ideal para:'}</span> {solution.useCase}
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <!-- 03 // PROCESO: Stepper Secuencial Conectado -->
-  <section id="proceso" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-16 sm:pt-24 pb-8 sm:pb-12" data-scroll-module>
-    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary">
-      <span>03 // {en ? 'PROCESS' : 'PROCESO'}</span>
-      <span>{copy.processLabel}</span>
-    </header>
-
-    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 pt-10 sm:pt-14 items-end" data-reveal-item>
-      <div class="lg:col-span-6">
-        <h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.processTitle}</h2>
-      </div>
-      <div class="lg:col-span-6">
-        <p class="max-w-xl leading-relaxed text-fg-secondary">{copy.processLead}</p>
-      </div>
+  <!-- 03 / PROCESO (3 Clear Steps in Business-Owner Language) -->
+  <section
+    id="proceso"
+    data-scroll-module
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
+    aria-labelledby="consulting-process-heading"
+  >
+    <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
+      <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
+        {copy.processIndex}
+      </p>
+      <h2
+        id="consulting-process-heading"
+        class="text-2xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
+      >
+        {copy.processTitle}
+      </h2>
+      <p class="text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+        {copy.processLead}
+      </p>
     </div>
 
     <!-- Stepper Pipeline Track Container -->
-    <div class="relative mt-12 sm:mt-16 pt-2">
+    <div class="relative pt-2">
       <!-- Desktop Continuous Progress Rail (>= 768px md:) -->
       <div class="hidden md:block absolute top-[28px] left-[16.66%] right-[16.66%] h-[2px] bg-border-muted z-0 pointer-events-none" aria-hidden="true">
         <div class="h-full w-full bg-gradient-to-r from-accent-primary via-accent-interactive to-accent-primary/60"></div>
       </div>
 
-      <!-- Stepper List with 3 Phases -->
-      <ol class="relative z-10 grid md:grid-cols-3 gap-6 sm:gap-8 list-none m-0 p-0">
+      <ol class="relative z-10 grid md:grid-cols-3 gap-5 sm:gap-6 list-none m-0 p-0">
         {copy.process.map((phase, i) => (
-          <li class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent-primary/40 hover:shadow-md" data-reveal-item>
-            <!-- Top Header: Milestone Circle Node & Timeline Badge -->
+          <li
+            class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-5 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md"
+            data-reveal-item
+          >
             <div>
               <div class="flex items-center justify-between gap-3 mb-5">
-                <!-- Circular Milestone Node 01-03 -->
                 <div class="relative z-10 w-11 h-11 rounded-full border-2 border-accent-primary bg-canvas text-accent-primary flex items-center justify-center font-mono-tech text-sm font-bold shadow-xs group-hover:bg-accent-primary group-hover:text-white transition-colors duration-200">
                   {phase.step}
                 </div>
 
-                <!-- Phase Tag / Timeline -->
-                <span class="inline-flex items-center px-2.5 py-1 rounded-xs border border-border-subtle bg-canvas-subtle font-mono-tech text-[10px] text-fg-muted uppercase tracking-wider">
+                <span class="inline-flex items-center px-2.5 py-1 border border-border-subtle bg-canvas-subtle font-mono-tech text-[11px] text-fg-secondary uppercase tracking-wider">
                   {phase.timeline}
                 </span>
               </div>
 
-              <!-- Phase Title -->
-              <h3 class="text-lg font-medium text-fg-primary tracking-tight">{phase.title}</h3>
+              <h3 class="text-lg sm:text-xl font-medium text-fg-primary tracking-tight">
+                {phase.title}
+              </h3>
 
-              <!-- Phase Narrative Description -->
-              <p class="mt-3 text-sm leading-relaxed text-fg-secondary">{phase.desc}</p>
+              <p class="mt-2.5 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
+                {phase.desc}
+              </p>
             </div>
 
-            <!-- Bottom Deliverable Card Footnote -->
-            <div class="mt-6 pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-6 -mb-6 sm:-mx-7 sm:-mb-7 p-4 sm:p-5 rounded-b-xs">
+            <!-- Concrete Deliverable Footnote -->
+            <div class="mt-6 pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 p-4 sm:p-5">
               <div class="flex items-center gap-1.5 text-[10px] font-mono-tech uppercase tracking-wider text-accent-primary font-semibold">
                 <span class="w-1.5 h-1.5 rounded-full bg-status-active" aria-hidden="true"></span>
-                <span>{en ? 'KEY DELIVERABLE' : 'ENTREGABLE CLAVE'}</span>
+                <span>{copy.deliverableLabel}</span>
               </div>
               <p class="mt-1.5 text-xs text-fg-primary leading-relaxed font-medium">
                 {phase.deliverable}
               </p>
-              <div class="mt-2 text-[10px] font-mono-tech text-fg-muted">
-                <span>↳ {phase.checkpoint}</span>
-              </div>
             </div>
 
-            <!-- Inter-card Directional Connectors -->
-            <!-- Desktop horizontal connector arrow across gap -->
             {i < 2 && (
-              <div class="hidden md:flex absolute -right-3.5 lg:-right-4.5 top-[28px] -translate-y-1/2 z-20 items-center justify-center w-6 h-6 rounded-full bg-canvas border border-border-muted text-accent-primary text-xs font-bold shadow-xs" aria-hidden="true">
+              <div class="hidden md:flex absolute -right-3.5 lg:-right-4 top-[28px] -translate-y-1/2 z-20 items-center justify-center w-6 h-6 rounded-full bg-canvas border border-border-muted text-accent-primary text-xs font-bold shadow-xs" aria-hidden="true">
                 →
               </div>
             )}
 
-            <!-- Mobile vertical connector arrow across gap -->
             {i < 2 && (
-              <div class="md:hidden flex items-center justify-center -my-3 z-10" aria-hidden="true">
+              <div class="md:hidden flex items-center justify-center -my-3 pt-5 z-10" aria-hidden="true">
                 <div class="w-6 h-6 rounded-full bg-canvas border border-border-muted text-accent-primary text-xs font-bold flex items-center justify-center shadow-xs">
                   ↓
                 </div>
@@ -908,105 +744,66 @@ const projectVisuals = {
     </div>
   </section>
 
-  <!-- 04 // PROYECTOS -->
-  <section id="proyectos" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-2 sm:pt-3 pb-8 sm:pb-10" data-scroll-module>
-    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>04 // {en ? 'PROJECTS' : 'PROYECTOS'}</span><span>{copy.examplesLabel}</span></header>
-    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 pt-10 sm:pt-14 items-end" data-reveal-item>
-      <h2 class="lg:col-span-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.examplesTitle}</h2>
-      <p class="lg:col-span-5 lg:col-start-8 max-w-2xl leading-relaxed text-fg-secondary">{copy.examplesLead}</p>
-    </div>
-    <div class="mt-8 sm:mt-10 grid md:grid-cols-2 gap-5 sm:gap-6">
-      {examples.map((project, i) => {
-        const content = project.content[locale];
-        const visual = projectVisuals[project.id as keyof typeof projectVisuals];
-        return <article class="group relative flex h-full flex-col overflow-hidden border border-border-subtle bg-canvas shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent-primary/30 hover:shadow-xl hover:shadow-accent-primary/5 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent-primary" data-reveal-item>
-          <div class="absolute inset-x-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true"></div>
-          <div class="relative overflow-hidden border-b border-border-subtle bg-canvas-subtle">
-            {project.id === 'score-record' && 'overview' in visual ? (
-              <div class="relative aspect-[16/9]">
-                <img src={visual.overview} alt={visual.overviewAlt} loading="lazy" decoding="async" class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]" />
-                <figure class="absolute bottom-3 right-3 w-[42%] overflow-hidden border-2 border-canvas bg-canvas shadow-lg sm:bottom-5 sm:right-5">
-                  <img src={visual.dashboard} alt={visual.dashboardAlt} loading="lazy" decoding="async" class="aspect-[2/1] h-full w-full object-cover object-top" />
-                </figure>
-              </div>
-            ) : 'src' in visual ? (
-              <img src={visual.src} alt={visual.alt} loading="lazy" decoding="async" class="aspect-[16/9] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" />
-            ) : null}
-          </div>
-          <div class="flex flex-1 flex-col p-5 sm:p-7">
-            <div class="flex flex-wrap justify-between gap-3 text-[10px] font-mono-tech tracking-widest text-fg-muted"><span>0{i + 1} // {content.title}</span><span>{project.liveHref ? (en ? 'OWN SITE · AZURE' : 'SITIO PROPIO · AZURE') : copy.exampleType}</span></div>
-            <h3 class="mt-5 text-2xl text-fg-primary">{content.title}</h3>
-            <p class="mt-3 text-sm leading-relaxed text-fg-secondary">{content.problem}</p>
-            <div class="mt-5 border-l-2 border-border-subtle pl-4"><p class="text-xs font-mono-tech text-fg-muted">{en ? 'WHAT I BUILT' : 'QUÉ CONSTRUÍ'}</p><p class="mt-2 text-sm leading-relaxed text-fg-secondary">{content.built}</p></div>
-            <div class="mt-5 flex flex-wrap gap-2">{project.technologies.slice(0, 5).map((tech) => <span class="border border-border-subtle px-2 py-1 text-[10px] font-mono-tech text-fg-muted">{tech}</span>)}</div>
-            {(project.href || project.liveHref) && <div class="mt-auto pt-6 flex flex-wrap gap-5">{project.href && <a href={project.href} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary"><span>GitHub</span><span class="sr-only">{en ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span><span aria-hidden="true"> ↗</span></a>}{project.liveHref && <a href={project.liveHref} target="_blank" rel="noopener noreferrer" class="text-xs text-fg-primary underline underline-offset-4 decoration-border-muted hover:decoration-fg-primary"><span>{copy.exampleLink}</span><span class="sr-only">{en ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span><span aria-hidden="true"> ↗</span></a>}</div>}
-          </div>
-        </article>;
-      })}
-    </div>
-  </section>
-
-  <!-- 05 // CLOUD -->
-  <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8 sm:pt-10 pb-16 sm:pb-24" data-scroll-module>
-    <div class="border border-border-subtle bg-canvas-subtle p-6 sm:p-10 lg:p-14 shadow-sm" data-reveal-item>
-      <div class="grid lg:grid-cols-12 gap-10 items-start"><div class="lg:col-span-5"><p class="text-xs font-mono-tech tracking-widest text-fg-muted">05 // {copy.cloudLabel}</p><h2 class="mt-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.cloudTitle}</h2></div><div class="lg:col-span-7"><p class="text-base sm:text-lg leading-relaxed text-fg-secondary">{copy.cloudBody}</p><ul class="mt-8 list-none p-0 m-0 divide-y divide-border-subtle border-y border-border-subtle">{copy.cloudPoints.map((point, i) => <li class="flex gap-4 py-4 text-sm text-fg-primary"><span class="font-mono-tech text-xs text-fg-muted">0{i + 1}</span>{point}</li>)}</ul></div></div>
-    </div>
-  </section>
-
-  <!-- 06 // COMPATIBILIDAD -->
-  <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
-    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>06 // {en ? 'FIT' : 'COMPATIBILIDAD'}</span><span>{copy.fitLabel}</span></header>
-    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16"><div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.fitTitle}</h2><p class="mt-6 leading-relaxed text-fg-secondary">{copy.fitLead}</p></div><ul class="lg:col-span-7 list-none m-0 p-0 border-t border-border-subtle">{copy.fitPoints.map((point, i) => <li class="flex gap-4 py-5 border-b border-border-subtle text-sm sm:text-base leading-relaxed text-fg-secondary" data-reveal-item><span class="font-mono-tech text-xs text-fg-muted">0{i + 1}</span>{point}</li>)}</ul></div>
-  </section>
-
-  <!-- 07 // INVERSIÓN Y ALCANCE -->
-  <section id="inversion" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
-    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary">
-      <span>07 // {en ? 'INVESTMENT' : 'INVERSIÓN'}</span>
-      <span>{copy.investmentLabel}</span>
-    </header>
-
-    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 pt-10 sm:pt-14 items-end" data-reveal-item>
-      <div class="lg:col-span-6">
-        <h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.investmentTitle}</h2>
-      </div>
-      <div class="lg:col-span-6">
-        <p class="max-w-xl leading-relaxed text-fg-secondary">{copy.investmentLead}</p>
-      </div>
+  <!-- 04 / MODALIDADES Y GARANTÍAS (3 Contracting Models + Sovereignty + 4 Operational FAQs) -->
+  <section
+    id="modalidades"
+    data-scroll-module
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
+    aria-labelledby="models-heading"
+  >
+    <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
+      <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
+        {copy.modelsIndex}
+      </p>
+      <h2
+        id="models-heading"
+        class="text-2xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
+      >
+        {copy.modelsTitle}
+      </h2>
+      <p class="text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+        {copy.modelsLead}
+      </p>
     </div>
 
-    <!-- 3 Contracting Tier Cards Grid -->
-    <div class="mt-12 sm:mt-16 grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-      {copy.investmentTiers.map((tier, i) => (
-        <article class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent-primary/40 hover:shadow-md" data-reveal-item>
-          <!-- Top Accent Border on Hover -->
+    <!-- 3 Contracting Tier Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 items-stretch">
+      {copy.investmentTiers.map((tier) => (
+        <article
+          class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-5 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md overflow-hidden"
+          data-reveal-item
+        >
           <div class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true"></div>
 
           <div>
-            <!-- Tier Header Strip -->
             <div class="flex items-center justify-between gap-3 mb-4">
-              <span class="font-mono-tech text-xs font-semibold text-accent-primary">
-                0{i + 1} // {tier.badge}
-              </span>
+              <div class="flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech text-fg-muted">
+                <span class="font-semibold text-accent-primary">{tier.tierNumber}</span>
+                <span class="text-border-muted" aria-hidden="true">/</span>
+                <span class="uppercase tracking-wider">{tier.badge}</span>
+              </div>
               <span class="w-2 h-2 rounded-full bg-accent-primary/20 group-hover:bg-accent-primary transition-colors" aria-hidden="true"></span>
             </div>
 
-            <!-- Tier Title & Subtitle -->
-            <h3 class="text-xl font-medium text-fg-primary tracking-tight">{tier.name}</h3>
-            <p class="mt-1 text-xs font-mono-tech text-fg-muted uppercase tracking-wider">{tier.subtitle}</p>
+            <h3 class="text-lg sm:text-xl font-medium text-fg-primary tracking-tight">
+              {tier.name}
+            </h3>
+            <p class="mt-1 text-[11px] font-mono-tech text-accent-primary uppercase tracking-wider">
+              {tier.subtitle}
+            </p>
 
-            <!-- Narrative Description -->
-            <p class="mt-4 text-sm leading-relaxed text-fg-secondary">{tier.desc}</p>
+            <p class="mt-3.5 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
+              {tier.desc}
+            </p>
 
-            <!-- Checklist of Inclusions -->
-            <div class="mt-6 pt-5 border-t border-border-subtle">
+            <div class="mt-5 pt-4 border-t border-border-subtle">
               <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">
-                {en ? 'WHAT IS INCLUDED' : 'QUÉ INCLUYE ESTA MODALIDAD'}
+                {copy.inclusionsHeader}
               </p>
-              <ul class="mt-3 space-y-2 text-xs text-fg-secondary list-none p-0 m-0">
+              <ul class="mt-2.5 space-y-2 text-xs text-fg-secondary list-none p-0 m-0">
                 {tier.inclusions.map((item) => (
                   <li class="flex items-start gap-2">
-                    <span class="text-status-active font-bold mt-0.5" aria-hidden="true">✓</span>
+                    <span class="text-status-active font-bold mt-0.5 shrink-0" aria-hidden="true">✓</span>
                     <span class="leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -1014,12 +811,11 @@ const projectVisuals = {
             </div>
           </div>
 
-          <!-- Ideal For Footnote -->
-          <div class="mt-6 pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-6 -mb-6 sm:-mx-7 sm:-mb-7 p-4 rounded-b-xs">
-            <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted">
-              {en ? 'IDEAL FIT:' : 'IDEAL PARA:'}
+          <div class="mt-6 pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 p-4 sm:p-5">
+            <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">
+              {copy.idealForLabel}
             </p>
-            <p class="mt-1 text-xs text-fg-secondary leading-relaxed font-normal">
+            <p class="mt-1 text-xs text-fg-secondary leading-relaxed">
               {tier.idealFor}
             </p>
           </div>
@@ -1027,26 +823,32 @@ const projectVisuals = {
       ))}
     </div>
 
-    <!-- Cloud Sovereignty & Infrastructure Transparency Banner -->
-    <div class="mt-8 sm:mt-10 border border-border-subtle bg-canvas-subtle p-6 sm:p-8 lg:p-10 shadow-xs" data-reveal-item>
-      <div class="grid lg:grid-cols-12 gap-6 lg:gap-10 items-start">
-        <div class="lg:col-span-4">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs border border-accent-primary/25 bg-accent-subtle text-accent-primary font-mono-tech text-[10px] tracking-widest uppercase font-semibold">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent-primary" aria-hidden="true"></span>
-            {copy.cloudSovereignty.badge}
+    <!-- Highlighted Technological Sovereignty Block -->
+    <div
+      class="mt-6 sm:mt-8 relative overflow-hidden border border-accent-primary/35 bg-gradient-to-br from-accent-subtle via-white to-accent-subtle/70 p-5 sm:p-8 lg:p-10 shadow-xs"
+      data-reveal-item
+    >
+      <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent-primary via-accent-interactive to-accent-primary/40" aria-hidden="true"></div>
+
+      <div class="grid lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-10 items-start">
+        <div class="lg:col-span-5 space-y-3">
+          <span class="inline-flex items-center gap-2 px-2.5 py-1 border border-accent-primary/25 bg-white text-accent-primary font-mono-tech text-[10px] sm:text-[11px] tracking-widest uppercase font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" aria-hidden="true"></span>
+            <span>{copy.sovereignty.badge}</span>
           </span>
-          <h4 class="mt-3 text-lg sm:text-xl font-medium text-fg-primary tracking-tight leading-snug">
-            {copy.cloudSovereignty.title}
-          </h4>
+          <h3 class="text-xl sm:text-2xl font-medium text-fg-primary tracking-tight leading-snug text-balance">
+            {copy.sovereignty.title}
+          </h3>
         </div>
-        <div class="lg:col-span-8 space-y-4">
-          <p class="text-sm leading-relaxed text-fg-secondary">
-            {copy.cloudSovereignty.desc}
+
+        <div class="lg:col-span-7 space-y-4">
+          <p class="text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
+            {copy.sovereignty.desc}
           </p>
-          <div class="grid sm:grid-cols-3 gap-3 pt-2">
-            {copy.cloudSovereignty.points.map((point) => (
-              <div class="flex items-center gap-2 p-2.5 bg-canvas border border-border-subtle rounded-xs text-xs font-mono-tech text-fg-primary">
-                <span class="text-status-active font-bold" aria-hidden="true">✓</span>
+          <div class="grid sm:grid-cols-3 gap-2.5 sm:gap-3 pt-1">
+            {copy.sovereignty.points.map((point) => (
+              <div class="flex items-start gap-2 p-2.5 sm:p-3 bg-white border border-border-subtle text-xs font-mono-tech text-fg-primary">
+                <span class="text-status-active font-bold shrink-0" aria-hidden="true">✓</span>
                 <span class="leading-snug">{point}</span>
               </div>
             ))}
@@ -1055,36 +857,203 @@ const projectVisuals = {
       </div>
     </div>
 
-    <!-- General Support & Scope Footnote -->
-    <p class="mt-6 text-xs leading-relaxed text-fg-muted text-center" data-reveal-item>
+    <p class="mt-5 text-xs font-mono-tech leading-relaxed text-fg-muted" data-reveal-item>
       {copy.supportNote}
     </p>
+
+    <!-- 4 Operational FAQs in a Clean Accordion -->
+    <div
+      id="faq"
+      class="mt-12 sm:mt-16 pt-10 sm:pt-14 border-t border-border-subtle scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start"
+    >
+      <div class="lg:col-span-4 space-y-2" data-reveal-item>
+        <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
+          {copy.faqEyebrow}
+        </p>
+        <h3 class="text-xl sm:text-2xl font-normal tracking-[-0.02em] leading-snug text-fg-primary">
+          {copy.faqTitle}
+        </h3>
+      </div>
+
+      <div class="lg:col-span-8 divide-y divide-border-subtle border-y border-border-subtle">
+        {copy.faq.map(([question, answer]) => (
+          <details class="group py-4 sm:py-5" data-reveal-item>
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 text-sm sm:text-base font-medium text-fg-primary hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-primary">
+              <span>{question}</span>
+              <span class="font-mono-tech text-lg text-fg-muted group-hover:text-accent-primary transition-transform duration-200 group-open:rotate-45 shrink-0" aria-hidden="true">+</span>
+            </summary>
+            <p class="max-w-2xl pt-3 pr-4 sm:pr-8 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
+              {answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </div>
   </section>
 
-  <!-- 08 // FAQ -->
-  <section id="faq" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
-    <header class="border border-border-subtle bg-canvas-subtle shadow-sm px-5 sm:px-8 py-5 flex flex-wrap justify-between gap-3 text-xs font-mono-tech tracking-wider text-fg-secondary"><span>08 // FAQ</span><span>{copy.faqLabel}</span></header>
-    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 pt-12 sm:pt-16"><div class="lg:col-span-5" data-reveal-item><h2 class="text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.faqTitle}</h2></div><div class="lg:col-span-7 divide-y divide-border-subtle border-y border-border-subtle">{copy.faq.map(([question, answer]) => <details class="group py-5" data-reveal-item><summary class="cursor-pointer list-none flex justify-between gap-5 text-base text-fg-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg-primary"><span>{question}</span><span class="font-mono-tech text-fg-muted transition-transform group-open:rotate-45" aria-hidden="true">+</span></summary><p class="max-w-2xl pt-4 pr-8 text-sm leading-relaxed text-fg-secondary">{answer}</p></details>)}</div></div>
-  </section>
+  <!-- 05 / CONTACTO (Simplified Intro + Direct Email + Automated Form Box) -->
+  <section
+    id="contacto"
+    data-scroll-module
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-12 sm:pt-24 pb-16 sm:pb-28 border-t border-border-subtle"
+    aria-labelledby="consulting-contact-heading"
+  >
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <!-- Left Column: Concise Header & Direct Channels -->
+      <div class="lg:col-span-5 space-y-5 sm:space-y-6" data-reveal-item>
+        <div class="space-y-2.5 sm:space-y-3">
+          <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
+            {copy.contactIndex}
+          </p>
+          <h2
+            id="consulting-contact-heading"
+            class="text-2xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
+          >
+            {copy.contactTitle}
+          </h2>
+          <p class="text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
+            {copy.contactBody}
+          </p>
+        </div>
 
-  <!-- 09 // CONTACTO -->
-  <section id="contacto" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24" data-scroll-module>
-    <div class="border border-border-subtle bg-canvas-subtle p-6 sm:p-10 lg:p-14 shadow-sm"><div class="grid lg:grid-cols-12 gap-10 lg:gap-16"><div class="lg:col-span-5" data-reveal-item><p class="text-xs font-mono-tech tracking-widest text-fg-muted">09 // {copy.contactLabel}</p><h2 class="mt-6 text-3xl sm:text-5xl leading-tight tracking-[-0.04em] text-fg-primary">{copy.contactTitle}</h2><p class="mt-6 leading-relaxed text-fg-secondary">{copy.contactBody}</p><p class="mt-8 text-xs font-mono-tech text-fg-muted">{copy.direct}</p><a class="mt-2 inline-block text-base text-fg-primary underline underline-offset-4" href={`mailto:${mail}`}>{mail}</a></div>
-      <form id="consulting-contact-form" class="lg:col-span-7 grid sm:grid-cols-2 gap-x-5 gap-y-5" data-form-error={copy.formError} data-form-loading={copy.loading} data-form-success={copy.formSuccess} data-form-failure={copy.formFailure} data-form-network-error={copy.formNetworkError} data-locale={locale} data-reveal-item>
-        <label class="sr-only" aria-hidden="true">{copy.trapLabel}<input name="website" tabindex="-1" autocomplete="off" /></label>
-        <label class="block text-xs text-fg-secondary">{copy.name}<span class="text-status-active" aria-hidden="true"> *</span><input name="name" autocomplete="name" required class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
-        <label class="block text-xs text-fg-secondary">{copy.business}<input name="business" autocomplete="organization" class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
-        <label class="block text-xs text-fg-secondary">{copy.email}<span class="text-status-active" aria-hidden="true"> *</span><input type="email" name="email" autocomplete="email" required class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
-        <label class="block text-xs text-fg-secondary">{copy.phone}<input type="tel" name="phone" autocomplete="tel" class="mt-2 block w-full border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary" /></label>
-        <label class="sm:col-span-2 block text-xs text-fg-secondary">{copy.problem}<span class="text-status-active" aria-hidden="true"> *</span><textarea name="problem" required rows="4" class="mt-2 block w-full resize-y border border-border-subtle bg-canvas px-3 py-3 text-sm text-fg-primary outline-none focus:border-fg-primary focus:ring-1 focus:ring-fg-primary"></textarea></label>
-        <fieldset class="sm:col-span-2"><legend class="text-xs text-fg-secondary">{copy.method}</legend><div class="mt-3 flex flex-wrap gap-x-6 gap-y-3 text-sm text-fg-primary"><label class="inline-flex items-center gap-2"><input type="radio" name="preferred" value={copy.emailMethod} checked class="accent-fg-primary" />{copy.emailMethod}</label><label class="inline-flex items-center gap-2"><input type="radio" name="preferred" value={copy.phoneMethod} class="accent-fg-primary" />{copy.phoneMethod}</label></div></fieldset>
-        <div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center gap-4"><button type="submit" class="inline-flex justify-center items-center gap-3 bg-accent-primary px-5 py-3.5 text-sm text-white transition-all hover:bg-accent-interactive hover:shadow-md disabled:cursor-wait disabled:opacity-60"><span data-submit-label>{copy.submit}</span><span aria-hidden="true">↗</span></button><p class="text-xs text-fg-muted">{copy.privacy}</p></div>
-        <p id="consulting-form-status" class="sm:col-span-2 min-h-5 text-xs text-fg-secondary" role="status" aria-live="polite"></p>
-      </form>
-    </div></div>
-  </section>
+        <div class="space-y-2.5 sm:space-y-3 pt-1">
+          <a
+            href={`mailto:${mail}`}
+            class="group flex items-center justify-between gap-4 border border-border-subtle bg-canvas p-4 sm:p-5 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+          >
+            <div class="min-w-0 space-y-1">
+              <p class="text-[11px] font-mono-tech uppercase tracking-wider text-fg-muted">
+                {copy.directLabel}
+              </p>
+              <p class="text-sm font-medium text-fg-primary group-hover:text-accent-primary transition-colors truncate">
+                {mail}
+              </p>
+            </div>
+            <span class="text-fg-muted group-hover:text-accent-primary transition-transform duration-150 group-hover:translate-x-0.5 shrink-0" aria-hidden="true">↗</span>
+          </a>
 
-  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pb-16 text-center"><p class="text-xs font-mono-tech tracking-wide text-fg-muted">{copy.footerNote}</p></div>
+          <a
+            href={homeHref}
+            class="group flex items-center justify-between gap-4 border border-border-subtle bg-canvas p-4 sm:p-5 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+          >
+            <div class="min-w-0 space-y-1">
+              <p class="text-[11px] font-mono-tech uppercase tracking-wider text-fg-muted">
+                PerdomoPro
+              </p>
+              <p class="text-sm font-medium text-fg-primary group-hover:text-accent-primary transition-colors truncate">
+                {copy.profileLinkLabel}
+              </p>
+            </div>
+            <span class="text-fg-muted group-hover:text-accent-primary transition-transform duration-150 group-hover:translate-x-0.5 shrink-0" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Clean Automated Contact Form Box -->
+      <div class="lg:col-span-7 border border-border-subtle bg-canvas-subtle/70 p-5 sm:p-8 shadow-xs" data-reveal-item>
+        <form
+          id="consulting-contact-form"
+          class="grid sm:grid-cols-2 gap-4"
+          data-form-error={copy.formError}
+          data-form-loading={copy.loading}
+          data-form-success={copy.formSuccess}
+          data-form-failure={copy.formFailure}
+          data-form-network-error={copy.formNetworkError}
+          data-locale={locale}
+        >
+          <label class="sr-only" aria-hidden="true">
+            {copy.trapLabel}
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+
+          <label class="block text-xs text-fg-secondary">
+            {copy.name}
+            <span class="text-status-active" aria-hidden="true"> *</span>
+            <input
+              name="name"
+              autocomplete="name"
+              required
+              class="mt-1.5 block w-full border border-border-subtle bg-canvas px-3 py-2.5 text-base sm:text-sm text-fg-primary outline-none transition-colors focus:border-accent-primary focus:ring-1 focus:ring-accent-primary"
+            />
+          </label>
+
+          <label class="block text-xs text-fg-secondary">
+            {copy.business}
+            <input
+              name="business"
+              autocomplete="organization"
+              class="mt-1.5 block w-full border border-border-subtle bg-canvas px-3 py-2.5 text-base sm:text-sm text-fg-primary outline-none transition-colors focus:border-accent-primary focus:ring-1 focus:ring-accent-primary"
+            />
+          </label>
+
+          <label class="block text-xs text-fg-secondary">
+            {copy.email}
+            <span class="text-status-active" aria-hidden="true"> *</span>
+            <input
+              type="email"
+              name="email"
+              autocomplete="email"
+              required
+              class="mt-1.5 block w-full border border-border-subtle bg-canvas px-3 py-2.5 text-base sm:text-sm text-fg-primary outline-none transition-colors focus:border-accent-primary focus:ring-1 focus:ring-accent-primary"
+            />
+          </label>
+
+          <label class="block text-xs text-fg-secondary">
+            {copy.phone}
+            <input
+              type="tel"
+              name="phone"
+              autocomplete="tel"
+              class="mt-1.5 block w-full border border-border-subtle bg-canvas px-3 py-2.5 text-base sm:text-sm text-fg-primary outline-none transition-colors focus:border-accent-primary focus:ring-1 focus:ring-accent-primary"
+            />
+          </label>
+
+          <label class="sm:col-span-2 block text-xs text-fg-secondary">
+            {copy.problem}
+            <span class="text-status-active" aria-hidden="true"> *</span>
+            <textarea
+              name="problem"
+              required
+              rows="3"
+              class="mt-1.5 block w-full resize-y border border-border-subtle bg-canvas px-3 py-2.5 text-base sm:text-sm text-fg-primary outline-none transition-colors focus:border-accent-primary focus:ring-1 focus:ring-accent-primary"
+            ></textarea>
+          </label>
+
+          <fieldset class="sm:col-span-2">
+            <legend class="text-xs text-fg-secondary">{copy.method}</legend>
+            <div class="mt-2.5 flex flex-wrap gap-x-6 gap-y-2.5 text-sm text-fg-primary">
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="preferred" value={copy.emailMethod} checked class="accent-accent-primary" />
+                <span>{copy.emailMethod}</span>
+              </label>
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="preferred" value={copy.phoneMethod} class="accent-accent-primary" />
+                <span>{copy.phoneMethod}</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="sm:col-span-2 pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <button
+              type="submit"
+              class="inline-flex w-full sm:w-auto justify-center items-center gap-2.5 bg-accent-primary px-5 py-3.5 sm:py-3 text-xs font-sans font-medium uppercase tracking-wider text-white shadow-xs transition-all hover:bg-accent-interactive hover:shadow-md disabled:cursor-wait disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            >
+              <span data-submit-label>{copy.submit}</span>
+              <span aria-hidden="true">↗</span>
+            </button>
+            <p class="text-xs font-mono-tech text-fg-muted">{copy.privacy}</p>
+          </div>
+
+          <p
+            id="consulting-form-status"
+            class="sm:col-span-2 min-h-5 text-xs text-fg-secondary"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </form>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>
@@ -1092,14 +1061,14 @@ const projectVisuals = {
     const form = document.querySelector<HTMLFormElement>('#consulting-contact-form');
     const status = document.querySelector<HTMLElement>('#consulting-form-status');
     const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
-    
+
     if (!form || !status || !submitBtn || form.dataset.ready === 'true') return;
     form.dataset.ready = 'true';
-    
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!form.reportValidity()) return;
-      
+
       const values = new FormData(form);
       const name = String(values.get('name') ?? '').trim();
       const email = String(values.get('email') ?? '').trim();
@@ -1108,13 +1077,13 @@ const projectVisuals = {
       const phone = String(values.get('phone') ?? '').trim();
       const preferred = String(values.get('preferred') ?? (form.dataset.locale === 'en' ? 'Email' : 'Correo'));
       const description = String(values.get('problem') ?? '').trim();
-      
+
       if (!name || !email || !problem) {
         status.className = 'sm:col-span-2 min-h-5 text-xs text-amber-700 font-medium';
         status.textContent = form.dataset.formError ?? 'Faltan campos obligatorios.';
         return;
       }
-      
+
       const submitLabel = submitBtn.querySelector<HTMLElement>('[data-submit-label]');
       const originalBtnText = submitLabel?.textContent ?? '';
       submitBtn.setAttribute('aria-busy', 'true');
@@ -1122,12 +1091,12 @@ const projectVisuals = {
       submitBtn.disabled = true;
       status.textContent = '';
       status.className = 'sm:col-span-2 min-h-5 text-xs text-fg-secondary';
-      
+
       try {
         const response = await fetch('/api/contact', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             nombre: name,
@@ -1138,10 +1107,10 @@ const projectVisuals = {
             descripcion: description,
             servicio: 'Consultoría',
             sitioWeb: String(values.get('website') ?? ''),
-            idioma: form.dataset.locale ?? 'es-MX'
-          })
+            idioma: form.dataset.locale ?? 'es-MX',
+          }),
         });
-        
+
         await response.json().catch(() => null);
         if (response.ok) {
           form.reset();
@@ -1161,6 +1130,7 @@ const projectVisuals = {
       }
     });
   }
+
   document.addEventListener('astro:page-load', setupConsultingForm);
   setupConsultingForm();
 </script>

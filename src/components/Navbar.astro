@@ -22,20 +22,18 @@ const consultingHref = locale === 'en' ? '/en/consulting/' : '/consultoria/';
 const navItems = page === 'consulting'
   ? (locale === 'en'
     ? [
-        { label: 'Technical profile', href: homeHref },
-        { label: 'Problems', href: '#problemas' },
+        { label: 'Technical profile ↗', href: homeHref },
         { label: 'Solutions', href: '#soluciones' },
         { label: 'Process', href: '#proceso' },
-        { label: 'Projects', href: '#proyectos' },
+        { label: 'Models', href: '#modalidades' },
         { label: 'FAQ', href: '#faq' },
       ]
     : [
-        { label: 'Perfil técnico', href: homeHref },
-        { label: 'Problemas', href: '#problemas' },
+        { label: 'Perfil técnico ↗', href: homeHref },
         { label: 'Soluciones', href: '#soluciones' },
         { label: 'Proceso', href: '#proceso' },
-        { label: 'Proyectos', href: '#proyectos' },
-        { label: 'Preguntas', href: '#faq' },
+        { label: 'Modalidades', href: '#modalidades' },
+        { label: 'FAQ', href: '#faq' },
       ])
   : [
       { key: 'nav.home' as const, href: homeHref },
@@ -52,7 +50,7 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
   id="site-header"
   class="sticky top-0 z-40 w-full transition-all duration-200 border-b border-transparent bg-canvas"
 >
-  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
     <!-- Brand / Wordmark -->
     <a
       href={homeHref}
@@ -126,15 +124,10 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
 
     <a
       href={page === 'consulting' ? '#contacto' : consultingHref}
-      class:list={[
-        'hidden lg:inline-flex items-center gap-2 px-4 py-2 text-xs font-mono-tech transition-all duration-200',
-        page === 'consulting'
-          ? 'border border-accent-primary text-accent-primary hover:bg-accent-subtle'
-          : 'bg-accent-primary font-sans font-medium text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98]',
-      ]}
+      class="hidden lg:inline-flex items-center gap-2 px-4 py-2 text-xs font-sans font-medium bg-accent-primary text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98]"
     >
       {page === 'consulting'
-        ? (locale === 'en' ? 'Discuss a project' : 'Platiquemos')
+        ? (locale === 'en' ? 'Let’s talk' : 'Platiquemos')
         : t('nav.consulting')}
       <span aria-hidden="true">↗</span>
     </a>
@@ -190,7 +183,7 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
   <!-- Mobile Navigation Panel -->
   <div
     id="mobile-nav-menu"
-    class="hidden lg:hidden border-b border-border-subtle bg-canvas px-6 pt-4 pb-8 space-y-6"
+    class="hidden lg:hidden border-b border-border-subtle bg-canvas px-5 sm:px-8 pt-4 pb-8 space-y-6"
     aria-hidden="true"
     data-lenis-prevent
   >
@@ -212,15 +205,10 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
 
     <a
       href={page === 'consulting' ? '#contacto' : consultingHref}
-      class:list={[
-        'mobile-nav-link flex w-full items-center justify-center gap-2 px-4 py-3 text-xs uppercase tracking-wider transition-colors',
-        page === 'consulting'
-          ? 'border border-accent-primary text-accent-primary font-mono-tech'
-          : 'bg-accent-primary font-sans font-medium text-white shadow-xs',
-      ]}
+      class="mobile-nav-link flex w-full items-center justify-center gap-2 px-4 py-3 text-xs uppercase tracking-wider bg-accent-primary font-sans font-medium text-white shadow-xs transition-colors hover:bg-accent-interactive"
     >
       {page === 'consulting'
-        ? (locale === 'en' ? 'Discuss a project' : 'Platiquemos')
+        ? (locale === 'en' ? 'Let’s talk' : 'Platiquemos')
         : t('nav.consulting')}
       <span aria-hidden="true">↗</span>
     </a>

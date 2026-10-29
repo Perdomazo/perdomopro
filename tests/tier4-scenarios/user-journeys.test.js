@@ -19,11 +19,11 @@ describe('Tier 4: Real-World Application Scenarios & User Journeys', () => {
     assert.ok(consultoriaHtml, 'dist/consultoria/index.html must exist');
     const doc = parseHtml(consultoriaHtml);
 
-    // Verify presence of all key sequential conversion sections
-    const expectedSections = ['inicio-consultoria', 'problemas', 'soluciones', 'proceso', 'proyectos', 'contacto'];
+    // Verify presence of all 5 key sequential conversion sections + #faq anchor
+    const expectedSections = ['inicio-consultoria', 'soluciones', 'proceso', 'modalidades', 'faq', 'contacto'];
     for (const secId of expectedSections) {
       const section = getElementById(doc, secId);
-      assert.ok(section, `Consultoria page must contain #${secId} section in customer journey`);
+      assert.ok(section, `Consultoria page must contain #${secId} in customer journey`);
     }
 
     // Verify contact form inputs
