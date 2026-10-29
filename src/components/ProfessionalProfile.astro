@@ -33,33 +33,33 @@ const credentials = [
 <section
   id={sectionId}
   data-scroll-module
-  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-border-subtle"
+  class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
   aria-labelledby="profile-heading"
 >
   <!-- Clean Single-Level Section Header -->
-  <div class="max-w-3xl mb-10 sm:mb-14 space-y-3" data-section-header>
+  <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-section-header>
     <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
       {t('profile.sectionIndex')}
     </p>
     <h2
       id="profile-heading"
-      class="text-3xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
+      class="text-2xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
     >
       {t('profile.title')}
     </h2>
-    <p class="text-base text-fg-secondary leading-relaxed text-pretty">
+    <p class="text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
       {t('profile.subtitle')}
     </p>
   </div>
 
   <!-- Structured Career & Education Cards -->
-  <div class="space-y-6">
+  <div class="space-y-4 sm:space-y-6">
     <!-- 1. KnowIT Role Card -->
-    <article class="border border-border-subtle bg-canvas p-6 sm:p-8 shadow-xs transition-card hover:border-accent-primary/35 hover:shadow-md">
-      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 pb-5 border-b border-border-subtle/70">
+    <article class="border border-border-subtle bg-canvas p-5 sm:p-8 shadow-xs transition-card hover:border-accent-primary/35 hover:shadow-md">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5 sm:gap-3 pb-4 sm:pb-5 border-b border-border-subtle/70">
         <div class="space-y-1">
-          <div class="flex flex-wrap items-center gap-2.5">
-            <h3 class="text-xl sm:text-2xl font-medium tracking-tight text-fg-primary">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            <h3 class="text-lg sm:text-2xl font-medium tracking-tight text-fg-primary">
               {t('profile.knowit.role')}
             </h3>
             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-mono-tech border border-accent-primary/20 bg-accent-subtle text-accent-primary font-medium">
@@ -79,9 +79,9 @@ const credentials = [
       </div>
 
       <!-- Impact Bullets (›) -->
-      <ul class="mt-5 space-y-2.5 list-none p-0 m-0">
+      <ul class="mt-4 sm:mt-5 space-y-2.5 list-none p-0 m-0">
         {knowitBullets.map((bullet) => (
-          <li class="flex items-baseline gap-3 text-sm sm:text-[15px] text-fg-secondary leading-relaxed">
+          <li class="flex items-baseline gap-2.5 sm:gap-3 text-[13.5px] sm:text-[15px] text-fg-secondary leading-relaxed">
             <span class="text-accent-primary font-mono-tech font-bold shrink-0 select-none" aria-hidden="true">›</span>
             <span>{bullet}</span>
           </li>
@@ -89,7 +89,7 @@ const credentials = [
       </ul>
 
       <!-- Role Tech Tags -->
-      <div class="mt-6 pt-4 border-t border-border-subtle/60 flex flex-wrap gap-2">
+      <div class="mt-5 sm:mt-6 pt-4 border-t border-border-subtle/60 flex flex-wrap gap-1.5 sm:gap-2">
         {knowitTags.map((tag) => (
           <span class="px-2.5 py-1 text-[11px] font-mono-tech border border-border-subtle bg-canvas-subtle text-fg-primary">
             {tag}
@@ -99,11 +99,11 @@ const credentials = [
     </article>
 
     <!-- 2. Education & Competitive Programming / Certifications Card -->
-    <article class="border border-border-subtle bg-canvas p-6 sm:p-8 shadow-xs transition-card hover:border-accent-primary/35 hover:shadow-md">
-      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 pb-5 border-b border-border-subtle/70">
+    <article class="border border-border-subtle bg-canvas p-5 sm:p-8 shadow-xs transition-card hover:border-accent-primary/35 hover:shadow-md">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5 sm:gap-3 pb-4 sm:pb-5 border-b border-border-subtle/70">
         <div class="space-y-1">
-          <div class="flex flex-wrap items-center gap-2.5">
-            <h3 class="text-xl sm:text-2xl font-medium tracking-tight text-fg-primary">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            <h3 class="text-lg sm:text-2xl font-medium tracking-tight text-fg-primary">
               {t('profile.edu.degree')}
             </h3>
             <span class="px-2.5 py-0.5 text-[11px] font-mono-tech border border-border-subtle bg-canvas-subtle text-fg-secondary">
@@ -121,16 +121,16 @@ const credentials = [
         </div>
       </div>
 
-      <p class="mt-4 text-sm sm:text-[15px] text-fg-secondary leading-relaxed">
+      <p class="mt-4 text-[13.5px] sm:text-[15px] text-fg-secondary leading-relaxed">
         {t('profile.edu.summary')}
       </p>
 
       <!-- Competitions & Certifications Sub-Grid -->
-      <div class="mt-6 pt-5 border-t border-border-subtle/70">
-        <p class="text-[11px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold mb-3.5">
+      <div class="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-border-subtle/70">
+        <p class="text-[11px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold mb-3">
           {t('profile.certs.label')}
         </p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
           {credentials.map((cred) => (
             <div class="flex items-start gap-2.5 p-3 border border-border-subtle bg-canvas-subtle/70">
               <span

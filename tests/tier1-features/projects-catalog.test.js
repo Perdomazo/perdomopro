@@ -42,6 +42,18 @@ describe('Tier 1: Projects Catalog & Engineering Homepage Architecture', () => {
       false,
       'Projects.astro must replace split PUNTO DE PARTIDA / QUÉ CONSTRUÍ blocks with a compact summary.'
     );
+
+    const hasSelfReloadingLiveLink = /projects\.liveLink/.test(projectsAstro);
+    assert.equal(
+      hasSelfReloadingLiveLink,
+      false,
+      'Projects.astro must link to CI/CD pipeline instead of reloading perdomopro.com via SITIO EN VIVO'
+    );
+    assert.match(
+      projectsAstro,
+      /projects\.pipelineLink/,
+      'Projects.astro must render the CI/CD pipeline link on cards with pipelineHref'
+    );
   });
 
   it('T1-PRJ-03: ProjectsData retains preview & built compatibility for /consultoria/ showcase', () => {

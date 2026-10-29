@@ -35,10 +35,13 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
           existingCanvas.remove();
         }
 
+        const isMobileViewport = window.innerWidth < 640;
+        const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         window.particlesJS(targetId, {
           particles: {
             number: {
-              value: 28,
+              value: isMobileViewport ? 14 : 28,
               density: {
                 enable: true,
                 value_area: 800
@@ -58,7 +61,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
               }
             },
             opacity: {
-              value: 0.35,
+              value: isMobileViewport ? 0.26 : 0.35,
               random: false,
               anim: {
                 enable: false,
@@ -68,7 +71,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
               }
             },
             size: {
-              value: 3.8,
+              value: isMobileViewport ? 3.2 : 3.8,
               random: true,
               anim: {
                 enable: false,
@@ -79,14 +82,14 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
             },
             line_linked: {
               enable: true,
-              distance: 215,
+              distance: isMobileViewport ? 155 : 215,
               color: '#8c6ba8',
-              opacity: 0.22,
+              opacity: isMobileViewport ? 0.16 : 0.22,
               width: 1.2
             },
             move: {
-              enable: true,
-              speed: 3.2,
+              enable: !reducedMotion,
+              speed: isMobileViewport ? 1.6 : 3.2,
               direction: 'none',
               random: false,
               straight: false,

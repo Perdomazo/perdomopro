@@ -15,27 +15,27 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
 <section
   id={sectionId}
   data-scroll-module
-  class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-border-subtle"
+  class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
   aria-labelledby="projects-heading"
 >
   <!-- Clean Single-Level Section Header -->
-  <div class="max-w-3xl mb-10 sm:mb-14 space-y-3" data-section-header>
+  <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-section-header>
     <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
       {t('projects.sectionIndex')}
     </p>
     <h2
       id="projects-heading"
-      class="text-3xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
+      class="text-2xl sm:text-4xl font-normal tracking-[-0.03em] leading-tight text-fg-primary"
     >
       {t('projects.title')}
     </h2>
-    <p class="text-base text-fg-secondary leading-relaxed text-pretty">
+    <p class="text-sm sm:text-base text-fg-secondary leading-relaxed text-pretty">
       {t('projects.subtitle')}
     </p>
   </div>
 
   <!-- Compact Engineering Project Cards Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
     {projectsData.map((project, idx) => {
       const content = project.content[locale];
       const isFullRow = idx === projectsData.length - 1 && projectsData.length % 2 === 1;
@@ -43,17 +43,17 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
         <article
           data-project-card
           class:list={[
-            'group relative flex h-full flex-col justify-between border border-border-subtle bg-canvas p-6 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent-primary overflow-hidden',
+            'group relative flex h-full flex-col justify-between border border-border-subtle bg-canvas p-5 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent-primary overflow-hidden',
             isFullRow && 'md:col-span-2',
           ]}
           aria-labelledby={`project-title-${project.id}`}
         >
           <div class="absolute inset-x-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true"></div>
 
-          <div class="space-y-4">
+          <div class="space-y-3.5 sm:space-y-4">
             <!-- Top Metadata Row -->
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-2 text-xs font-mono-tech text-fg-muted">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech text-fg-muted">
                 <span class="font-semibold text-accent-primary">{project.number}</span>
                 <span class="text-border-muted" aria-hidden="true">/</span>
                 <span class="uppercase tracking-wider">{content.category}</span>
@@ -67,12 +67,12 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
             <div class="space-y-2">
               <h3
                 id={`project-title-${project.id}`}
-                class="text-xl sm:text-2xl font-medium tracking-tight text-fg-primary group-hover:text-accent-primary transition-colors"
+                class="text-lg sm:text-2xl font-medium tracking-tight text-fg-primary group-hover:text-accent-primary transition-colors"
               >
                 {content.title}
               </h3>
               <p class:list={[
-                'text-sm sm:text-[15px] text-fg-secondary leading-relaxed text-pretty',
+                'text-[13.5px] sm:text-[15px] text-fg-secondary leading-relaxed text-pretty',
                 isFullRow && 'max-w-3xl',
               ]}>
                 {content.summary}
@@ -80,16 +80,16 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
             </div>
 
             <!-- Quantifiable / Architectural Impact Pill -->
-            <div class="pt-1">
-              <span class="inline-flex items-center gap-2 px-3 py-1.5 border border-accent-primary/20 bg-accent-subtle text-accent-primary text-xs font-mono-tech font-medium">
-                <span class="w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" aria-hidden="true"></span>
+            <div class="pt-0.5 sm:pt-1">
+              <span class="inline-flex items-start gap-2 px-2.5 sm:px-3 py-1.5 border border-accent-primary/20 bg-accent-subtle text-accent-primary text-[11px] sm:text-xs font-mono-tech font-medium leading-snug">
+                <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" aria-hidden="true"></span>
                 <span>{content.highlightPill}</span>
               </span>
             </div>
           </div>
 
           <!-- Stack Tags & Action Links -->
-          <div class="mt-6 pt-4 border-t border-border-subtle/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="mt-5 sm:mt-6 pt-4 border-t border-border-subtle/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4">
             <div class="flex flex-wrap gap-1.5">
               {project.technologies.map((tech) => (
                 <span class="px-2 py-0.5 text-[11px] font-mono-tech border border-border-subtle bg-canvas-subtle text-fg-primary">
@@ -98,28 +98,28 @@ const sectionId = locale === 'en' ? 'projects' : 'proyectos';
               ))}
             </div>
 
-            {(project.href || project.liveHref) && (
-              <div class="flex items-center gap-4 shrink-0">
+            {(project.href || project.pipelineHref) && (
+              <div class="flex flex-wrap items-center gap-x-5 gap-y-2 shrink-0">
                 {project.href && (
                   <a
                     href={project.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1.5 text-xs font-mono-tech uppercase tracking-wider text-fg-primary hover:text-accent-primary underline underline-offset-4 decoration-border-muted hover:decoration-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+                    class="inline-flex items-center gap-1.5 py-1 text-xs font-mono-tech uppercase tracking-wider text-fg-primary hover:text-accent-primary underline underline-offset-4 decoration-border-muted hover:decoration-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
                   >
                     <span>{t('projects.repoLink')}</span>
                     <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
                     <span aria-hidden="true">↗</span>
                   </a>
                 )}
-                {project.liveHref && (
+                {project.pipelineHref && (
                   <a
-                    href={project.liveHref}
+                    href={project.pipelineHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1.5 text-xs font-mono-tech uppercase tracking-wider text-fg-primary hover:text-accent-primary underline underline-offset-4 decoration-border-muted hover:decoration-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+                    class="inline-flex items-center gap-1.5 py-1 text-xs font-mono-tech uppercase tracking-wider text-fg-primary hover:text-accent-primary underline underline-offset-4 decoration-border-muted hover:decoration-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
                   >
-                    <span>{t('projects.liveLink')}</span>
+                    <span>{t('projects.pipelineLink')}</span>
                     <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
                     <span aria-hidden="true">↗</span>
                   </a>

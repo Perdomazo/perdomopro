@@ -14,9 +14,9 @@ describe('Tier 2: Projects Media & Data Boundaries', () => {
     }
   });
 
-  it('T2-PRJ-02: All external repository and live links must be HTTPS and non-empty', () => {
-    const hrefMatches = [...projectsDataRaw.matchAll(/(?:href|liveHref):\s*'([^']+)'/g)].map((m) => m[1]);
-    assert.ok(hrefMatches.length >= 5, 'Must contain project link hrefs');
+  it('T2-PRJ-02: All external repository, pipeline, and live links must be HTTPS and non-empty', () => {
+    const hrefMatches = [...projectsDataRaw.matchAll(/(?:href|liveHref|pipelineHref):\s*'([^']+)'/g)].map((m) => m[1]);
+    assert.ok(hrefMatches.length >= 6, 'Must contain project link hrefs across all 5 cards');
     for (const href of hrefMatches) {
       assert.ok(
         href.startsWith('https://'),
