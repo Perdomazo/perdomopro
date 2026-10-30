@@ -48,7 +48,7 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
 
 <header
   id="site-header"
-  class="sticky top-0 z-40 w-full transition-all duration-200 border-b border-transparent bg-canvas"
+  class="sticky top-0 z-40 w-full transition-all duration-200 border-b border-transparent bg-transparent sm:bg-canvas"
 >
   <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
     <!-- Brand / Wordmark -->
@@ -132,11 +132,11 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
       <span aria-hidden="true">↗</span>
     </a>
 
-    <!-- Mobile Quick Action, Switcher (sm+) & Menu Button -->
+    <!-- Mobile Menu Button (minimalist on <640px; tablet sm..lg also shows quick pill & lang) -->
     <div class="flex items-center gap-2.5 sm:gap-4 lg:hidden">
       <a
         href={page === 'consulting' ? '#contacto' : consultingHref}
-        class="mobile-nav-link inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-mono-tech uppercase tracking-wider border border-accent-primary/30 bg-accent-subtle/85 text-accent-primary font-medium transition-colors active:scale-[0.98]"
+        class="mobile-nav-link hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-mono-tech uppercase tracking-wider border border-accent-primary/30 bg-accent-subtle/85 text-accent-primary font-medium transition-colors active:scale-[0.98]"
       >
         <span>
           {page === 'consulting'
@@ -260,25 +260,24 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
     const bottomPath = document.getElementById('line-bottom');
     const navLinks = document.querySelectorAll('.mobile-nav-link');
 
-    // Scroll state behavior
-    const handleScroll = () => {
+    let isOpen = false;
+
+    const syncHeaderSurface = () => {
       if (!header) return;
-      if (window.scrollY > 15) {
+      if (window.scrollY > 15 || isOpen) {
         header.classList.add('bg-canvas/95', 'backdrop-blur-md', 'border-border-subtle', 'shadow-xs');
-        header.classList.remove('border-transparent');
+        header.classList.remove('border-transparent', 'bg-transparent');
       } else {
         header.classList.remove('bg-canvas/95', 'backdrop-blur-md', 'border-border-subtle', 'shadow-xs');
-        header.classList.add('border-transparent');
+        header.classList.add('border-transparent', 'bg-transparent');
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    window.addEventListener('scroll', syncHeaderSurface, { passive: true });
+    syncHeaderSurface();
 
     // Mobile menu toggle
     if (toggleBtn && menu) {
-      let isOpen = false;
-
       const setMenuState = (open: boolean) => {
         isOpen = open;
         toggleBtn.setAttribute('aria-expanded', String(isOpen));
@@ -297,6 +296,8 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
             bottomPath.setAttribute('d', 'M3 14h14');
           }
         }
+
+        syncHeaderSurface();
       };
 
       toggleBtn.addEventListener('click', () => {

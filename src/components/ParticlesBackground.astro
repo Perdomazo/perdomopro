@@ -265,18 +265,24 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
     position: absolute;
     top: 0;
     left: 50%;
-    width: 100vw;
     width: 100dvw;
     max-width: none;
     height: 100%;
     transform: translateX(-50%);
     z-index: 0;
-    overflow: hidden;
+    overflow: clip;
     pointer-events: auto;
     background: linear-gradient(180deg, #f4f1fa 0%, #f8f6fc 55%, rgba(255, 255, 255, 0) 100%);
     /* Desvanecimiento progresivo al hacer scroll hacia el canvas inferior */
     mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);
     -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  @media (max-width: 639px) {
+    .particles-bg-container {
+      top: -4rem;
+      height: calc(100% + 4rem);
+    }
   }
 
   .particles-bg-container :global(.particles-js-canvas-el) {

@@ -493,98 +493,133 @@ const copy = en
 ---
 
 <div class="consulting-page" data-consulting-page>
-  <!-- 01 / CONSULTORÍA PYME (Full-Viewport Centered Hero on sm+, Compact First-Fold on Mobile) -->
+  <!-- 01 / CONSULTORÍA PYME (Centered Minimalist First-Fold on Mobile <640px, Original Full Editorial Hero on sm+) -->
   <section
     id="inicio-consultoria"
     data-scroll-module
-    class="relative isolate w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-5 sm:py-16 min-h-0 sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
+    class="relative isolate w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-4 pb-16 sm:py-16 min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
     aria-labelledby="consulting-hero-heading"
   >
     <ParticlesBackground id="perdomopro-particles-consulting" />
 
-    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-10 lg:gap-14 items-center my-auto pointer-events-none">
+    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center my-auto pointer-events-none">
       <!-- Primary Content Column -->
-      <div class="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-7">
+      <div class="lg:col-span-7 xl:col-span-8 flex flex-col items-center text-center sm:block sm:text-left space-y-5 sm:space-y-7">
         <div
-          class="inline-flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech tracking-wider uppercase text-fg-primary font-medium"
+          class="inline-flex items-center justify-center sm:justify-start gap-2 text-[11px] sm:text-xs font-mono-tech tracking-[0.14em] sm:tracking-wider uppercase text-accent-primary sm:text-fg-primary font-medium"
           data-hero-meta="category"
         >
           <span class="inline-block w-2 h-2 rounded-full bg-status-active shrink-0" aria-hidden="true"></span>
-          <span>{copy.heroEyebrow}</span>
+          <span class="sm:hidden">{en ? 'TECHNOLOGY CONSULTING FOR SMBS' : 'CONSULTORÍA TECNOLÓGICA PYME'}</span>
+          <span class="hidden sm:inline">{copy.heroEyebrow}</span>
         </div>
 
         <h1
           id="consulting-hero-heading"
-          class="text-[1.7rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.12] sm:leading-[1.1] text-fg-primary max-w-3xl"
+          class="w-full text-[1.9rem] min-[390px]:text-[2.1rem] sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.15] sm:leading-[1.1] text-fg-primary max-w-3xl"
           data-hero-headline
         >
           <span>{copy.heroTitlePrefix}</span>
           <span class="font-medium underline decoration-border-muted underline-offset-4 sm:underline-offset-8 decoration-1">{copy.heroTitleHighlight}</span>
         </h1>
 
-        <!-- CTAs & 3 Quick Business Guarantees -->
-        <div class="space-y-3.5 sm:space-y-5 pt-0.5 sm:pt-2 pointer-events-auto" data-hero-cta>
-          <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3.5">
-            <a
-              href="#contacto"
-              class="group inline-flex w-full sm:w-auto justify-center items-center gap-2.5 bg-accent-primary text-white px-5 sm:px-6 py-3 sm:py-3.5 text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
-            >
-              <span>{copy.ctaPrimary}</span>
-              <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
-            </a>
+        <!-- CTAs & Value Summary -->
+        <div class="w-full pt-0.5 sm:pt-2 pointer-events-auto" data-hero-cta>
+          <!-- MOBILE (<640px): Concise 2-line synthesis + 1 centered primary CTA + lightweight secondary link -->
+          <div class="sm:hidden space-y-6">
+            <p class="text-sm text-fg-secondary leading-relaxed max-w-[20.5rem] mx-auto text-balance">
+              {en
+                ? 'Custom systems, automation & cloud in your name — zero monthly per-user fees.'
+                : 'Sistemas a medida, automatización y cloud propios — sin rentas mensuales por usuario.'}
+            </p>
 
-            <a
-              href="#soluciones"
-              class="group inline-flex w-full sm:w-auto justify-center items-center gap-2.5 border border-border-subtle bg-white/85 backdrop-blur-[2px] hover:border-accent-primary text-fg-primary px-5 sm:px-6 py-3 sm:py-3.5 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
-            >
-              <span>{copy.ctaSecondary}</span>
-              <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
-            </a>
+            <div class="flex flex-col items-center gap-3">
+              <a
+                href="#contacto"
+                class="group inline-flex justify-center items-center gap-2.5 h-11 px-6 bg-accent-primary text-white text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 hover:bg-accent-interactive active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+              >
+                <span>{copy.ctaPrimary}</span>
+                <span aria-hidden="true">→</span>
+              </a>
+
+              <a
+                href="#soluciones"
+                class="inline-flex items-center gap-1.5 py-1 text-xs font-mono-tech uppercase tracking-wider text-fg-secondary hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+              >
+                <span>{copy.ctaSecondary}</span>
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
           </div>
 
-          <!-- Row of 3 Quick Guarantees -->
-          <ul
-            class="flex flex-wrap items-center gap-x-3.5 sm:gap-x-5 gap-y-1 sm:gap-y-2 pt-0.5 text-[11px] sm:text-xs font-mono-tech text-fg-secondary list-none p-0 m-0"
-            data-hero-guarantees
-          >
-            {copy.guarantees.map((guarantee) => (
-              <li class="inline-flex items-center gap-1.5">
-                <span class="text-status-active font-bold shrink-0" aria-hidden="true">✓</span>
-                <span>{guarantee}</span>
-              </li>
-            ))}
-          </ul>
+          <!-- DESKTOP & TABLET (sm+): Original Dual CTAs & 3 Quick Business Guarantees (100% Untouched) -->
+          <div class="hidden sm:block space-y-5">
+            <div class="flex flex-wrap items-center gap-3.5">
+              <a
+                href="#contacto"
+                class="group inline-flex justify-center items-center gap-2.5 bg-accent-primary text-white px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+              >
+                <span>{copy.ctaPrimary}</span>
+                <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
+              </a>
+
+              <a
+                href="#soluciones"
+                class="group inline-flex justify-center items-center gap-2.5 border border-border-subtle bg-white/85 backdrop-blur-[2px] hover:border-accent-primary text-fg-primary px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+              >
+                <span>{copy.ctaSecondary}</span>
+                <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
+              </a>
+            </div>
+
+            <ul
+              class="flex flex-wrap items-center gap-x-5 gap-y-2 pt-0.5 text-xs font-mono-tech text-fg-secondary list-none p-0 m-0"
+              data-hero-guarantees
+            >
+              {copy.guarantees.map((guarantee) => (
+                <li class="inline-flex items-center gap-1.5">
+                  <span class="text-status-active font-bold shrink-0" aria-hidden="true">✓</span>
+                  <span>{guarantee}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
-      <!-- Secondary Editorial & Spec Column -->
-      <div class="lg:col-span-5 xl:col-span-4 space-y-3.5 sm:space-y-6">
-        <p class="text-[14.5px] sm:text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
+      <!-- Secondary Editorial & Spec Column (Hidden on <640px to keep mobile first-fold clean; 100% intact on sm+) -->
+      <div class="hidden sm:block lg:col-span-5 xl:col-span-4 space-y-6">
+        <p class="text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
           {copy.heroIntro}
         </p>
 
-        <!-- Compact Editorial Spec Card on mobile (<640px), original clean border-t list on sm+ -->
-        <dl
-          class="border border-border-subtle bg-white/80 backdrop-blur-[2px] p-3 shadow-2xs space-y-1.5 sm:border-0 sm:border-t sm:border-border-subtle sm:bg-transparent sm:backdrop-blur-none sm:p-0 sm:pt-5 sm:shadow-none sm:space-y-3 text-xs font-mono-tech"
-          data-hero-meta="spec-list"
-        >
-          <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 py-1 border-b border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 sm:py-1.5">
-            <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specRoleLabel}</dt>
-            <dd class="text-[11.5px] sm:text-xs text-fg-primary font-semibold text-right leading-snug">{copy.specRoleValue}</dd>
+        <dl class="border-t border-border-subtle pt-5 space-y-3 text-xs font-mono-tech" data-hero-meta="spec-list">
+          <div class="flex flex-row justify-between items-baseline gap-4 py-1.5 border-b border-border-subtle/60">
+            <dt class="text-xs text-fg-secondary uppercase tracking-wider shrink-0">{copy.specRoleLabel}</dt>
+            <dd class="text-fg-primary font-semibold text-right">{copy.specRoleValue}</dd>
           </div>
 
-          <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 py-1 border-b border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 sm:py-1.5">
-            <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specFocusLabel}</dt>
-            <dd class="text-[11.5px] sm:text-xs text-fg-primary font-semibold text-right leading-snug">{copy.specFocusValue}</dd>
+          <div class="flex flex-row justify-between items-baseline gap-4 py-1.5 border-b border-border-subtle/60">
+            <dt class="text-xs text-fg-secondary uppercase tracking-wider shrink-0">{copy.specFocusLabel}</dt>
+            <dd class="text-fg-primary font-semibold text-right">{copy.specFocusValue}</dd>
           </div>
 
-          <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 pt-1 pb-0.5 sm:py-1.5 sm:border-b sm:border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:items-baseline sm:gap-4">
-            <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specStepLabel}</dt>
-            <dd class="text-[11.5px] sm:text-xs text-fg-primary font-medium text-right leading-snug">{copy.specStepValue}</dd>
+          <div class="flex flex-row justify-between items-baseline gap-4 py-1.5 border-b border-border-subtle/60">
+            <dt class="text-xs text-fg-secondary uppercase tracking-wider shrink-0">{copy.specStepLabel}</dt>
+            <dd class="text-fg-primary font-medium text-right">{copy.specStepValue}</dd>
           </div>
         </dl>
       </div>
     </div>
+
+    <!-- Minimalist Scroll Indicator on Mobile (<640px only, inspired by ivanpacheco.dev) -->
+    <a
+      href="#soluciones"
+      aria-label={en ? 'Scroll to solutions' : 'Deslizar hacia soluciones'}
+      class="sm:hidden absolute bottom-5 left-1/2 -translate-x-1/2 z-10 inline-flex items-start justify-center w-5 h-8 rounded-full border border-border-muted/90 bg-white/55 backdrop-blur-[1px] pt-1.5 text-accent-primary transition-opacity hover:opacity-80"
+    >
+      <span class="w-1 h-1.5 rounded-full bg-accent-primary animate-bounce motion-reduce:animate-none" aria-hidden="true"></span>
+    </a>
   </section>
 
   <!-- 02 / SOLUCIONES (Pain + Solution + Business Outcome United in 4 Clean Cards) -->
