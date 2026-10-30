@@ -21,15 +21,15 @@ const rotatingPhrases = locale === 'en'
 <section
   id="hero"
   data-scroll-module
-  class="relative isolate w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-16 min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
+  class="relative isolate w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-5 sm:py-16 min-h-0 sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
   aria-labelledby="hero-heading"
 >
   <ParticlesBackground id="perdomopro-particles" />
 
   <!-- Vertically & Visually Centered Editorial Grid -->
-  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-14 items-center my-auto pointer-events-none">
+  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-10 lg:gap-14 items-center my-auto pointer-events-none">
     <!-- Primary Content Column -->
-    <div class="lg:col-span-7 xl:col-span-8 space-y-5 sm:space-y-8">
+    <div class="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-8">
       <!-- Single Subtle Eyebrow Identifier -->
       <div class="inline-flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech tracking-wider uppercase text-fg-primary font-medium" data-hero-meta="category">
         <span class="inline-block w-2 h-2 rounded-full bg-status-active shrink-0" aria-hidden="true"></span>
@@ -39,7 +39,7 @@ const rotatingPhrases = locale === 'en'
       <!-- Main Headline: Fixed-height grid cell prevents vertical jumping across word rotations -->
       <h1
         id="hero-heading"
-        class="text-[1.75rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.12] sm:leading-[1.1] text-fg-primary max-w-3xl"
+        class="text-[1.7rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.12] sm:leading-[1.1] text-fg-primary max-w-3xl"
         data-hero-headline
       >
         <span class="block">{t('hero.headlinePrefix')}</span>
@@ -61,11 +61,11 @@ const rotatingPhrases = locale === 'en'
       </h1>
 
       <!-- Engineering CTAs & Quick Recruiter Links -->
-      <div class="space-y-4 sm:space-y-5 pt-1 sm:pt-2 pointer-events-auto" data-hero-cta>
-        <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3.5">
+      <div class="space-y-3.5 sm:space-y-5 pt-0.5 sm:pt-2 pointer-events-auto" data-hero-cta>
+        <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3.5">
           <a
             href={contactHref}
-            class="group inline-flex justify-center items-center gap-2 sm:gap-3 bg-accent-primary text-white px-4 sm:px-6 py-3 sm:py-3.5 text-[11px] sm:text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            class="group inline-flex w-full sm:w-auto justify-center items-center gap-2.5 sm:gap-3 bg-accent-primary text-white px-5 sm:px-6 py-3 sm:py-3.5 text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
           >
             <span>{t('hero.cta.contact')}</span>
             <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
@@ -73,50 +73,52 @@ const rotatingPhrases = locale === 'en'
 
           <a
             href={projectsHref}
-            class="group inline-flex justify-center items-center gap-2 sm:gap-3 border border-border-subtle bg-white/85 backdrop-blur-[2px] hover:border-accent-primary text-fg-primary px-4 sm:px-6 py-3 sm:py-3.5 text-[11px] sm:text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            class="group inline-flex w-full sm:w-auto justify-center items-center gap-2.5 sm:gap-3 border border-border-subtle bg-white/85 backdrop-blur-[2px] hover:border-accent-primary text-fg-primary px-5 sm:px-6 py-3 sm:py-3.5 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
           >
             <span>{t('hero.cta.projects')}</span>
             <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
           </a>
         </div>
 
-        <!-- Direct Social & Contact Channels -->
-        <div class="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-1.5 text-xs font-mono-tech text-fg-secondary">
-          <a
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 py-1 hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
-          >
-            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" />
-            </svg>
-            <span>GitHub</span>
-            <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
-            <span aria-hidden="true">↗</span>
-          </a>
+        <!-- Direct Social & Contact Channels: 2 symmetrical rows on mobile, single row on sm+ -->
+        <div class="flex flex-col sm:flex-row sm:flex-wrap items-center sm:items-center gap-y-1 sm:gap-x-5 text-xs font-mono-tech text-fg-secondary">
+          <div class="flex items-center justify-center sm:justify-start gap-x-4 sm:gap-x-5">
+            <a
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 py-1 hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            >
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" />
+              </svg>
+              <span>GitHub</span>
+              <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
 
-          <span class="text-border-muted" aria-hidden="true">·</span>
+            <span class="text-border-muted" aria-hidden="true">·</span>
 
-          <a
-            href={siteConfig.links.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 py-1 hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
-          >
-            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z" />
-            </svg>
-            <span>LinkedIn</span>
-            <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
-            <span aria-hidden="true">↗</span>
-          </a>
+            <a
+              href={siteConfig.links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 py-1 hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            >
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z" />
+              </svg>
+              <span>LinkedIn</span>
+              <span class="sr-only">{locale === 'en' ? ' (opens in a new tab)' : ' (se abre en una pestaña nueva)'}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
 
-          <span class="text-border-muted" aria-hidden="true">·</span>
+          <span class="hidden sm:inline text-border-muted" aria-hidden="true">·</span>
 
           <a
             href={`mailto:${siteConfig.links.email}`}
-            class="inline-flex items-center gap-1.5 py-1 hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            class="inline-flex items-center justify-center sm:justify-start gap-1.5 py-0.5 sm:py-1 hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
           >
             <span>{siteConfig.links.email}</span>
           </a>
@@ -125,25 +127,29 @@ const rotatingPhrases = locale === 'en'
     </div>
 
     <!-- Secondary Editorial & Metadata Column -->
-    <div class="lg:col-span-5 xl:col-span-4 space-y-5 sm:space-y-6">
-      <p class="text-[15px] sm:text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
+    <div class="lg:col-span-5 xl:col-span-4 space-y-3.5 sm:space-y-6">
+      <p class="text-[14.5px] sm:text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
         {t('hero.description')}
       </p>
 
-      <dl class="border-t border-border-subtle pt-4 sm:pt-5 space-y-2.5 sm:space-y-3 text-xs font-mono-tech" data-hero-meta="spec-list">
-        <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+      <!-- Compact Editorial Spec Card on mobile (<640px), original clean border-t list on sm+ -->
+      <dl
+        class="border border-border-subtle bg-white/80 backdrop-blur-[2px] p-3 shadow-2xs space-y-1.5 sm:border-0 sm:border-t sm:border-border-subtle sm:bg-transparent sm:backdrop-blur-none sm:p-0 sm:pt-5 sm:shadow-none sm:space-y-3 text-xs font-mono-tech"
+        data-hero-meta="spec-list"
+      >
+        <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 py-1 border-b border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:gap-4 sm:py-1.5">
           <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{t('hero.meta.roleTitle')}</dt>
-          <dd class="text-fg-primary font-semibold sm:text-right">{t('hero.meta.roleValue')}</dd>
+          <dd class="text-[11.5px] sm:text-xs text-fg-primary font-semibold text-right leading-snug">{t('hero.meta.roleValue')}</dd>
         </div>
 
-        <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+        <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 py-1 border-b border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:gap-4 sm:py-1.5">
           <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{t('hero.meta.educationTitle')}</dt>
-          <dd class="text-fg-primary font-semibold sm:text-right">{t('hero.meta.educationValue')}</dd>
+          <dd class="text-[11.5px] sm:text-xs text-fg-primary font-semibold text-right leading-snug">{t('hero.meta.educationValue')}</dd>
         </div>
 
-        <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+        <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 pt-1 pb-0.5 sm:py-1.5 sm:border-b sm:border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:gap-4">
           <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{t('hero.meta.locationTitle')}</dt>
-          <dd class="text-fg-primary font-medium sm:text-right">{t('hero.meta.locationValue')}</dd>
+          <dd class="text-[11.5px] sm:text-xs text-fg-primary font-medium text-right leading-snug">{t('hero.meta.locationValue')}</dd>
         </div>
       </dl>
     </div>
