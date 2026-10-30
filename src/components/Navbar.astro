@@ -132,10 +132,22 @@ const navLabel = (item: (typeof navItems)[number]) => 'label' in item ? item.lab
       <span aria-hidden="true">↗</span>
     </a>
 
-    <!-- Mobile Menu Button & Quick Switcher -->
-    <div class="flex items-center gap-4 lg:hidden">
-      <!-- Mobile Quick Language Switcher -->
-      <div class="flex items-center gap-1 text-xs font-mono-tech tracking-wider text-fg-muted">
+    <!-- Mobile Quick Action, Switcher (sm+) & Menu Button -->
+    <div class="flex items-center gap-2.5 sm:gap-4 lg:hidden">
+      <a
+        href={page === 'consulting' ? '#contacto' : consultingHref}
+        class="mobile-nav-link inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-mono-tech uppercase tracking-wider border border-accent-primary/30 bg-accent-subtle/85 text-accent-primary font-medium transition-colors active:scale-[0.98]"
+      >
+        <span>
+          {page === 'consulting'
+            ? (locale === 'en' ? 'Let’s talk' : 'Platiquemos')
+            : t('nav.consulting')}
+        </span>
+        <span aria-hidden="true">{page === 'consulting' ? '↓' : '↗'}</span>
+      </a>
+
+      <!-- Tablet Quick Language Switcher (hidden on small mobile to avoid duplication with drawer) -->
+      <div class="hidden sm:inline-flex items-center gap-1 text-xs font-mono-tech tracking-wider text-fg-muted">
         {locale === 'es-MX' ? (
           <a
             href={switchUrl}

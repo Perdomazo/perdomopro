@@ -493,18 +493,18 @@ const copy = en
 ---
 
 <div class="consulting-page" data-consulting-page>
-  <!-- 01 / CONSULTORÍA PYME (Full-Viewport Centered Hero matching perdomopro.com) -->
+  <!-- 01 / CONSULTORÍA PYME (Full-Viewport Centered Hero on sm+, Compact First-Fold on Mobile) -->
   <section
     id="inicio-consultoria"
     data-scroll-module
-    class="relative isolate w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-16 min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
+    class="relative isolate w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-5 sm:py-16 min-h-0 sm:min-h-[calc(100svh-5rem)] flex flex-col justify-center"
     aria-labelledby="consulting-hero-heading"
   >
     <ParticlesBackground id="perdomopro-particles-consulting" />
 
-    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-14 items-center my-auto pointer-events-none">
+    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-10 lg:gap-14 items-center my-auto pointer-events-none">
       <!-- Primary Content Column -->
-      <div class="lg:col-span-7 xl:col-span-8 space-y-5 sm:space-y-7">
+      <div class="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-7">
         <div
           class="inline-flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech tracking-wider uppercase text-fg-primary font-medium"
           data-hero-meta="category"
@@ -515,7 +515,7 @@ const copy = en
 
         <h1
           id="consulting-hero-heading"
-          class="text-[1.75rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.12] sm:leading-[1.1] text-fg-primary max-w-3xl"
+          class="text-[1.7rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl lg:text-[3.55rem] xl:text-[3.9rem] font-normal tracking-[-0.035em] leading-[1.12] sm:leading-[1.1] text-fg-primary max-w-3xl"
           data-hero-headline
         >
           <span>{copy.heroTitlePrefix}</span>
@@ -523,11 +523,11 @@ const copy = en
         </h1>
 
         <!-- CTAs & 3 Quick Business Guarantees -->
-        <div class="space-y-4 sm:space-y-5 pt-1 sm:pt-2 pointer-events-auto" data-hero-cta>
-          <div class="flex flex-col min-[460px]:flex-row sm:flex-wrap items-stretch min-[460px]:items-center gap-2.5 sm:gap-3.5">
+        <div class="space-y-3.5 sm:space-y-5 pt-0.5 sm:pt-2 pointer-events-auto" data-hero-cta>
+          <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3.5">
             <a
               href="#contacto"
-              class="group inline-flex justify-center items-center gap-2.5 bg-accent-primary text-white px-5 sm:px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+              class="group inline-flex w-full sm:w-auto justify-center items-center gap-2.5 bg-accent-primary text-white px-5 sm:px-6 py-3 sm:py-3.5 text-xs font-sans font-medium tracking-wider uppercase shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-interactive hover:shadow-md hover:shadow-accent-primary/10 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
             >
               <span>{copy.ctaPrimary}</span>
               <span class="transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">→</span>
@@ -535,7 +535,7 @@ const copy = en
 
             <a
               href="#soluciones"
-              class="group inline-flex justify-center items-center gap-2.5 border border-border-subtle bg-white/85 backdrop-blur-[2px] hover:border-accent-primary text-fg-primary px-5 sm:px-6 py-3.5 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+              class="group inline-flex w-full sm:w-auto justify-center items-center gap-2.5 border border-border-subtle bg-white/85 backdrop-blur-[2px] hover:border-accent-primary text-fg-primary px-5 sm:px-6 py-3 sm:py-3.5 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
             >
               <span>{copy.ctaSecondary}</span>
               <span class="text-fg-muted group-hover:text-fg-primary transition-colors duration-150" aria-hidden="true">↓</span>
@@ -544,7 +544,7 @@ const copy = en
 
           <!-- Row of 3 Quick Guarantees -->
           <ul
-            class="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2 pt-0.5 text-[11px] sm:text-xs font-mono-tech text-fg-secondary list-none p-0 m-0"
+            class="flex flex-wrap items-center gap-x-3.5 sm:gap-x-5 gap-y-1 sm:gap-y-2 pt-0.5 text-[11px] sm:text-xs font-mono-tech text-fg-secondary list-none p-0 m-0"
             data-hero-guarantees
           >
             {copy.guarantees.map((guarantee) => (
@@ -558,25 +558,29 @@ const copy = en
       </div>
 
       <!-- Secondary Editorial & Spec Column -->
-      <div class="lg:col-span-5 xl:col-span-4 space-y-5 sm:space-y-6">
-        <p class="text-[15px] sm:text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
+      <div class="lg:col-span-5 xl:col-span-4 space-y-3.5 sm:space-y-6">
+        <p class="text-[14.5px] sm:text-lg text-fg-primary font-normal leading-relaxed text-pretty" data-hero-desc>
           {copy.heroIntro}
         </p>
 
-        <dl class="border-t border-border-subtle pt-4 sm:pt-5 space-y-2.5 sm:space-y-3 text-xs font-mono-tech" data-hero-meta="spec-list">
-          <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+        <!-- Compact Editorial Spec Card on mobile (<640px), original clean border-t list on sm+ -->
+        <dl
+          class="border border-border-subtle bg-white/80 backdrop-blur-[2px] p-3 shadow-2xs space-y-1.5 sm:border-0 sm:border-t sm:border-border-subtle sm:bg-transparent sm:backdrop-blur-none sm:p-0 sm:pt-5 sm:shadow-none sm:space-y-3 text-xs font-mono-tech"
+          data-hero-meta="spec-list"
+        >
+          <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 py-1 border-b border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 sm:py-1.5">
             <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specRoleLabel}</dt>
-            <dd class="text-fg-primary font-semibold sm:text-right">{copy.specRoleValue}</dd>
+            <dd class="text-[11.5px] sm:text-xs text-fg-primary font-semibold text-right leading-snug">{copy.specRoleValue}</dd>
           </div>
 
-          <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+          <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 py-1 border-b border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 sm:py-1.5">
             <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specFocusLabel}</dt>
-            <dd class="text-fg-primary font-semibold sm:text-right">{copy.specFocusValue}</dd>
+            <dd class="text-[11.5px] sm:text-xs text-fg-primary font-semibold text-right leading-snug">{copy.specFocusValue}</dd>
           </div>
 
-          <div class="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:items-baseline sm:gap-4 py-1.5 border-b border-border-subtle/60">
+          <div class="grid grid-cols-[6.25rem_1fr] items-baseline gap-2 pt-1 pb-0.5 sm:py-1.5 sm:border-b sm:border-border-subtle/60 sm:flex sm:flex-row sm:justify-between sm:items-baseline sm:gap-4">
             <dt class="text-[10px] sm:text-xs text-fg-muted sm:text-fg-secondary uppercase tracking-wider shrink-0">{copy.specStepLabel}</dt>
-            <dd class="text-fg-primary font-medium sm:text-right">{copy.specStepValue}</dd>
+            <dd class="text-[11.5px] sm:text-xs text-fg-primary font-medium text-right leading-snug">{copy.specStepValue}</dd>
           </div>
         </dl>
       </div>
@@ -587,10 +591,10 @@ const copy = en
   <section
     id="soluciones"
     data-scroll-module
-    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-9 sm:py-24 border-t border-border-subtle"
     aria-labelledby="solutions-heading"
   >
-    <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
+    <div class="max-w-3xl mb-6 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
       <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
         {copy.solutionsIndex}
       </p>
@@ -605,15 +609,15 @@ const copy = en
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-5">
       {copy.solutions.map((item) => (
         <article
-          class="group relative flex h-full flex-col justify-between border border-border-subtle bg-canvas p-5 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md overflow-hidden"
+          class="group relative flex h-full flex-col justify-between border border-border-subtle bg-canvas p-4 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md overflow-hidden"
           data-reveal-item
         >
           <div class="absolute inset-x-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true"></div>
 
-          <div class="space-y-4">
+          <div class="space-y-3 sm:space-y-4">
             <!-- Card Top Index & Category -->
             <div class="flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech text-fg-muted">
               <span class="font-semibold text-accent-primary">{item.num}</span>
@@ -621,7 +625,7 @@ const copy = en
               <span class="uppercase tracking-wider">{item.category}</span>
             </div>
 
-            <!-- Title, Pain Eliminated & Business Deliverable Summary -->
+            <!-- Title, Pain Eliminated & Business Deliverable Summary (summary hidden on <640px to prevent scroll fatigue) -->
             <div class="space-y-2">
               <h3 class="text-lg sm:text-2xl font-medium tracking-tight text-fg-primary group-hover:text-accent-primary transition-colors">
                 {item.title}
@@ -631,13 +635,13 @@ const copy = en
                 <span class="font-semibold">{copy.painPrefix}</span> {item.pain}
               </p>
 
-              <p class="pt-1 text-[13.5px] sm:text-[15px] text-fg-secondary leading-relaxed text-pretty">
+              <p class="hidden sm:block pt-1 text-[13.5px] sm:text-[15px] text-fg-secondary leading-relaxed text-pretty">
                 {item.summary}
               </p>
             </div>
 
             <!-- 3 Concrete Business-Language Points -->
-            <ul class="pt-1 space-y-2 list-none p-0 m-0">
+            <ul class="pt-0.5 sm:pt-1 space-y-1.5 sm:space-y-2 list-none p-0 m-0">
               {item.bullets.map((bullet) => (
                 <li class="flex items-baseline gap-2.5 text-xs sm:text-sm text-fg-secondary leading-relaxed">
                   <span class="text-accent-primary font-mono-tech font-bold shrink-0 select-none" aria-hidden="true">›</span>
@@ -648,7 +652,7 @@ const copy = en
           </div>
 
           <!-- Business Outcome Pill -->
-          <div class="mt-5 sm:mt-6 pt-4 border-t border-border-subtle/70">
+          <div class="mt-4 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border-subtle/70">
             <span class="inline-flex items-start gap-2 px-2.5 sm:px-3 py-1.5 border border-accent-primary/20 bg-accent-subtle text-accent-primary text-[11px] sm:text-xs font-mono-tech font-medium leading-snug">
               <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" aria-hidden="true"></span>
               <span>{item.outcomePill}</span>
@@ -659,14 +663,14 @@ const copy = en
     </div>
   </section>
 
-  <!-- 03 / PROCESO (3 Clear Steps in Business-Owner Language) -->
+  <!-- 03 / PROCESO (3 Clear Steps Connected via Vertical Rail on Mobile & Horizontal Rail on md+) -->
   <section
     id="proceso"
     data-scroll-module
-    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-9 sm:py-24 border-t border-border-subtle"
     aria-labelledby="consulting-process-heading"
   >
-    <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
+    <div class="max-w-3xl mb-6 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
       <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
         {copy.processIndex}
       </p>
@@ -682,21 +686,33 @@ const copy = en
     </div>
 
     <!-- Stepper Pipeline Track Container -->
-    <div class="relative pt-2">
+    <div class="relative pl-5 md:pl-0 pt-2">
+      <!-- Mobile Continuous Vertical Timeline Rail (< 768px) -->
+      <div
+        class="md:hidden absolute top-8 bottom-8 left-[5px] w-[2px] bg-gradient-to-b from-accent-primary via-accent-interactive to-accent-primary/35 z-0 pointer-events-none"
+        aria-hidden="true"
+      ></div>
+
       <!-- Desktop Continuous Progress Rail (>= 768px md:) -->
       <div class="hidden md:block absolute top-[28px] left-[16.66%] right-[16.66%] h-[2px] bg-border-muted z-0 pointer-events-none" aria-hidden="true">
         <div class="h-full w-full bg-gradient-to-r from-accent-primary via-accent-interactive to-accent-primary/60"></div>
       </div>
 
-      <ol class="relative z-10 grid md:grid-cols-3 gap-5 sm:gap-6 list-none m-0 p-0">
+      <ol class="relative z-10 grid md:grid-cols-3 gap-3.5 sm:gap-6 list-none m-0 p-0">
         {copy.process.map((phase, i) => (
           <li
-            class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-5 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md"
+            class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-4 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md"
             data-reveal-item
           >
+            <!-- Mobile Vertical Rail Node Marker (< 768px) -->
+            <span
+              class="md:hidden absolute -left-[21px] top-[28px] w-3 h-3 rounded-full border-2 border-accent-primary bg-canvas z-10 shadow-2xs"
+              aria-hidden="true"
+            ></span>
+
             <div>
-              <div class="flex items-center justify-between gap-3 mb-5">
-                <div class="relative z-10 w-11 h-11 rounded-full border-2 border-accent-primary bg-canvas text-accent-primary flex items-center justify-center font-mono-tech text-sm font-bold shadow-xs group-hover:bg-accent-primary group-hover:text-white transition-colors duration-200">
+              <div class="flex items-center justify-between gap-3 mb-3.5 sm:mb-5">
+                <div class="relative z-10 w-9 h-9 sm:w-11 sm:h-11 rounded-full border-2 border-accent-primary bg-canvas text-accent-primary flex items-center justify-center font-mono-tech text-xs sm:text-sm font-bold shadow-xs group-hover:bg-accent-primary group-hover:text-white transition-colors duration-200">
                   {phase.step}
                 </div>
 
@@ -709,18 +725,18 @@ const copy = en
                 {phase.title}
               </h3>
 
-              <p class="mt-2.5 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
+              <p class="mt-2 sm:mt-2.5 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
                 {phase.desc}
               </p>
             </div>
 
             <!-- Concrete Deliverable Footnote -->
-            <div class="mt-6 pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 p-4 sm:p-5">
+            <div class="mt-4 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-4 -mb-4 sm:-mx-7 sm:-mb-7 p-3.5 sm:p-5">
               <div class="flex items-center gap-1.5 text-[10px] font-mono-tech uppercase tracking-wider text-accent-primary font-semibold">
                 <span class="w-1.5 h-1.5 rounded-full bg-status-active" aria-hidden="true"></span>
                 <span>{copy.deliverableLabel}</span>
               </div>
-              <p class="mt-1.5 text-xs text-fg-primary leading-relaxed font-medium">
+              <p class="mt-1 sm:mt-1.5 text-xs text-fg-primary leading-relaxed font-medium">
                 {phase.deliverable}
               </p>
             </div>
@@ -728,14 +744,6 @@ const copy = en
             {i < 2 && (
               <div class="hidden md:flex absolute -right-3.5 lg:-right-4 top-[28px] -translate-y-1/2 z-20 items-center justify-center w-6 h-6 rounded-full bg-canvas border border-border-muted text-accent-primary text-xs font-bold shadow-xs" aria-hidden="true">
                 →
-              </div>
-            )}
-
-            {i < 2 && (
-              <div class="md:hidden flex items-center justify-center -my-3 pt-5 z-10" aria-hidden="true">
-                <div class="w-6 h-6 rounded-full bg-canvas border border-border-muted text-accent-primary text-xs font-bold flex items-center justify-center shadow-xs">
-                  ↓
-                </div>
               </div>
             )}
           </li>
@@ -748,10 +756,10 @@ const copy = en
   <section
     id="modalidades"
     data-scroll-module
-    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-24 border-t border-border-subtle"
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-9 sm:py-24 border-t border-border-subtle"
     aria-labelledby="models-heading"
   >
-    <div class="max-w-3xl mb-8 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
+    <div class="max-w-3xl mb-6 sm:mb-14 space-y-2.5 sm:space-y-3" data-reveal-item>
       <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
         {copy.modelsIndex}
       </p>
@@ -767,16 +775,16 @@ const copy = en
     </div>
 
     <!-- 3 Contracting Tier Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 items-stretch">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5 items-stretch">
       {copy.investmentTiers.map((tier) => (
         <article
-          class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-5 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md overflow-hidden"
+          class="group relative flex flex-col justify-between border border-border-subtle bg-canvas p-4 sm:p-7 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md overflow-hidden"
           data-reveal-item
         >
           <div class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent-primary via-accent-interactive to-transparent transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true"></div>
 
           <div>
-            <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center justify-between gap-3 mb-3 sm:mb-4">
               <div class="flex items-center gap-2 text-[11px] sm:text-xs font-mono-tech text-fg-muted">
                 <span class="font-semibold text-accent-primary">{tier.tierNumber}</span>
                 <span class="text-border-muted" aria-hidden="true">/</span>
@@ -792,15 +800,15 @@ const copy = en
               {tier.subtitle}
             </p>
 
-            <p class="mt-3.5 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
+            <p class="mt-2.5 sm:mt-3.5 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
               {tier.desc}
             </p>
 
-            <div class="mt-5 pt-4 border-t border-border-subtle">
+            <div class="mt-4 sm:mt-5 pt-3.5 sm:pt-4 border-t border-border-subtle">
               <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">
                 {copy.inclusionsHeader}
               </p>
-              <ul class="mt-2.5 space-y-2 text-xs text-fg-secondary list-none p-0 m-0">
+              <ul class="mt-2 sm:mt-2.5 space-y-1.5 sm:space-y-2 text-xs text-fg-secondary list-none p-0 m-0">
                 {tier.inclusions.map((item) => (
                   <li class="flex items-start gap-2">
                     <span class="text-status-active font-bold mt-0.5 shrink-0" aria-hidden="true">✓</span>
@@ -811,7 +819,7 @@ const copy = en
             </div>
           </div>
 
-          <div class="mt-6 pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 p-4 sm:p-5">
+          <div class="mt-4 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border-subtle/80 bg-canvas-subtle/60 -mx-4 -mb-4 sm:-mx-7 sm:-mb-7 p-3.5 sm:p-5">
             <p class="text-[10px] font-mono-tech uppercase tracking-wider text-fg-muted font-semibold">
               {copy.idealForLabel}
             </p>
@@ -825,13 +833,13 @@ const copy = en
 
     <!-- Highlighted Technological Sovereignty Block -->
     <div
-      class="mt-6 sm:mt-8 relative overflow-hidden border border-accent-primary/35 bg-gradient-to-br from-accent-subtle via-white to-accent-subtle/70 p-5 sm:p-8 lg:p-10 shadow-xs"
+      class="mt-5 sm:mt-8 relative overflow-hidden border border-accent-primary/35 bg-gradient-to-br from-accent-subtle via-white to-accent-subtle/70 p-4 sm:p-8 lg:p-10 shadow-xs"
       data-reveal-item
     >
       <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent-primary via-accent-interactive to-accent-primary/40" aria-hidden="true"></div>
 
-      <div class="grid lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-10 items-start">
-        <div class="lg:col-span-5 space-y-3">
+      <div class="grid lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-10 items-start">
+        <div class="lg:col-span-5 space-y-2.5 sm:space-y-3">
           <span class="inline-flex items-center gap-2 px-2.5 py-1 border border-accent-primary/25 bg-white text-accent-primary font-mono-tech text-[10px] sm:text-[11px] tracking-widest uppercase font-semibold">
             <span class="w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" aria-hidden="true"></span>
             <span>{copy.sovereignty.badge}</span>
@@ -841,13 +849,13 @@ const copy = en
           </h3>
         </div>
 
-        <div class="lg:col-span-7 space-y-4">
+        <div class="lg:col-span-7 space-y-3.5 sm:space-y-4">
           <p class="text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
             {copy.sovereignty.desc}
           </p>
-          <div class="grid sm:grid-cols-3 gap-2.5 sm:gap-3 pt-1">
+          <div class="grid sm:grid-cols-3 gap-2 sm:gap-3 pt-0.5 sm:pt-1">
             {copy.sovereignty.points.map((point) => (
-              <div class="flex items-start gap-2 p-2.5 sm:p-3 bg-white border border-border-subtle text-xs font-mono-tech text-fg-primary">
+              <div class="flex items-start gap-2 p-2 sm:p-3 bg-white border border-border-subtle text-xs font-mono-tech text-fg-primary">
                 <span class="text-status-active font-bold shrink-0" aria-hidden="true">✓</span>
                 <span class="leading-snug">{point}</span>
               </div>
@@ -857,14 +865,14 @@ const copy = en
       </div>
     </div>
 
-    <p class="mt-5 text-xs font-mono-tech leading-relaxed text-fg-muted" data-reveal-item>
+    <p class="mt-4 sm:mt-5 text-xs font-mono-tech leading-relaxed text-fg-muted" data-reveal-item>
       {copy.supportNote}
     </p>
 
     <!-- 4 Operational FAQs in a Clean Accordion -->
     <div
       id="faq"
-      class="mt-12 sm:mt-16 pt-10 sm:pt-14 border-t border-border-subtle scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start"
+      class="mt-9 sm:mt-16 pt-8 sm:pt-14 border-t border-border-subtle scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-12 items-start"
     >
       <div class="lg:col-span-4 space-y-2" data-reveal-item>
         <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
@@ -877,12 +885,12 @@ const copy = en
 
       <div class="lg:col-span-8 divide-y divide-border-subtle border-y border-border-subtle">
         {copy.faq.map(([question, answer]) => (
-          <details class="group py-4 sm:py-5" data-reveal-item>
+          <details class="group py-3.5 sm:py-5" data-reveal-item>
             <summary class="cursor-pointer list-none flex items-center justify-between gap-4 text-sm sm:text-base font-medium text-fg-primary hover:text-accent-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-primary">
               <span>{question}</span>
               <span class="font-mono-tech text-lg text-fg-muted group-hover:text-accent-primary transition-transform duration-200 group-open:rotate-45 shrink-0" aria-hidden="true">+</span>
             </summary>
-            <p class="max-w-2xl pt-3 pr-4 sm:pr-8 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
+            <p class="max-w-2xl pt-2.5 sm:pt-3 pr-4 sm:pr-8 text-[13.5px] sm:text-sm leading-relaxed text-fg-secondary">
               {answer}
             </p>
           </details>
@@ -895,12 +903,12 @@ const copy = en
   <section
     id="contacto"
     data-scroll-module
-    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-12 sm:pt-24 pb-16 sm:pb-28 border-t border-border-subtle"
+    class="relative w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-9 sm:pt-24 pb-12 sm:pb-28 border-t border-border-subtle"
     aria-labelledby="consulting-contact-heading"
   >
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start">
       <!-- Left Column: Concise Header & Direct Channels -->
-      <div class="lg:col-span-5 space-y-5 sm:space-y-6" data-reveal-item>
+      <div class="lg:col-span-5 space-y-4 sm:space-y-6" data-reveal-item>
         <div class="space-y-2.5 sm:space-y-3">
           <p class="text-xs font-mono-tech uppercase tracking-widest text-accent-primary font-semibold">
             {copy.contactIndex}
@@ -916,10 +924,10 @@ const copy = en
           </p>
         </div>
 
-        <div class="space-y-2.5 sm:space-y-3 pt-1">
+        <div class="space-y-2 sm:space-y-3 pt-1">
           <a
             href={`mailto:${mail}`}
-            class="group flex items-center justify-between gap-4 border border-border-subtle bg-canvas p-4 sm:p-5 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            class="group flex items-center justify-between gap-4 border border-border-subtle bg-canvas p-3.5 sm:p-5 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
           >
             <div class="min-w-0 space-y-1">
               <p class="text-[11px] font-mono-tech uppercase tracking-wider text-fg-muted">
@@ -934,7 +942,7 @@ const copy = en
 
           <a
             href={homeHref}
-            class="group flex items-center justify-between gap-4 border border-border-subtle bg-canvas p-4 sm:p-5 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+            class="group flex items-center justify-between gap-4 border border-border-subtle bg-canvas p-3.5 sm:p-5 shadow-xs transition-card hover:-translate-y-0.5 hover:border-accent-primary/40 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
           >
             <div class="min-w-0 space-y-1">
               <p class="text-[11px] font-mono-tech uppercase tracking-wider text-fg-muted">
@@ -950,10 +958,10 @@ const copy = en
       </div>
 
       <!-- Right Column: Clean Automated Contact Form Box -->
-      <div class="lg:col-span-7 border border-border-subtle bg-canvas-subtle/70 p-5 sm:p-8 shadow-xs" data-reveal-item>
+      <div class="lg:col-span-7 border border-border-subtle bg-canvas-subtle/70 p-4 sm:p-8 shadow-xs" data-reveal-item>
         <form
           id="consulting-contact-form"
-          class="grid sm:grid-cols-2 gap-4"
+          class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4"
           data-form-error={copy.formError}
           data-form-loading={copy.loading}
           data-form-success={copy.formSuccess}
@@ -1041,7 +1049,7 @@ const copy = en
               <span data-submit-label>{copy.submit}</span>
               <span aria-hidden="true">↗</span>
             </button>
-            <p class="text-xs font-mono-tech text-fg-muted">{copy.privacy}</p>
+            <p class="text-xs font-mono-tech text-fg-muted text-center sm:text-left">{copy.privacy}</p>
           </div>
 
           <p

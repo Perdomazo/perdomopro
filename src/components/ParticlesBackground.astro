@@ -41,7 +41,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
         window.particlesJS(targetId, {
           particles: {
             number: {
-              value: isMobileViewport ? 14 : 28,
+              value: isMobileViewport ? 22 : 28,
               density: {
                 enable: true,
                 value_area: 800
@@ -61,7 +61,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
               }
             },
             opacity: {
-              value: isMobileViewport ? 0.26 : 0.35,
+              value: isMobileViewport ? 0.33 : 0.35,
               random: false,
               anim: {
                 enable: false,
@@ -71,7 +71,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
               }
             },
             size: {
-              value: isMobileViewport ? 3.2 : 3.8,
+              value: isMobileViewport ? 3.5 : 3.8,
               random: true,
               anim: {
                 enable: false,
@@ -82,14 +82,14 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
             },
             line_linked: {
               enable: true,
-              distance: isMobileViewport ? 155 : 215,
+              distance: isMobileViewport ? 175 : 215,
               color: '#8c6ba8',
-              opacity: isMobileViewport ? 0.16 : 0.22,
+              opacity: isMobileViewport ? 0.21 : 0.22,
               width: 1.2
             },
             move: {
               enable: !reducedMotion,
-              speed: isMobileViewport ? 1.6 : 3.2,
+              speed: isMobileViewport ? 2.0 : 3.2,
               direction: 'none',
               random: false,
               straight: false,
@@ -117,7 +117,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
             },
             modes: {
               grab: {
-                distance: 245,
+                distance: isMobileViewport ? 185 : 245,
                 line_linked: {
                   opacity: 1
                 }
@@ -132,7 +132,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
                 duration: 0.4
               },
               push: {
-                particles_nb: 4
+                particles_nb: isMobileViewport ? 2 : 4
               },
               remove: {
                 particles_nb: 2
@@ -144,7 +144,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
 
         container.dataset.initialized = 'true';
 
-        // Escucha global dentro de toda la sección Hero para rastrear el cursor
+        // Escucha global dentro de toda la sección Hero para rastrear el cursor y el tacto
         // incluso sobre títulos, párrafos y bloques de texto superpuestos
         const section = container.closest('section') || container.parentElement;
         if (section && !section.dataset.particlesListening) {
@@ -159,26 +159,22 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
             return item ? item.pJS : null;
           };
 
-          section.addEventListener(
-            'mousemove',
-            (e) => {
-              const canvas = getCanvas();
-              const p = getPJS(canvas);
-              if (!p || !canvas) return;
+          const updatePointerPosition = (clientX, clientY) => {
+            const canvas = getCanvas();
+            const p = getPJS(canvas);
+            if (!p || !canvas) return;
 
-              const rect = canvas.getBoundingClientRect();
-              const mouseX = e.clientX - rect.left;
-              const mouseY = e.clientY - rect.top;
-              const ratio = p.tmp.retina ? p.canvas.pxratio : 1;
+            const rect = canvas.getBoundingClientRect();
+            const posX = clientX - rect.left;
+            const posY = clientY - rect.top;
+            const ratio = p.tmp.retina ? p.canvas.pxratio : 1;
 
-              p.interactivity.mouse.pos_x = mouseX * ratio;
-              p.interactivity.mouse.pos_y = mouseY * ratio;
-              p.interactivity.status = 'mousemove';
-            },
-            { passive: true }
-          );
+            p.interactivity.mouse.pos_x = posX * ratio;
+            p.interactivity.mouse.pos_y = posY * ratio;
+            p.interactivity.status = 'mousemove';
+          };
 
-          section.addEventListener('mouseleave', () => {
+          const clearPointerPosition = () => {
             const canvas = getCanvas();
             const p = getPJS(canvas);
             if (!p) return;
@@ -186,7 +182,39 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
             p.interactivity.mouse.pos_x = null;
             p.interactivity.mouse.pos_y = null;
             p.interactivity.status = 'mouseleave';
-          });
+          };
+
+          section.addEventListener(
+            'mousemove',
+            (e) => updatePointerPosition(e.clientX, e.clientY),
+            { passive: true }
+          );
+
+          section.addEventListener('mouseleave', clearPointerPosition);
+
+          // Soporte táctil pasivo en móvil sin interferir con el scroll nativo
+          section.addEventListener(
+            'touchstart',
+            (e) => {
+              if (e.touches && e.touches.length > 0) {
+                updatePointerPosition(e.touches[0].clientX, e.touches[0].clientY);
+              }
+            },
+            { passive: true }
+          );
+
+          section.addEventListener(
+            'touchmove',
+            (e) => {
+              if (e.touches && e.touches.length > 0) {
+                updatePointerPosition(e.touches[0].clientX, e.touches[0].clientY);
+              }
+            },
+            { passive: true }
+          );
+
+          section.addEventListener('touchend', clearPointerPosition, { passive: true });
+          section.addEventListener('touchcancel', clearPointerPosition, { passive: true });
 
           section.addEventListener('click', (e) => {
             const canvas = getCanvas();
@@ -238,6 +266,7 @@ const { id = 'perdomopro-particles', class: className = '' } = Astro.props;
     top: 0;
     left: 50%;
     width: 100vw;
+    width: 100dvw;
     max-width: none;
     height: 100%;
     transform: translateX(-50%);
