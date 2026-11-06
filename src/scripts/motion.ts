@@ -10,6 +10,8 @@ let lenisInstance: Lenis | null = null;
 let gsapMatchMediaInstance: gsap.MatchMedia | null = null;
 let tickerListener: ((time: number) => void) | null = null;
 let clickListener: ((e: MouseEvent) => void) | null = null;
+let expandClickListener: ((e: MouseEvent) => void) | null = null;
+let expandRefreshTimer: number | null = null;
 let consultingRevealObserver: IntersectionObserver | null = null;
 let washContext: gsap.Context | null = null;
 let washLayer: HTMLElement | null = null;
@@ -231,10 +233,20 @@ export function cleanupMotion(): void {
     tickerListener = null;
   }
 
-  // 3. Remove anchor link listener
+  // 3. Remove anchor link & expandable card listeners
   if (clickListener) {
     document.removeEventListener('click', clickListener);
     clickListener = null;
+  }
+
+  if (expandClickListener) {
+    document.removeEventListener('click', expandClickListener);
+    expandClickListener = null;
+  }
+
+  if (expandRefreshTimer !== null) {
+    window.clearTimeout(expandRefreshTimer);
+    expandRefreshTimer = null;
   }
 
   if (consultingRevealObserver) {
@@ -264,6 +276,51 @@ export function cleanupMotion(): void {
 }
 
 /**
+ * Wire mobile expandable cards ([data-expand-trigger]) with ARIA state sync,
+ * inert focus boundary toggling, and debounced ScrollTrigger recalculation.
+ */
+function initExpandableCards(prefersReducedMotion: boolean): void {
+  expandClickListener = (e: MouseEvent) => {
+    const trigger = (e.target as HTMLElement | null)?.closest<HTMLButtonElement>('[data-expand-trigger]');
+    if (!trigger) return;
+
+    const panelId = trigger.getAttribute('aria-controls');
+    if (!panelId) return;
+
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+
+    const nextOpen = trigger.getAttribute('aria-expanded') !== 'true';
+    trigger.setAttribute('aria-expanded', String(nextOpen));
+
+    const card = trigger.closest<HTMLElement>('article');
+    if (card) {
+      card.setAttribute('data-open', String(nextOpen));
+    }
+
+    if (!nextOpen && panel.contains(document.activeElement)) {
+      trigger.focus();
+    }
+
+    panel.setAttribute('data-open', String(nextOpen));
+    panel.inert = !nextOpen;
+
+    if (expandRefreshTimer !== null) {
+      window.clearTimeout(expandRefreshTimer);
+    }
+    expandRefreshTimer = window.setTimeout(
+      () => {
+        expandRefreshTimer = null;
+        ScrollTrigger.refresh();
+      },
+      prefersReducedMotion ? 16 : 350
+    );
+  };
+
+  document.addEventListener('click', expandClickListener);
+}
+
+/**
  * Initialize PerdomoPro Motion System:
  * - Respects prefers-reduced-motion as a first-class priority
  * - Synchronizes Lenis smooth scroll with GSAP ticker & ScrollTrigger
@@ -285,6 +342,9 @@ export function initMotion(): void {
   // Two diffuse violet lights: upper corners at the top of the page, sliding
   // down the side edges to the lower corners as you scroll.
   initCornerWash(prefersReducedMotion);
+
+  // Mobile expandable disclosure cards (Experience & Selected Projects)
+  initExpandableCards(prefersReducedMotion);
 
   // ----------------------------------------------------
   // 1. LENIS SMOOTH SCROLL SETUP (Bypassed if reduced-motion)
